@@ -19,27 +19,30 @@
             Upload body camera footage and generate structured police incident reports using AI
         </p>
         
-        <!-- File Upload Section (Clean - Only File Input) -->
-        <div class="upload-section">
-            <h3>📹 Upload Body Camera Footage</h3>
-            <p>Choose a body camera video file (max 20MB)</p>
-            <div class="file-input">
-                <input type="file" id="videoFile" accept="video/*" />
+        <!-- Upload Sections Container (Side by Side) -->
+        <div class="upload-container">
+            <!-- File Upload Section -->
+            <div class="upload-section">
+                <h3>📹 Upload Body Camera Footage</h3>
+                <p>Choose a body camera video file (max 20MB)</p>
+                <div class="file-input">
+                    <input type="file" id="videoFile" accept="video/*" />
+                </div>
+                <div class="file-info" id="fileInfo"></div>
             </div>
-            <div class="file-info" id="fileInfo"></div>
+            
+            <!-- Telemetry Data Upload Section -->
+            <div class="upload-section">
+                <h3>📊 Upload Telemetry Data (Optional)</h3>
+                <p>Upload telemetry file from body camera device</p>
+                <div class="file-input">
+                    <input type="file" id="telemetryFile" accept=".json,.txt" />
+                </div>
+                <div class="file-info" id="telemetryFileInfo"></div>
+            </div>
         </div>
         
-        <!-- Telemetry Data Upload Section (Clean - Only File Input) -->
-        <div class="upload-section">
-            <h3>📊 Upload Telemetry Data (Optional)</h3>
-            <p>Upload JSON telemetry file from body camera device for enhanced location and timing data</p>
-            <div class="file-input">
-                <input type="file" id="telemetryFile" accept=".json,.txt" />
-            </div>
-            <div class="file-info" id="telemetryFileInfo"></div>
-        </div>
-        
-        <!-- Report Criteria Selection Section -->
+        <!-- Report Criteria Selection Section (Full Width) -->
         <div class="criteria-section">
             <h3>📋 Report Type & Criteria</h3>
             <p>Select the incident details to customize the police report format</p>
@@ -77,24 +80,27 @@
             </div>
         </div>
         
-        <!-- Separate Video Player Section (Outside Upload Rectangle) -->
-        <div class="video-player-section" id="videoPlayerSection" style="display: none;">
-            <h4>🎬 Body Camera Footage Preview</h4>
-            <video id="videoPlayer" controls width="100%" style="max-width: 500px; border-radius: 8px;">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-        
-        <!-- Separate Telemetry Preview Section (Outside Upload Rectangle) -->
-        <div class="telemetry-preview-section" id="telemetryPreviewSection" style="display: none;">
-            <h4>📋 Telemetry Data Preview</h4>
-            <div class="telemetry-summary" id="telemetrySummary"></div>
+        <!-- Preview Sections Container (Side by Side) -->
+        <div class="preview-container">
+            <!-- Video Player Section -->
+            <div class="video-player-section" id="videoPlayerSection" style="display: none;">
+                <h4>🎬 Body Camera Footage Preview</h4>
+                <video id="videoPlayer" controls width="100%" style="max-width: 500px; border-radius: 8px;">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
             
-            <!-- Show Route Button -->
-            <div style="text-align: center; margin-top: 15px;">
-                <button id="showRouteBtn" onclick="showRouteOnMap()" disabled>
-                    🗺️ Show Route on Map
-                </button>
+            <!-- Telemetry Preview Section -->
+            <div class="telemetry-preview-section" id="telemetryPreviewSection" style="display: none;">
+                <h4>📋 Telemetry Data Preview</h4>
+                <div class="telemetry-summary" id="telemetrySummary"></div>
+                
+                <!-- Show Route Button -->
+                <div style="text-align: center; margin-top: 15px;">
+                    <button id="showRouteBtn" onclick="showRouteOnMap()" disabled>
+                        🗺️ Show Route on Map
+                    </button>
+                </div>
             </div>
         </div>
         
