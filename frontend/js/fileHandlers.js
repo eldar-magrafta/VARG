@@ -44,10 +44,13 @@ export function checkInputs() {
         videoPlayerSection.style.display = 'block';
         
         if (file.size > CONSTANTS.MAX_FILE_SIZE_MB * 1024 * 1024) {
-            fileInfo.innerHTML += '<br><span style="color: red;">⚠️ File too large! Please select a file under 20MB.</span>';
+            fileInfo.innerHTML += '<div class="error-message">File too large! Please select a file under 20MB.</div>';
             transcribeBtn.disabled = true;
             reportBtn.disabled = true;
             return;
+        } else {
+            // Add success message for valid file using CSS class
+            fileInfo.innerHTML += '<div class="success-message">Video file loaded successfully</div>';
         }
     } else {
         fileInfo.innerHTML = '';

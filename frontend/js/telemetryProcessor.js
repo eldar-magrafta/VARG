@@ -32,7 +32,7 @@ export async function handleTelemetryFile() {
         // Show initial preview
         showTelemetryPreview(telemetryData, fileContent);
         telemetryPreviewSection.style.display = 'block';
-        telemetryFileInfo.innerHTML += '<br><span style="color: green;">✅ Telemetry data loaded successfully</span>';
+        telemetryFileInfo.innerHTML += '<div class="success-message">Telemetry data loaded successfully</div>';
 
         // Enable Show Route button IMMEDIATELY if GPS data is available
         if (telemetryData.gpsData && telemetryData.gpsData.allLocations.length > 0) {
@@ -40,7 +40,7 @@ export async function handleTelemetryFile() {
             console.log(`📍 Route button enabled - ${telemetryData.gpsData.allLocations.length} GPS points available`);
         } else {
             showRouteBtn.disabled = true;
-            telemetryFileInfo.innerHTML += '<br><span style="color: orange;">⚠️ No GPS data found in telemetry file</span>';
+            telemetryFileInfo.innerHTML += '<div class="warning-message">No GPS data found in telemetry file</div>';
         }
 
         // Store basic telemetry data globally IMMEDIATELY (before geocoding)
@@ -67,7 +67,7 @@ export async function handleTelemetryFile() {
 
     } catch (error) {
         console.error('Error parsing telemetry file:', error);
-        telemetryFileInfo.innerHTML += '<br><span style="color: red;">❌ Error parsing telemetry file: ' + error.message + '</span>';
+        telemetryFileInfo.innerHTML += '<div class="error-message">Error parsing telemetry file: ' + error.message + '</div>';
         telemetryPreviewSection.style.display = 'none';
         showRouteBtn.disabled = true;
     }

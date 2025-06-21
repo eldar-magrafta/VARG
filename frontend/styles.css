@@ -333,6 +333,127 @@ select:focus {
 }
 
 /* ============================================
+   FILE INFO SUCCESS STATES
+   ============================================ */
+
+.file-info .success-message {
+    color: var(--status-success);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: rgba(56, 161, 105, 0.1);
+    border: 1px solid rgba(56, 161, 105, 0.2);
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+}
+
+.file-info .success-message::before {
+    content: '✅';
+    font-size: 1rem;
+}
+
+/* Global success message (works anywhere) */
+.success-message {
+    color: var(--status-success);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: rgba(56, 161, 105, 0.1);
+    border: 1px solid rgba(56, 161, 105, 0.2);
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+}
+
+.success-message::before {
+    content: '✅';
+    font-size: 1rem;
+}
+
+.file-info .warning-message {
+    color: var(--status-warning);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: rgba(214, 158, 46, 0.1);
+    border: 1px solid rgba(214, 158, 46, 0.2);
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+}
+
+.file-info .warning-message::before {
+    content: '⚠️';
+    font-size: 1rem;
+}
+
+/* Global warning message (works anywhere) */
+.warning-message {
+    color: var(--status-warning);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: rgba(214, 158, 46, 0.1);
+    border: 1px solid rgba(214, 158, 46, 0.2);
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+}
+
+.warning-message::before {
+    content: '⚠️';
+    font-size: 1rem;
+}
+
+.file-info .error-message {
+    color: var(--status-error);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: rgba(229, 62, 62, 0.1);
+    border: 1px solid rgba(229, 62, 62, 0.2);
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+}
+
+.file-info .error-message::before {
+    content: '❌';
+    font-size: 1rem;
+}
+
+/* Global error message (works anywhere) */
+.error-message {
+    color: var(--status-error);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: rgba(229, 62, 62, 0.1);
+    border: 1px solid rgba(229, 62, 62, 0.2);
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+}
+
+.error-message::before {
+    content: '❌';
+    font-size: 1rem;
+}
+
+/* ============================================
    PREVIEW CONTAINER & SECTIONS
    ============================================ */
 
