@@ -20,7 +20,7 @@ const REPORT_FIELDS = {
         individualsInvolved: { label: 'Individuals Involved', type: 'textarea', required: true, rows: 6 },
         officerActions: { label: 'Officer Actions & Procedures', type: 'textarea', required: true, rows: 4 },
         evidenceCollected: { label: 'Evidence & Documentation', type: 'textarea', required: false, rows: 4 },
-        weatherConditions: { label: 'Weather/Environmental Conditions', type: 'text', required: false }
+        weatherConditions: { label: 'Weather/Environmental Conditions', type: 'text', required: true }
     },
     
     vehicle_accident: {
