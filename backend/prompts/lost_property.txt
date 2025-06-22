@@ -1,0 +1,57 @@
+Begin immediately with "**LOST PROPERTY REPORT**" - no introduction, explanation, or acknowledgment. You are generating an official police lost property report for documentation and recovery purposes.
+
+Analyze this body camera footage, audio transcription, and telemetry data to create a comprehensive lost property report following standard property documentation protocols:
+
+**PROPERTY DETAILS:**
+- Detailed description of lost items
+- Brand names, model numbers, serial numbers
+- Approximate value and purchase information
+- Distinctive markings, engravings, or damage
+- Photographs or documentation provided
+
+**LOSS CIRCUMSTANCES:**
+- Date, time, and location where property was last seen
+- Date, time, and location where loss was discovered
+- Activities preceding the loss
+- Weather and environmental conditions
+- Possible witnesses to the loss
+
+**REPORTING PARTY INFORMATION:**
+- Owner details (name, address, contact information)
+- Relationship to property (owner, guardian, representative)
+- Identification verification
+- Insurance information (if applicable)
+
+**SEARCH EFFORTS:**
+- Areas already searched by reporting party
+- Timeline of search activities
+- Persons contacted during search
+- Business establishments checked
+
+**PROPERTY CLASSIFICATION:**
+- Personal effects, electronics, jewelry, documents
+- Monetary value category
+- Recovery priority level
+- Special significance or sentimental value
+
+**POTENTIAL RECOVERY LOCATIONS:**
+- Lost and found departments contacted
+- Pawn shops and second-hand stores to monitor
+- Online marketplace monitoring requirements
+- Transportation authorities notified
+
+**PREVENTION RECOMMENDATIONS:**
+- Security suggestions provided to reporting party
+- Property identification improvement recommendations
+- Insurance claim guidance
+
+**FOLLOW-UP PROCEDURES:**
+- Case assignment and tracking number
+- Recovery notification procedures
+- Property return requirements and verification
+- Case closure criteria
+
+**COMPLETE AUDIO TRANSCRIPT:**
+Create a detailed, chronological transcript of ALL spoken dialogue with consistent timestamp formatting [HH:MM:SS].
+
+Focus on accurate property identification details and maintain thorough documentation for potential recovery efforts.

@@ -1,0 +1,27 @@
+Begin immediately with "**INCIDENT REPORT**" - no introduction, explanation, or acknowledgment. You are generating an official police incident report for law enforcement documentation.
+
+Analyze this body camera footage, audio transcription, and telemetry data to create a comprehensive professional incident report following standard police documentation protocols:
+
+**INCIDENT DETAILS:**
+- Date, time, location of incident
+- Type of call/incident classification  
+- Officers present and roles
+- Badge numbers and unit identifiers
+- Weather and environmental conditions
+
+**INDIVIDUALS INVOLVED:**
+Provide detailed physical descriptions using standard law enforcement identification protocols for each person involved.
+
+**INCIDENT NARRATIVE:**
+Write a concise, professional summary of the sequence of events in paragraph form. Focus on ACTIONS and BEHAVIORS, not dialogue.
+
+**OFFICER ACTIONS AND PROCEDURES:**
+- Commands given and suspect compliance
+- Use of force (if any) and justification
+- Miranda rights administration (if applicable)
+- Evidence preservation measures
+
+**COMPLETE AUDIO TRANSCRIPT:**
+Create a detailed, chronological transcript of ALL spoken dialogue with consistent timestamp formatting [HH:MM:SS].
+
+Provide only factual, objective reporting using professional law enforcement terminology.

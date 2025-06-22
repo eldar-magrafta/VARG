@@ -101,7 +101,7 @@ export function showTelemetryPreview(telemetryData, rawContent) {
         summaryHTML += `
             <div class="telemetry-card">
                 <h5>📍 GPS Data</h5>
-                <p><strong>Total Updates:</strong> ${telemetryData.gpsData.totalGpsUpdates}</p>
+                <p><strong>Total Location Updates:</strong> ${telemetryData.gpsData.totalGpsUpdates}</p>
         `;
         
         // Show first location with address
