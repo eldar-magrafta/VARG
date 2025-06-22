@@ -32,14 +32,14 @@ export async function generateReport() {
         
         updateLoadingMessage(`Generating ${displayInfo.reportType.text.toLowerCase()} with backend AI...`);
         
-        const existingTranscription = getExistingTranscription();
+        //const existingTranscription = getExistingTranscription();
         const telemetryData = getEnhancedTelemetryData();
         
         const formData = new FormData();
         formData.append('video', file);
-        if (existingTranscription) {
-            formData.append('transcription', JSON.stringify(existingTranscription));
-        }
+        // if (existingTranscription) {
+        //     formData.append('transcription', JSON.stringify(existingTranscription));
+        // }
         if (telemetryData) {
             formData.append('telemetryData', JSON.stringify(telemetryData));
         }
@@ -59,7 +59,7 @@ export async function generateReport() {
         
         showGeminiReport(
             data.report, 
-            existingTranscription !== null, 
+            //existingTranscription !== null, 
             telemetryData !== null,
             displayInfo.reportType.text
         );

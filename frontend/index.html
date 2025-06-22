@@ -1,4 +1,3 @@
-<!-- index.html with Clean ES6 Module Architecture -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,30 +18,7 @@
             Upload body camera footage and generate structured police incident reports using AI
         </p>
         
-        <!-- Upload Sections Container (Side by Side) -->
-        <div class="upload-container">
-            <!-- File Upload Section -->
-            <div class="upload-section">
-                <h3>📹 Upload Body Camera Footage</h3>
-                <p>Choose a body camera video file (max 20MB)</p>
-                <div class="file-input">
-                    <input type="file" id="videoFile" accept="video/*" />
-                </div>
-                <div class="file-info" id="fileInfo"></div>
-            </div>
-            
-            <!-- Telemetry Data Upload Section -->
-            <div class="upload-section">
-                <h3>📊 Upload Telemetry Data (Optional)</h3>
-                <p>Upload telemetry file from body camera device</p>
-                <div class="file-input">
-                    <input type="file" id="telemetryFile" accept=".json,.txt" />
-                </div>
-                <div class="file-info" id="telemetryFileInfo"></div>
-            </div>
-        </div>
-        
-        <!-- Report Criteria Selection Section (Full Width) -->
+        <!-- Report Criteria Selection Section (NOW FIRST) -->
         <div class="criteria-section">
             <h3>📋 Report Type & Criteria</h3>
             <p>Select the incident details to customize the police report format</p>
@@ -77,6 +53,29 @@
                     <option value="emergency">Emergency</option>
                     <option value="code3">Code 3</option>
                 </select>
+            </div>
+        </div>
+        
+        <!-- Upload Sections Container (Side by Side) - NOW SECOND -->
+        <div class="upload-container">
+            <!-- File Upload Section -->
+            <div class="upload-section">
+                <h3>📹 Upload Body Camera Footage</h3>
+                <p>Choose a body camera video file (max 20MB)</p>
+                <div class="file-input">
+                    <input type="file" id="videoFile" accept="video/*" />
+                </div>
+                <div class="file-info" id="fileInfo"></div>
+            </div>
+            
+            <!-- Telemetry Data Upload Section -->
+            <div class="upload-section">
+                <h3>📊 Upload Telemetry Data (Optional)</h3>
+                <p>Upload telemetry file from body camera device</p>
+                <div class="file-input">
+                    <input type="file" id="telemetryFile" accept=".json,.txt" />
+                </div>
+                <div class="file-info" id="telemetryFileInfo"></div>
             </div>
         </div>
         
