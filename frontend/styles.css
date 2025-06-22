@@ -1,6 +1,6 @@
 /* ============================================
    PROFESSIONAL POLICE APPLICATION THEME
-   Complete Fixed & Optimized CSS File
+   Optimized & Complete CSS File
    ============================================ */
 
 :root {
@@ -40,7 +40,7 @@
 }
 
 /* ============================================
-   GLOBAL STYLES & RESET
+   GLOBAL STYLES
    ============================================ */
 
 * { box-sizing: border-box; }
@@ -87,10 +87,6 @@ body {
     50% { background-position: 100% 50%; }
 }
 
-/* ============================================
-   TYPOGRAPHY & HEADERS
-   ============================================ */
-
 h1 {
     color: var(--police-primary);
     text-align: center;
@@ -114,6 +110,10 @@ h1::after {
     background: linear-gradient(90deg, var(--police-accent), var(--police-gold));
     border-radius: 2px;
 }
+
+/* ============================================
+   SECTION HEADERS
+   ============================================ */
 
 .upload-section h3, 
 .criteria-section h3,
@@ -150,7 +150,7 @@ h1::after {
 }
 
 /* ============================================
-   LAYOUT CONTAINERS & SECTIONS
+   CONTAINERS & SECTIONS
    ============================================ */
 
 .upload-container, .preview-container {
@@ -174,6 +174,9 @@ h1::after {
     overflow: hidden;
     margin-bottom: 0;
 }
+
+.video-player-section { margin: 0; }
+.telemetry-preview-section { margin: 0; }
 
 .upload-section::before, .video-player-section::before {
     content: '';
@@ -255,7 +258,7 @@ h1::after {
 }
 
 /* ============================================
-   UNIFIED FORM INPUTS & STYLING
+   FORM INPUTS & STYLING
    ============================================ */
 
 .file-input, .criteria-input {
@@ -274,11 +277,12 @@ h1::after {
     text-align: left;
 }
 
-input[type="file"], select, .form-input, .form-textarea {
-    padding: 12px 16px;
+input[type="file"], select {
+    padding: 16px 20px;
     border: 2px solid var(--border-color);
     border-radius: var(--radius-md);
     width: 100%;
+    max-width: 400px;
     background: var(--bg-card);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     font-size: 0.95rem;
@@ -286,15 +290,9 @@ input[type="file"], select, .form-input, .form-textarea {
     font-family: inherit;
     color: var(--text-primary);
     font-weight: 500;
-    box-sizing: border-box;
-}
-
-input[type="file"] {
-    max-width: 400px;
 }
 
 select {
-    max-width: 400px;
     appearance: none;
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%234a5568' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
     background-position: right 16px center;
@@ -303,40 +301,24 @@ select {
     padding-right: 50px;
 }
 
-/* UNIFIED HOVER & FOCUS STATES - Same for all fields */
-input[type="file"]:hover, 
-select:hover, 
-.form-input:hover, 
-.form-textarea:hover {
+input[type="file"]:hover, select:hover {
     border-color: var(--border-active);
     box-shadow: 0 0 0 1px var(--border-active);
 }
 
-input[type="file"]:focus, 
-select:focus, 
-.form-input:focus, 
-.form-textarea:focus {
+input[type="file"]:focus, select:focus {
     outline: none;
-    border-color: var(--police-accent);
+    border-color: var(--border-active);
     box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
-    background: #fafbfc;
 }
 
-.form-textarea {
-    resize: vertical;
-    min-height: 100px;
-    font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
-    line-height: 1.6;
-    cursor: text;
-}
-
-.form-input[type="date"], 
-.form-input[type="time"] { 
-    cursor: pointer; 
+select:focus {
+    border-color: var(--police-gold);
+    box-shadow: 0 0 0 3px rgba(214, 158, 46, 0.1);
 }
 
 /* ============================================
-   FILE INFO & VALIDATION MESSAGES
+   FILE INFO & MESSAGES
    ============================================ */
 
 .file-info {
@@ -383,7 +365,7 @@ select:focus,
 .error-message::before { content: '❌'; font-size: 1rem; }
 
 /* ============================================
-   TELEMETRY PREVIEW COMPONENTS
+   TELEMETRY PREVIEW
    ============================================ */
 
 .telemetry-summary-grid {
@@ -464,7 +446,7 @@ select:focus,
 }
 
 /* ============================================
-   BUTTONS & INTERACTIVE ELEMENTS
+   BUTTONS
    ============================================ */
 
 button {
@@ -545,7 +527,7 @@ button:disabled {
 }
 
 /* ============================================
-   LOADING ANIMATION & STATES
+   LOADING ANIMATION
    ============================================ */
 
 .loading {
@@ -584,7 +566,7 @@ button:disabled {
 }
 
 /* ============================================
-   RESULT SECTIONS & OUTPUT DISPLAY
+   RESULT SECTIONS
    ============================================ */
 
 .result-section {
@@ -652,7 +634,7 @@ button:disabled {
 }
 
 /* ============================================
-   TRANSCRIPTION DISPLAY
+   TRANSCRIPTION
    ============================================ */
 
 .transcription-box {
@@ -677,7 +659,7 @@ button:disabled {
 }
 
 /* ============================================
-   POLICE REPORT FORMS & STRUCTURE
+   POLICE REPORT FORMS
    ============================================ */
 
 .report-form-container {
@@ -823,8 +805,38 @@ button:disabled {
     font-size: 1.1rem;
 }
 
+.form-input, .form-textarea {
+    padding: 12px 16px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+    font-family: inherit;
+    color: var(--text-primary);
+    background: var(--bg-card);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-input:focus, .form-textarea:focus {
+    outline: none;
+    border-color: var(--police-accent);
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+    background: #fafbfc;
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 100px;
+    font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
+    line-height: 1.6;
+}
+
+.form-input:hover, .form-textarea:hover { border-color: var(--border-active); }
+.form-input[type="date"], .form-input[type="time"] { cursor: pointer; }
+
 /* ============================================
-   NOTIFICATIONS & ALERTS
+   NOTIFICATIONS
    ============================================ */
 
 .notification {
@@ -901,7 +913,7 @@ button:disabled {
 }
 
 /* ============================================
-   ERROR DISPLAYS & FEEDBACK
+   ERROR DISPLAYS
    ============================================ */
 
 .detailed-error {
@@ -998,7 +1010,7 @@ button:disabled {
 }
 
 /* ============================================
-   MAP OVERLAY & INTERACTIVE COMPONENTS
+   MAP OVERLAY
    ============================================ */
 
 .map-overlay {
@@ -1156,7 +1168,7 @@ button:disabled {
 }
 
 /* ============================================
-   MOBILE RESPONSIVENESS & BREAKPOINTS
+   MOBILE RESPONSIVENESS
    ============================================ */
 
 @media (max-width: 968px) {
@@ -1298,7 +1310,7 @@ button:disabled {
 }
 
 /* ============================================
-   PRINT STYLES & OPTIMIZATION
+   PRINT STYLES
    ============================================ */
 
 @media print {
@@ -1389,7 +1401,7 @@ button:disabled {
 
 
 /* ============================================
-   UTILITY CLASSES & HELPERS
+   UTILITY CLASSES
    ============================================ */
 
 .text-center { text-align: center; }
@@ -1398,5 +1410,5 @@ button:disabled {
 .font-mono { font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace; }
 
 /* ============================================
-   END OF COMPLETE FIXED CSS
+   END OF OPTIMIZED CSS
    ============================================ */
