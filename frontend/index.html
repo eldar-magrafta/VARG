@@ -79,9 +79,9 @@
             </div>
         </div>
         
-        <!-- Preview Sections Container (Side by Side) -->
+        <!-- Preview Sections Container (Side by Side) - CLEAN WITH NO EMBEDDED STYLES -->
         <div class="preview-container">
-            <!-- Video Player Section -->
+            <!-- Video Player Section (Left Half) -->
             <div class="video-player-section" id="videoPlayerSection" style="display: none;">
                 <h4>🎬 Body Camera Footage Preview</h4>
                 <video id="videoPlayer" controls width="100%" style="max-width: 500px; border-radius: 8px;">
@@ -89,14 +89,14 @@
                 </video>
             </div>
             
-            <!-- Telemetry Preview Section -->
+            <!-- Telemetry Preview Section (Right Half) -->
             <div class="telemetry-preview-section" id="telemetryPreviewSection" style="display: none;">
                 <h4>📋 Telemetry Data Preview</h4>
                 <div class="telemetry-summary" id="telemetrySummary"></div>
                 
                 <!-- Show Route Button -->
                 <div style="text-align: center; margin-top: 15px;">
-                    <button id="showRouteBtn" onclick="showRouteOnMap()" disabled>
+                    <button id="showRouteBtn" onclick="window.showRouteOnMap()" disabled>
                         🗺️ Show Route on Map
                     </button>
                 </div>
@@ -136,7 +136,7 @@
         <div class="map-container">
             <div class="map-header">
                 <h3>📍 Officer Route Tracking</h3>
-                <button class="map-close-btn" onclick="closeRouteMap()">&times;</button>
+                <button class="map-close-btn" onclick="window.closeRouteMap()">&times;</button>
             </div>
             <div id="routeMap"></div>
             <div class="route-info" id="routeInfo">

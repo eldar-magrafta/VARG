@@ -1,6 +1,6 @@
 /* ============================================
    PROFESSIONAL POLICE APPLICATION THEME
-   Optimized & Complete CSS File
+   Optimized & Complete CSS File with Preview Container
    ============================================ */
 
 :root {
@@ -153,14 +153,67 @@ h1::after {
    CONTAINERS & SECTIONS
    ============================================ */
 
-.upload-container, .preview-container {
+.upload-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 24px;
     margin-bottom: 32px;
 }
 
-.preview-container { margin: 32px 0; }
+/* ============================================
+   ENHANCED PREVIEW CONTAINER - SIDE BY SIDE LAYOUT
+   ============================================ */
+
+.preview-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin: 32px 0;
+    min-height: 200px;
+}
+
+/* Grid positioning for side-by-side layout */
+.video-player-section {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.telemetry-preview-section {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+/* Full width when other section is hidden - Modern CSS */
+.preview-container:has(.video-player-section[style*="display: none"]) .telemetry-preview-section:not([style*="display: none"]) {
+    grid-column: 1 / -1;
+}
+
+.preview-container:has(.telemetry-preview-section[style*="display: none"]) .video-player-section:not([style*="display: none"]) {
+    grid-column: 1 / -1;
+}
+
+/* Fallback classes for browsers without :has() support */
+.telemetry-full-width {
+    grid-column: 1 / -1 !important;
+}
+
+.video-full-width {
+    grid-column: 1 / -1 !important;
+}
+
+/* Hide container when both sections are hidden */
+.preview-container:has(.video-player-section[style*="display: none"]):has(.telemetry-preview-section[style*="display: none"]) {
+    display: none;
+}
+
+/* Fallback for hiding container when both are hidden */
+.preview-container.all-hidden {
+    display: none !important;
+}
+
+/* ============================================
+   SECTION STYLING (UPLOAD, VIDEO, TELEMETRY)
+   ============================================ */
 
 .upload-section, .video-player-section, .telemetry-preview-section {
     padding: 32px;
@@ -1220,6 +1273,18 @@ button:disabled {
         gap: 16px;
     }
     
+    /* Reset preview container grid positioning on mobile */
+    .video-player-section,
+    .telemetry-preview-section {
+        grid-column: 1;
+    }
+    
+    /* Reset full-width classes on mobile */
+    .telemetry-full-width,
+    .video-full-width {
+        grid-column: 1 !important;
+    }
+    
     button {
         width: 100%;
         margin: 6px 0;
@@ -1399,7 +1464,6 @@ button:disabled {
     }
 }
 
-
 /* ============================================
    UTILITY CLASSES
    ============================================ */
@@ -1410,5 +1474,5 @@ button:disabled {
 .font-mono { font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace; }
 
 /* ============================================
-   END OF OPTIMIZED CSS
+   END OF OPTIMIZED CSS WITH PREVIEW CONTAINER
    ============================================ */

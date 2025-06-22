@@ -1,5 +1,5 @@
-// telemetryProcessor.js - Telemetry Data Processing
-import { readFileAsText } from './fileHandlers.js';
+// telemetryProcessor.js - Telemetry Data Processing with Layout Management
+import { readFileAsText, updatePreviewLayout } from './fileHandlers.js';
 import { processGpsDataWithAddresses } from './geocoding.js';
 import { setEnhancedTelemetryData } from './state.js';
 import { showTelemetryPreview } from './uiHelpers.js';
@@ -15,6 +15,7 @@ export async function handleTelemetryFile() {
         telemetryFileInfo.innerHTML = '';
         telemetryPreviewSection.style.display = 'none';
         showRouteBtn.disabled = true;
+        updatePreviewLayout(); // Update layout when telemetry is hidden
         return;
     }
 
@@ -32,6 +33,7 @@ export async function handleTelemetryFile() {
         // Show initial preview
         showTelemetryPreview(telemetryData, fileContent);
         telemetryPreviewSection.style.display = 'block';
+        updatePreviewLayout(); // Update layout when telemetry is shown
         telemetryFileInfo.innerHTML += '<div class="success-message">Telemetry data loaded successfully</div>';
 
         // Enable Show Route button IMMEDIATELY if GPS data is available
@@ -70,6 +72,7 @@ export async function handleTelemetryFile() {
         telemetryFileInfo.innerHTML += '<div class="error-message">Error parsing telemetry file: ' + error.message + '</div>';
         telemetryPreviewSection.style.display = 'none';
         showRouteBtn.disabled = true;
+        updatePreviewLayout(); // Update layout when telemetry is hidden due to error
     }
 }
 
