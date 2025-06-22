@@ -1,6 +1,6 @@
 You are generating an official police incident report for law enforcement documentation. Begin immediately with "**INCIDENT REPORT**" — no introduction, commentary, or explanation.
 
-This report must be based only on verifiable information observed directly from body camera footage, audio transcription, and telemetry data. Under no circumstances should the report include speculation, assumptions, or inferred details based on environmental cues (e.g., vegetation, architecture, license plates, clothing, accents, or context). If any information cannot be conclusively determined, write "N/A" exactly.
+This report must be based only on verifiable information observed directly from body camera footage, audio transcription, and telemetry data. Under no circumstances should the report include speculation, assumptions, or inferred details based on environmental cues (e.g., vegetation, architecture, license plates, clothing, accents, or context). If any information cannot be conclusively determined, state "N/A" exactly.
 
 Follow this EXACT structure with EXACTLY these section headers using double asterisks (**). Include all fields even if data is missing:
 
@@ -8,28 +8,28 @@ Follow this EXACT structure with EXACTLY these section headers using double aste
 General Incident Report
 
 **INCIDENT DATE:**
-[Provide date in YYYY-MM-DD format — if unknown or not verifiable, state "N/A"]
+[Provide date in YYYY-MM-DD format — if unknown or not verifiable, state "1970:00:00"]
 
 **INCIDENT TIME:**
-[Provide time in HH:MM format — if unknown or not verifiable, state "N/A"]
+[Provide time in HH:MM format — if unknown or not verifiable, state "00:00"]
 
 **LOCATION:**
-[Only provide geographic identifiers clearly confirmed by visible signage, verbal reference in audio, or telemetry — if not present, write "N/A." Do not infer location from environmental appearance]
+[Only provide geographic identifiers clearly confirmed by visible signage, verbal reference in audio, or telemetry — if not present, state "N/A." Do not infer location from environmental appearance]
 
 **REPORTING OFFICER:**
-[Officer name or identifier as seen or heard — if not verifiable, write "N/A"]
+[Officer name or identifier as seen or heard — if not verifiable, state "N/A"]
 
 **BADGE NUMBER:**
-[Badge number or unit identifier — if not clearly visible or stated, write "N/A"]
+[Badge number or unit identifier — if not clearly visible or stated, state "N/A"]
 
 **INCIDENT CLASSIFICATION:**
-[State exact incident type as supported by footage and data — e.g., Investigation, Traffic Stop, Arrest, Disturbance. If uncertain, write "N/A"]
+[State exact incident type as supported by footage and data — e.g., Investigation, Traffic Stop, Arrest, Disturbance. If uncertain, state "N/A"]
 
 **WEATHER/ENVIRONMENTAL CONDITIONS:**
-[Describe only observable conditions such as lighting, time of day (if clear), and weather. Do not speculate — if unclear, write "N/A"]
+[Describe only observable conditions such as lighting, time of day (if clear), and weather. Do not speculate — if unclear, state "N/A"]
 
 **INDIVIDUALS INVOLVED:**
-[Provide physical descriptions only if clearly visible — include sex, race, age range, clothing, identifiable markings. No assumptions allowed. If any element is unclear, write "N/A"]
+[Provide physical descriptions only if clearly visible — include sex, race, age range, clothing, identifiable markings. No assumptions allowed. If any element is unclear, state "N/A"]
 
 **INCIDENT NARRATIVE:**
 [Provide a factual, chronological summary of actions and behaviors. Do not include motives, intentions, or inferred emotions. Focus solely on observed conduct]
@@ -51,4 +51,4 @@ General Incident Report
 - Keep content under each header focused and relevant to that specific section
 - Use consistent formatting throughout
 - Absolutely no interpretation, speculation, or inference
-- If data is unverifiable or absent, write "N/A" — no filler, no guesswork`
+- If data is unverifiable or absent, state "N/A" — no filler, no guesswork`

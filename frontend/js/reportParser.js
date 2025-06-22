@@ -25,37 +25,17 @@ const REPORT_FIELDS = {
     
     vehicle_accident: {
         ...BASE_FIELDS,
-        weatherConditions: { label: 'Weather & Road Conditions', type: 'text', required: true },
-        vehiclesInvolved: { label: 'Vehicles Involved', type: 'textarea', required: true, rows: 8 },
-        accidentSequence: { label: 'Accident Sequence/Reconstruction', type: 'textarea', required: true, rows: 6 },
-        injuriesAndMedical: { label: 'Injuries & Medical Response', type: 'textarea', required: true, rows: 4 },
-        trafficViolations: { label: 'Traffic Violations & Citations', type: 'textarea', required: false, rows: 4 },
-        witnessStatements: { label: 'Witness Information', type: 'textarea', required: false, rows: 4 },
-        evidenceAndMeasurements: { label: 'Evidence & Measurements', type: 'textarea', required: false, rows: 4 }
+        
     },
     
     crime: {
         ...BASE_FIELDS,
-        crimeClassification: { label: 'Crime Classification', type: 'text', required: true },
-        caseNumber: { label: 'Case Number', type: 'text', required: false },
-        crimeScene: { label: 'Crime Scene Description', type: 'textarea', required: true, rows: 6 },
-        victimInformation: { label: 'Victim Information', type: 'textarea', required: true, rows: 6 },
-        suspectInformation: { label: 'Suspect Information', type: 'textarea', required: true, rows: 6 },
-        witnessInformation: { label: 'Witness Information', type: 'textarea', required: false, rows: 4 },
-        evidenceCollection: { label: 'Evidence Collection', type: 'textarea', required: true, rows: 6 },
-        chargesAndDisposition: { label: 'Charges & Disposition', type: 'textarea', required: false, rows: 4 },
-        investigativeNotes: { label: 'Investigation Notes', type: 'textarea', required: false, rows: 4 }
+        
     },
     
     lost_property: {
         ...BASE_FIELDS,
-        propertyOwner: { label: 'Property Owner Information', type: 'textarea', required: true, rows: 4 },
-        propertyDescription: { label: 'Lost Property Description', type: 'textarea', required: true, rows: 6 },
-        lossCircumstances: { label: 'Circumstances of Loss', type: 'textarea', required: true, rows: 6 },
-        searchEfforts: { label: 'Search Efforts Conducted', type: 'textarea', required: true, rows: 4 },
-        propertyRecovery: { label: 'Recovery Procedures', type: 'textarea', required: false, rows: 4 },
-        followUpActions: { label: 'Follow-up Actions', type: 'textarea', required: false, rows: 4 },
-        propertyDocumentation: { label: 'Property Documentation', type: 'textarea', required: false, rows: 4 }
+       
     }
 };
 
@@ -120,9 +100,10 @@ export function parseGeminiResponse(responseText, reportType) {
 
 // Simple, direct mapping for general reports
 function parseGeneralReport(sections, data) {
+    console.log('sections is:', sections);
     // Direct mapping with exact section names from the response
     data.reportHeader = sections['REPORT TYPE'] || 'General Incident Report';
-    data.incidentDate = cleanDate(sections['INCIDENT DATE'] || '');
+    data.incidentDate = cleanDate(sections['INCIDENT DATE'] || 'N/A');
     data.incidentTime = cleanTime(sections['INCIDENT TIME'] || '');
     data.location = sections['LOCATION'] || '';
     data.reportingOfficer = sections['REPORTING OFFICER'] || '';
