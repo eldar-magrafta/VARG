@@ -5,27 +5,6 @@ const path = require('path');
 const API_KEY = process.env.GEMINI_API_KEY;
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
 
-// Mapping values to display names for prompts
-const CRITERIA_MAPPINGS = {
-    reportType: {
-        'general': 'General Incident Report',
-        'vehicle_accident': 'Vehicle Accident Report', 
-        'crime': 'Crime Report',
-        'lost_property': 'Lost Property Report'
-    },
-    timeOfDay: {
-        'day_shift': 'Day Shift (6AM-2PM)',
-        'evening_shift': 'Evening Shift (2PM-10PM)',
-        'night_shift': 'Night Shift (10PM-6AM)'
-    },
-    priority: {
-        'routine': 'Routine',
-        'priority': 'Priority',
-        'emergency': 'Emergency',
-        'code3': 'Code 3'
-    }
-};
-
 // Cache for loaded prompts (to avoid reading files repeatedly)
 const promptCache = {};
 
@@ -38,47 +17,46 @@ async function loadPrompt(reportType) {
     try {
         const promptsDir = path.join(__dirname, '../prompts');
         const promptFile = path.join(promptsDir, `${reportType}.txt`);
-        
+
         // Read the prompt file
         const promptContent = await fs.readFile(promptFile, 'utf8');
-        
+
         // Cache the prompt for future use
         promptCache[reportType] = promptContent;
-        
+
         console.log(`📋 Loaded prompt template: ${reportType}`);
         return promptContent;
-        
+
     } catch (error) {
         console.error(`❌ Error loading prompt file for ${reportType}:`, error);
-        
+
         // Fallback to general prompt if specific prompt fails to load
         if (reportType !== 'general') {
             console.log(`🔄 Falling back to general prompt for ${reportType}`);
             return await loadPrompt('general');
         }
-        
+
         // If even general prompt fails, throw error
         throw new Error(`Failed to load prompt template: ${error.message}`);
     }
 }
 
-async function generateReport(videoBuffer, mimeType, transcription, telemetryData, criteria) {
+async function generateReport(videoBuffer, mimeType, transcription, telemetryData, reportType) {
     try {
-        console.log('🚀 Starting Gemini API call...');
-        
-        const base64Data = videoBuffer.toString('base64');
-        const prompt = await buildPrompt(transcription, telemetryData, criteria);
-        
+        console.log('🚀 generateReport method called...');
+
+        const prompt = await buildPrompt(transcription, telemetryData, reportType);
+
         const requestData = {
             contents: [{
                 parts: [
                     {
-                        inline_data: {
+                        inline_data: { // video
                             mime_type: mimeType,
-                            data: base64Data
+                            data: videoBuffer.toString('base64')
                         }
                     },
-                    { text: prompt }
+                    { text: prompt } // The prompt text to guide the report generation
                 ]
             }]
         };
@@ -96,7 +74,7 @@ async function generateReport(videoBuffer, mimeType, transcription, telemetryDat
 
         const data = await response.json();
         console.log('✅ Gemini API response received:', extractReport(data));
-        
+
         return extractReport(data);
 
     } catch (error) {
@@ -105,33 +83,18 @@ async function generateReport(videoBuffer, mimeType, transcription, telemetryDat
     }
 }
 
-async function buildPrompt(transcription, telemetryData, criteria) {
-    const reportType = criteria && criteria.reportType ? criteria.reportType : 'general';
-    
+async function buildPrompt(transcription, telemetryData, reportType) {
     // Load the appropriate prompt template from file
     let prompt = await loadPrompt(reportType);
-    
-    if (criteria) {
-        prompt += '\n\nREPORT CRITERIA:\n';
-        
-        // Map values to display text using our mappings
-        const reportTypeText = CRITERIA_MAPPINGS.reportType[criteria.reportType] || criteria.reportType;
-        const timeOfDayText = CRITERIA_MAPPINGS.timeOfDay[criteria.timeOfDay] || criteria.timeOfDay;
-        const priorityText = CRITERIA_MAPPINGS.priority[criteria.priority] || criteria.priority;
-        
-        prompt += `Report Type: ${reportTypeText}\n`;
-        prompt += `Time of Day: ${timeOfDayText}\n`;
-        prompt += `Incident Priority: ${priorityText}\n`;
-    }
-    
+
     if (telemetryData) {
         prompt += '\n\nTELEMETRY DATA:\n' + JSON.stringify(telemetryData, null, 2);
     }
-    
+
     if (transcription) {
         prompt += '\n\nAUDIO TRANSCRIPTION:\n' + transcription;
     }
-    
+
     return prompt;
 }
 

@@ -1,54 +1,49 @@
-You are generating an official police incident report for law enforcement documentation. Begin immediately with "**INCIDENT REPORT**" — no introduction, commentary, or explanation.
+Begin immediately with "**INCIDENT REPORT**" - no introduction, explanation, or acknowledgment. You are generating an official police incident report for law enforcement documentation.
 
-This report must be based only on verifiable information observed directly from body camera footage, audio transcription, and telemetry data. Under no circumstances should the report include speculation, assumptions, or inferred details based on environmental cues (e.g., vegetation, architecture, license plates, clothing, accents, or context). If any information cannot be conclusively determined, state "N/A" exactly.
-
-Follow this EXACT structure with EXACTLY these section headers using double asterisks (**). Include all fields even if data is missing:
+Analyze this body camera footage, audio transcription, and telemetry data to create a comprehensive professional incident report following this EXACT structure with ALL required fields. Use EXACTLY these section headers with double asterisks:
 
 **REPORT TYPE:**
 General Incident Report
 
 **INCIDENT DATE:**
-[Provide date in YYYY-MM-DD format — if unknown or not verifiable, state "1970:00:00"]
+[Provide date in YYYY-MM-DD format - if unknown, estimate from available data]
 
 **INCIDENT TIME:**
-[Provide time in HH:MM format — if unknown or not verifiable, state "00:00"]
+[Provide time in HH:MM format - if unknown, estimate from available data]
 
 **LOCATION:**
-[Only provide geographic identifiers clearly confirmed by visible signage, verbal reference in audio, or telemetry — if not present, state "N/A." Do not infer location from environmental appearance]
+[Full address or detailed location description]
 
 **REPORTING OFFICER:**
-[Officer name or identifier as seen or heard — if not verifiable, state "N/A"]
+[Officer name and/or identifier from body camera footage]
 
 **BADGE NUMBER:**
-[Badge number or unit identifier — if not clearly visible or stated, state "N/A"]
+[Badge number or unit identifier - if not visible, state "Not visible in footage"]
 
 **INCIDENT CLASSIFICATION:**
-[State exact incident type as supported by footage and data — e.g., Investigation, Traffic Stop, Arrest, Disturbance. If uncertain, state "N/A"]
+[Primary incident type: Investigation, Traffic Stop, Arrest, Disturbance, etc.]
 
 **WEATHER/ENVIRONMENTAL CONDITIONS:**
-[Describe only observable conditions such as lighting, time of day (if clear), and weather. Do not speculate — if unclear, state "N/A"]
+[Describe lighting, weather, visibility, time of day, etc.]
 
 **INDIVIDUALS INVOLVED:**
-[Provide physical descriptions only if clearly visible — include sex, race, age range, clothing, identifiable markings. No assumptions allowed. If any element is unclear, state "N/A"]
+[Detailed physical descriptions using standard law enforcement identification protocols for each person]
 
 **INCIDENT NARRATIVE:**
-[Provide a factual, chronological summary of actions and behaviors. Do not include motives, intentions, or inferred emotions. Focus solely on observed conduct]
+[Concise, professional chronological summary focusing on ACTIONS and BEHAVIORS, not dialogue]
 
 **OFFICER ACTIONS AND PROCEDURES:**
-[Describe commands, compliance, use of force, rights advisement, procedural elements — based only on observable actions. Avoid interpretation or assumptions]
+[Commands given, compliance levels, use of force if any, Miranda rights, evidence preservation, etc.]
 
 **EVIDENCE AND DOCUMENTATION:**
-[List specific confirmed documentation: bodycam files, audio, physical evidence, statements. No mention of unverified materials]
+[Body camera footage, audio recordings, physical evidence, witness statements, etc.]
 
 **COMPLETE AUDIO TRANSCRIPT:**
-[Include precise transcript of all audible spoken dialogue using exact timestamps in [HH:MM:SS] format. Do not edit, censor, or paraphrase]
+[Detailed chronological transcript of ALL spoken dialogue with timestamp formatting [HH:MM:SS]]
 
-**CRITICAL REQUIREMENTS:**
+CRITICAL REQUIREMENTS:
 - Use EXACTLY the section headers shown above with double asterisks (**)
-- Include ALL sections even if information is not available
-- If information is not verifiable, state "N/A" exactly
+- Include ALL sections even if information is not available. in case information is not available, put there the reason for its absence
 - Never omit any section
 - Keep content under each header focused and relevant to that specific section
 - Use consistent formatting throughout
-- Absolutely no interpretation, speculation, or inference
-- If data is unverifiable or absent, state "N/A" — no filler, no guesswork`

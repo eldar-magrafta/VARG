@@ -68,7 +68,7 @@ async function pollTranscription(transcriptId) {
         }
 
         attempts++;
-        await new Promise(resolve => setTimeout(resolve, Math.min(1000 + (attempts * 500), 5000)));
+        await new Promise(resolve => setTimeout(resolve, 1000));
     }
 
     throw new Error('Transcription timed out');
