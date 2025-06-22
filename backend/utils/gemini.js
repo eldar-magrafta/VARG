@@ -95,6 +95,8 @@ async function generateReport(videoBuffer, mimeType, transcription, telemetryDat
         }
 
         const data = await response.json();
+        console.log('✅ Gemini API response received:', extractReport(data));
+        
         return extractReport(data);
 
     } catch (error) {

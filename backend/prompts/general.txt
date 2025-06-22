@@ -1,27 +1,54 @@
-Begin immediately with "**INCIDENT REPORT**" - no introduction, explanation, or acknowledgment. You are generating an official police incident report for law enforcement documentation.
+You are generating an official police incident report for law enforcement documentation. Begin immediately with "**INCIDENT REPORT**" — no introduction, commentary, or explanation.
 
-Analyze this body camera footage, audio transcription, and telemetry data to create a comprehensive professional incident report following standard police documentation protocols:
+This report must be based only on verifiable information observed directly from body camera footage, audio transcription, and telemetry data. Under no circumstances should the report include speculation, assumptions, or inferred details based on environmental cues (e.g., vegetation, architecture, license plates, clothing, accents, or context). If any information cannot be conclusively determined, write "N/A" exactly.
 
-**INCIDENT DETAILS:**
-- Date, time, location of incident
-- Type of call/incident classification  
-- Officers present and roles
-- Badge numbers and unit identifiers
-- Weather and environmental conditions
+Follow this EXACT structure with EXACTLY these section headers using double asterisks (**). Include all fields even if data is missing:
+
+**REPORT TYPE:**
+General Incident Report
+
+**INCIDENT DATE:**
+[Provide date in YYYY-MM-DD format — if unknown or not verifiable, state "N/A"]
+
+**INCIDENT TIME:**
+[Provide time in HH:MM format — if unknown or not verifiable, state "N/A"]
+
+**LOCATION:**
+[Only provide geographic identifiers clearly confirmed by visible signage, verbal reference in audio, or telemetry — if not present, write "N/A." Do not infer location from environmental appearance]
+
+**REPORTING OFFICER:**
+[Officer name or identifier as seen or heard — if not verifiable, write "N/A"]
+
+**BADGE NUMBER:**
+[Badge number or unit identifier — if not clearly visible or stated, write "N/A"]
+
+**INCIDENT CLASSIFICATION:**
+[State exact incident type as supported by footage and data — e.g., Investigation, Traffic Stop, Arrest, Disturbance. If uncertain, write "N/A"]
+
+**WEATHER/ENVIRONMENTAL CONDITIONS:**
+[Describe only observable conditions such as lighting, time of day (if clear), and weather. Do not speculate — if unclear, write "N/A"]
 
 **INDIVIDUALS INVOLVED:**
-Provide detailed physical descriptions using standard law enforcement identification protocols for each person involved.
+[Provide physical descriptions only if clearly visible — include sex, race, age range, clothing, identifiable markings. No assumptions allowed. If any element is unclear, write "N/A"]
 
 **INCIDENT NARRATIVE:**
-Write a concise, professional summary of the sequence of events in paragraph form. Focus on ACTIONS and BEHAVIORS, not dialogue.
+[Provide a factual, chronological summary of actions and behaviors. Do not include motives, intentions, or inferred emotions. Focus solely on observed conduct]
 
 **OFFICER ACTIONS AND PROCEDURES:**
-- Commands given and suspect compliance
-- Use of force (if any) and justification
-- Miranda rights administration (if applicable)
-- Evidence preservation measures
+[Describe commands, compliance, use of force, rights advisement, procedural elements — based only on observable actions. Avoid interpretation or assumptions]
+
+**EVIDENCE AND DOCUMENTATION:**
+[List specific confirmed documentation: bodycam files, audio, physical evidence, statements. No mention of unverified materials]
 
 **COMPLETE AUDIO TRANSCRIPT:**
-Create a detailed, chronological transcript of ALL spoken dialogue with consistent timestamp formatting [HH:MM:SS].
+[Include precise transcript of all audible spoken dialogue using exact timestamps in [HH:MM:SS] format. Do not edit, censor, or paraphrase]
 
-Provide only factual, objective reporting using professional law enforcement terminology.
+**CRITICAL REQUIREMENTS:**
+- Use EXACTLY the section headers shown above with double asterisks (**)
+- Include ALL sections even if information is not available
+- If information is not verifiable, state "N/A" exactly
+- Never omit any section
+- Keep content under each header focused and relevant to that specific section
+- Use consistent formatting throughout
+- Absolutely no interpretation, speculation, or inference
+- If data is unverifiable or absent, write "N/A" — no filler, no guesswork`
