@@ -1,6 +1,7 @@
 // formBuilder.js - Build dynamic editable forms for police reports
 
 import { getFieldDefinitions } from './reportParser.js';
+import { getAuthToken } from './main.js';
 
 // Build and return the complete form HTML
 export function buildReportForm(reportType, parsedData) {
@@ -270,16 +271,88 @@ export function setupFormEventListeners() {
     }
 }
 
-// Handle save report
-function handleSaveReport() {
+// Handle save report - NOW SAVES TO DATABASE
+async function handleSaveReport() {
     const formData = getFormData();
     
-    // Save to localStorage for now (could be enhanced to save to server)
-    const reportId = `report_${Date.now()}`;
-    localStorage.setItem(reportId, JSON.stringify(formData));
+    if (!formData || Object.keys(formData).length === 0) {
+        showNotification('⚠️ No report data to save', 'warning');
+        return;
+    }
     
-    showNotification('✅ Report saved successfully!', 'success');
-    console.log('📄 Report saved:', reportId);
+    // Convert form data to report text format
+    const reportContent = formatFormDataAsReport(formData);
+    
+    try {
+        const authToken = getAuthToken();
+        if (!authToken) {
+            showNotification('❌ Authentication required', 'error');
+            return;
+        }
+        
+        const response = await fetch('/api/reports/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
+            },
+            body: JSON.stringify({ reportContent })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok && data.success) {
+            showNotification('✅ Report saved to database successfully!', 'success');
+            console.log('📄 Report saved to database:', data.reportId);
+        } else {
+            showNotification('❌ Failed to save report: ' + (data.error || 'Unknown error'), 'error');
+        }
+        
+    } catch (error) {
+        console.error('Error saving report:', error);
+        showNotification('❌ Error saving report. Please try again.', 'error');
+    }
+}
+
+// Convert form data to formatted report text
+function formatFormDataAsReport(formData) {
+    let reportText = '**POLICE INCIDENT REPORT**\n\n';
+    
+    // Add each field with proper formatting
+    Object.keys(formData).forEach(key => {
+        const value = formData[key];
+        if (value && value.trim()) {
+            // Convert field key to readable label
+            const label = formatFieldLabel(key);
+            reportText += `**${label.toUpperCase()}:**\n${value}\n\n`;
+        }
+    });
+    
+    // Add timestamp
+    reportText += `\n**REPORT GENERATED:**\n${new Date().toLocaleString()}\n`;
+    
+    return reportText;
+}
+
+// Convert field keys to readable labels
+function formatFieldLabel(fieldKey) {
+    const labelMap = {
+        'reportHeader': 'Report Type',
+        'incidentDate': 'Incident Date',
+        'incidentTime': 'Incident Time',
+        'location': 'Location',
+        'reportingOfficer': 'Reporting Officer',
+        'badgeNumber': 'Badge Number',
+        'incidentType': 'Incident Classification',
+        'weatherConditions': 'Weather/Environmental Conditions',
+        'individualsInvolved': 'Individuals Involved',
+        'incidentNarrative': 'Incident Narrative',
+        'officerActions': 'Officer Actions and Procedures',
+        'evidenceCollected': 'Evidence and Documentation',
+        'audioTranscript': 'Complete Audio Transcript'
+    };
+    
+    return labelMap[fieldKey] || fieldKey.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
 }
 
 // Handle print report

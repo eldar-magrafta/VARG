@@ -239,7 +239,7 @@ async function handleApiError(response) {
     return new Error(`${errorMessage}: ${errorDetails}`);
 }
 
-// Display the enhanced report with form and save button
+// Display the enhanced report with form (NO SAVE BUTTON ADDED)
 function displayEnhancedReport(data, transcription, telemetry, criteria, displayInfo) {
     try {
         showGeminiReport(
@@ -249,12 +249,7 @@ function displayEnhancedReport(data, transcription, telemetry, criteria, display
             criteria.reportType  // Pass the report type for form building
         );
         
-        // Add save button to the report after it's displayed
-        setTimeout(() => {
-            addSaveButtonToReport();
-        }, 500);
-        
-        // Log successful display
+        // Log successful display (removed automatic save button addition)
         console.log('📋 Enhanced report form displayed successfully');
         console.log(`   📊 Report Type: ${displayInfo.reportType.text}`);
         console.log(`   📝 Transcription: ${transcription ? 'Included' : 'Not included'}`);
@@ -323,7 +318,7 @@ function addSaveButtonToReport() {
     summaryDiv.insertBefore(saveButton, summaryDiv.firstChild);
 }
 
-// Fallback basic report display
+// Fallback basic report display (NO SAVE BUTTON ADDED)
 function showBasicReport(report, hasTranscription, hasTelemetry) {
     const resultSection = document.getElementById('resultSection');
     const summaryDiv = document.getElementById('summary');
@@ -350,11 +345,6 @@ function showBasicReport(report, hasTranscription, hasTelemetry) {
     
     summaryDiv.innerHTML = statusText + `<div class="success">${report.replace(/\n/g, '<br>')}</div>`;
     resultSection.style.display = 'block';
-    
-    // Add save button to basic report too
-    setTimeout(() => {
-        addSaveButtonToReport();
-    }, 100);
 }
 
 // Handle report generation errors

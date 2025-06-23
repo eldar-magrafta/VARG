@@ -23,7 +23,7 @@ function initializeDatabase() {
             username TEXT UNIQUE NOT NULL,
             email TEXT UNIQUE NOT NULL,
             password TEXT NOT NULL,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            created_at DATETIME NOT NULL
         )
     `;
 
@@ -32,7 +32,7 @@ function initializeDatabase() {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER NOT NULL,
             report_content TEXT NOT NULL,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            created_at DATETIME NOT NULL,
             FOREIGN KEY (user_id) REFERENCES users (id)
         )
     `;
@@ -67,8 +67,9 @@ const userQueries = {
     },
 
     create: (username, email, hashedPassword, callback) => {
-        const sql = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
-        db.run(sql, [username, email, hashedPassword], callback);
+        const createdAt = new Date().toISOString();
+        const sql = 'INSERT INTO users (username, email, password, created_at) VALUES (?, ?, ?, ?)';
+        db.run(sql, [username, email, hashedPassword, createdAt], callback);
     },
 
     findById: (id, callback) => {
@@ -80,8 +81,9 @@ const userQueries = {
 // Report queries
 const reportQueries = {
     create: (userId, reportContent, callback) => {
-        const sql = 'INSERT INTO reports (user_id, report_content) VALUES (?, ?)';
-        db.run(sql, [userId, reportContent], callback);
+        const createdAt = new Date().toISOString();
+        const sql = 'INSERT INTO reports (user_id, report_content, created_at) VALUES (?, ?, ?)';
+        db.run(sql, [userId, reportContent, createdAt], callback);
     },
 
     findByUserId: (userId, callback) => {
