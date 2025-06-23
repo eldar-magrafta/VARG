@@ -440,10 +440,11 @@ function displayReportHistory(reports) {
     } else {
         reports.forEach((report, index) => {
             const date = new Date(report.created_at).toLocaleString();
+            const userReportNumber = index + 1; // User-specific sequential number
             reportsHTML += `
                 <div style="margin-bottom: 24px; padding: 20px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #3182ce;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                        <h4 style="margin: 0; color: #1a365d;">Report #${report.id}</h4>
+                        <h4 style="margin: 0; color: #1a365d;">Report #${userReportNumber} - ${date}</h4>
                         <span style="color: #666; font-size: 0.9rem;">${date}</span>
                     </div>
                     <div style="background: white; padding: 16px; border-radius: 6px; border: 1px solid #cbd5e0; white-space: pre-wrap; font-family: monospace; font-size: 0.85rem; max-height: 200px; overflow-y: auto;">
