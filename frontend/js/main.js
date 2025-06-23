@@ -1,54 +1,56 @@
 // main.js - Modern ES6 Module Entry Point with Authentication Support and Report History
-import { checkInputs, updatePreviewLayout } from './fileHandlers.js';
-import { handleTelemetryFile } from './telemetryProcessor.js';
-import { transcribeVideo } from './transcription.js';
-import { generateReport } from './reportGenerator.js';
-import { closeRouteMap, showRouteOnMap } from './mapController.js';
+import { checkInputs, updatePreviewLayout } from "./fileHandlers.js";
+import { handleTelemetryFile } from "./telemetryProcessor.js";
+import { transcribeVideo } from "./transcription.js";
+import { generateReport } from "./reportGenerator.js";
+import { closeRouteMap, showRouteOnMap } from "./mapController.js";
 
 // Authentication state
 let currentUser = null;
 let authToken = null;
 
 // Initialize the application when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚔 Police Body Camera Report Generator initializing...');
-    
-    // Check if user is already logged in
-    checkAuthenticationStatus();
-    
-    initializeEventListeners();
-    initializeGlobalFunctions();
-    initializeLayoutManagement();
-    
-    console.log('✅ Police Body Camera Report Generator initialized successfully!');
+document.addEventListener("DOMContentLoaded", function () {
+  console.log("🚔 Police Body Camera Report Generator initializing...");
+
+  // Check if user is already logged in
+  checkAuthenticationStatus();
+
+  initializeEventListeners();
+  initializeGlobalFunctions();
+  initializeLayoutManagement();
+
+  console.log(
+    "✅ Police Body Camera Report Generator initialized successfully!"
+  );
 });
 
 // Check if user is already authenticated (token in localStorage)
 function checkAuthenticationStatus() {
-    const storedToken = localStorage.getItem('authToken');
-    const storedUser = localStorage.getItem('currentUser');
-    
-    if (storedToken && storedUser) {
-        try {
-            authToken = storedToken;
-            currentUser = JSON.parse(storedUser);
-            showMainApplication();
-            console.log('✅ User already logged in:', currentUser.username);
-        } catch (error) {
-            console.log('Invalid stored auth data, clearing...');
-            localStorage.removeItem('authToken');
-            localStorage.removeItem('currentUser');
-            showAuthenticationForm();
-        }
-    } else {
-        showAuthenticationForm();
+  const storedToken = localStorage.getItem("authToken");
+  const storedUser = localStorage.getItem("currentUser");
+
+  if (storedToken && storedUser) {
+    try {
+      authToken = storedToken;
+      currentUser = JSON.parse(storedUser);
+      showMainApplication();
+      console.log("✅ User already logged in:", currentUser.username);
+    } catch (error) {
+      console.log("Invalid stored auth data, clearing...");
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("currentUser");
+      showAuthenticationForm();
     }
+  } else {
+    showAuthenticationForm();
+  }
 }
 
 // Show authentication form (login/register)
 function showAuthenticationForm() {
-    const container = document.querySelector('.container');
-    container.innerHTML = `
+  const container = document.querySelector(".container");
+  container.innerHTML = `
         <h1>Police Body Camera System</h1>
         <p style="text-align: center; color: #666; margin-bottom: 30px;">
             Officer Authentication Required
@@ -99,115 +101,121 @@ function showAuthenticationForm() {
             <div id="authMessage" class="auth-message"></div>
         </div>
     `;
-    
-    // Set up authentication form listeners
-    setupAuthenticationListeners();
+
+  // Set up authentication form listeners
+  setupAuthenticationListeners();
 }
 
 // Set up authentication form event listeners
 function setupAuthenticationListeners() {
-    const loginForm = document.getElementById('loginFormElement');
-    const registerForm = document.getElementById('registerFormElement');
-    
-    if (loginForm) {
-        loginForm.addEventListener('submit', handleLogin);
-    }
-    
-    if (registerForm) {
-        registerForm.addEventListener('submit', handleRegister);
-    }
+  const loginForm = document.getElementById("loginFormElement");
+  const registerForm = document.getElementById("registerFormElement");
+
+  if (loginForm) {
+    loginForm.addEventListener("submit", handleLogin);
+  }
+
+  if (registerForm) {
+    registerForm.addEventListener("submit", handleRegister);
+  }
 }
 
 // Handle login form submission
 async function handleLogin(event) {
-    event.preventDefault();
-    
-    const username = document.getElementById('loginUsername').value;
-    const password = document.getElementById('loginPassword').value;
-    const messageDiv = document.getElementById('authMessage');
-    
-    try {
-        messageDiv.innerHTML = '<div class="loading-message">🔄 Logging in...</div>';
-        
-        const response = await fetch('/api/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, password })
-        });
-        
-        const data = await response.json();
-        
-        if (response.ok && data.success) {
-            // Store authentication data
-            authToken = data.token;
-            currentUser = data.user;
-            
-            localStorage.setItem('authToken', authToken);
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            
-            messageDiv.innerHTML = '<div class="success-message">✅ Login successful!</div>';
-            
-            // Show main application after brief delay
-            setTimeout(() => {
-                showMainApplication();
-            }, 1000);
-            
-        } else {
-            messageDiv.innerHTML = `<div class="error-message">❌ ${data.error || 'Login failed'}</div>`;
-        }
-        
-    } catch (error) {
-        console.error('Login error:', error);
-        messageDiv.innerHTML = '<div class="error-message">❌ Network error. Please try again.</div>';
+  event.preventDefault();
+
+  const username = document.getElementById("loginUsername").value;
+  const password = document.getElementById("loginPassword").value;
+  const messageDiv = document.getElementById("authMessage");
+
+  try {
+    messageDiv.innerHTML =
+      '<div class="loading-message">🔄 Logging in...</div>';
+
+    const response = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, password }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok && data.success) {
+      // Store authentication data
+      authToken = data.token;
+      currentUser = data.user;
+
+      localStorage.setItem("authToken", authToken);
+      localStorage.setItem("currentUser", JSON.stringify(currentUser));
+
+      messageDiv.innerHTML =
+        '<div class="success-message">Login successful!</div>';
+
+      // Show main application after brief delay
+      setTimeout(() => {
+        showMainApplication();
+      }, 1000);
+    } else {
+      messageDiv.innerHTML = `<div class="error-message">❌ ${
+        data.error || "Login failed"
+      }</div>`;
     }
+  } catch (error) {
+    console.error("Login error:", error);
+    messageDiv.innerHTML =
+      '<div class="error-message">❌ Network error. Please try again.</div>';
+  }
 }
 
 // Handle register form submission
 async function handleRegister(event) {
-    event.preventDefault();
-    
-    const username = document.getElementById('registerUsername').value;
-    const email = document.getElementById('registerEmail').value;
-    const password = document.getElementById('registerPassword').value;
-    const messageDiv = document.getElementById('authMessage');
-    
-    try {
-        messageDiv.innerHTML = '<div class="loading-message">🔄 Creating account...</div>';
-        
-        const response = await fetch('/api/auth/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, email, password })
-        });
-        
-        const data = await response.json();
-        
-        if (response.ok && data.success) {
-            messageDiv.innerHTML = '<div class="success-message">✅ Registration successful! Please login.</div>';
-            
-            // Auto-switch to login form after brief delay
-            setTimeout(() => {
-                showLoginForm();
-            }, 2000);
-            
-        } else {
-            messageDiv.innerHTML = `<div class="error-message">❌ ${data.error || 'Registration failed'}</div>`;
-        }
-        
-    } catch (error) {
-        console.error('Registration error:', error);
-        messageDiv.innerHTML = '<div class="error-message">❌ Network error. Please try again.</div>';
+  event.preventDefault();
+
+  const username = document.getElementById("registerUsername").value;
+  const email = document.getElementById("registerEmail").value;
+  const password = document.getElementById("registerPassword").value;
+  const messageDiv = document.getElementById("authMessage");
+
+  try {
+    messageDiv.innerHTML =
+      '<div class="loading-message">🔄 Creating account...</div>';
+
+    const response = await fetch("/api/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, email, password }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok && data.success) {
+      messageDiv.innerHTML =
+        '<div class="success-message">✅ Registration successful! Please login.</div>';
+
+      // Auto-switch to login form after brief delay
+      setTimeout(() => {
+        showLoginForm();
+      }, 2000);
+    } else {
+      messageDiv.innerHTML = `<div class="error-message">❌ ${
+        data.error || "Registration failed"
+      }</div>`;
     }
+  } catch (error) {
+    console.error("Registration error:", error);
+    messageDiv.innerHTML =
+      '<div class="error-message">❌ Network error. Please try again.</div>';
+  }
 }
 
 // Show main application (original functionality)
 function showMainApplication() {
-    const container = document.querySelector('.container');
-    container.innerHTML = `
+  const container = document.querySelector(".container");
+  container.innerHTML = `
         <div class="user-header">
             <h1>Police Body Camera Report Generator</h1>
             <div class="user-info">
@@ -333,11 +341,11 @@ function showMainApplication() {
             <div id="summary"></div>
         </div>
     `;
-    
-    // Add map overlay to the body (outside container)
-    if (!document.getElementById('mapOverlay')) {
-        const mapOverlay = document.createElement('div');
-        mapOverlay.innerHTML = `
+
+  // Add map overlay to the body (outside container)
+  if (!document.getElementById("mapOverlay")) {
+    const mapOverlay = document.createElement("div");
+    mapOverlay.innerHTML = `
             <div class="map-overlay" id="mapOverlay">
                 <div class="map-container">
                     <div class="map-header">
@@ -352,76 +360,79 @@ function showMainApplication() {
                 </div>
             </div>
         `;
-        document.body.appendChild(mapOverlay);
-    }
-    
-    // Re-initialize all the original functionality
-    initializeMainAppListeners();
-    initializeLayoutManagement();
+    document.body.appendChild(mapOverlay);
+  }
+
+  // Re-initialize all the original functionality
+  initializeMainAppListeners();
+  initializeLayoutManagement();
 }
 
 // Initialize main application event listeners
 function initializeMainAppListeners() {
-    // File input event listeners
-    const videoFile = document.getElementById('videoFile');
-    const telemetryFile = document.getElementById('telemetryFile');
-    const transcribeBtn = document.getElementById('transcribeBtn');
-    const reportBtn = document.getElementById('reportBtn');
-    const showRouteBtn = document.getElementById('showRouteBtn');
-    const logoutBtn = document.getElementById('logoutBtn');
-    const reportHistoryBtn = document.getElementById('reportHistoryBtn');
-    
-    if (videoFile) videoFile.addEventListener('change', checkInputs);
-    if (telemetryFile) telemetryFile.addEventListener('change', handleTelemetryFile);
-    if (transcribeBtn) transcribeBtn.addEventListener('click', transcribeVideo);
-    if (reportBtn) reportBtn.addEventListener('click', generateReport);
-    if (showRouteBtn) showRouteBtn.addEventListener('click', showRouteOnMap);
-    if (logoutBtn) logoutBtn.addEventListener('click', handleLogout);
-    if (reportHistoryBtn) reportHistoryBtn.addEventListener('click', showReportHistory);
-    
-    // Map overlay event listeners
-    setupMapOverlayListeners();
-    
-    // Escape key listener for closing map
-    setupKeyboardListeners();
-    
-    console.log('✅ Main application event listeners initialized');
+  // File input event listeners
+  const videoFile = document.getElementById("videoFile");
+  const telemetryFile = document.getElementById("telemetryFile");
+  const transcribeBtn = document.getElementById("transcribeBtn");
+  const reportBtn = document.getElementById("reportBtn");
+  const showRouteBtn = document.getElementById("showRouteBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const reportHistoryBtn = document.getElementById("reportHistoryBtn");
+
+  if (videoFile) videoFile.addEventListener("change", checkInputs);
+  if (telemetryFile)
+    telemetryFile.addEventListener("change", handleTelemetryFile);
+  if (transcribeBtn) transcribeBtn.addEventListener("click", transcribeVideo);
+  if (reportBtn) reportBtn.addEventListener("click", generateReport);
+  if (showRouteBtn) showRouteBtn.addEventListener("click", showRouteOnMap);
+  if (logoutBtn) logoutBtn.addEventListener("click", handleLogout);
+  if (reportHistoryBtn)
+    reportHistoryBtn.addEventListener("click", showReportHistory);
+
+  // Map overlay event listeners
+  setupMapOverlayListeners();
+
+  // Escape key listener for closing map
+  setupKeyboardListeners();
+
+  console.log("✅ Main application event listeners initialized");
 }
 
 // Show report history
 async function showReportHistory() {
-    try {
-        const response = await fetch('/api/reports/history', {
-            headers: {
-                'Authorization': `Bearer ${authToken}`
-            }
-        });
-        
-        const data = await response.json();
-        
-        if (response.ok && data.success) {
-            displayReportHistory(data.reports);
-        } else {
-            alert('Failed to load report history: ' + (data.error || 'Unknown error'));
-        }
-        
-    } catch (error) {
-        console.error('Error fetching report history:', error);
-        alert('Error loading report history. Please try again.');
+  try {
+    const response = await fetch("/api/reports/history", {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
+
+    const data = await response.json();
+
+    if (response.ok && data.success) {
+      displayReportHistory(data.reports);
+    } else {
+      alert(
+        "Failed to load report history: " + (data.error || "Unknown error")
+      );
     }
+  } catch (error) {
+    console.error("Error fetching report history:", error);
+    alert("Error loading report history. Please try again.");
+  }
 }
 
 // Display report history in a modal/overlay
 function displayReportHistory(reports) {
-    // Remove existing overlay if present
-    const existingOverlay = document.getElementById('reportHistoryOverlay');
-    if (existingOverlay) {
-        existingOverlay.remove();
-    }
-    
-    const overlay = document.createElement('div');
-    overlay.id = 'reportHistoryOverlay';
-    overlay.style.cssText = `
+  // Remove existing overlay if present
+  const existingOverlay = document.getElementById("reportHistoryOverlay");
+  if (existingOverlay) {
+    existingOverlay.remove();
+  }
+
+  const overlay = document.createElement("div");
+  overlay.id = "reportHistoryOverlay";
+  overlay.style.cssText = `
         position: fixed;
         top: 0;
         left: 0;
@@ -433,15 +444,16 @@ function displayReportHistory(reports) {
         overflow: auto;
         animation: fadeIn 0.3s ease;
     `;
-    
-    let reportsHTML = '';
-    if (reports.length === 0) {
-        reportsHTML = '<p style="text-align: center; color: #666; margin: 40px 0;">No reports found.</p>';
-    } else {
-        reports.forEach((report, index) => {
-            const date = new Date(report.created_at).toLocaleString();
-            const userReportNumber = index + 1; // User-specific sequential number
-            reportsHTML += `
+
+  let reportsHTML = "";
+  if (reports.length === 0) {
+    reportsHTML =
+      '<p style="text-align: center; color: #666; margin: 40px 0;">No reports found.</p>';
+  } else {
+    reports.forEach((report, index) => {
+      const date = new Date(report.created_at).toLocaleString();
+      const userReportNumber = index + 1; // User-specific sequential number
+      reportsHTML += `
                 <div style="margin-bottom: 24px; padding: 20px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #3182ce;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                         <h4 style="margin: 0; color: #1a365d;">Report #${userReportNumber} - ${date}</h4>
@@ -452,10 +464,10 @@ ${report.report_content}
                     </div>
                 </div>
             `;
-        });
-    }
-    
-    overlay.innerHTML = `
+    });
+  }
+
+  overlay.innerHTML = `
         <div style="position: relative; width: 90%; max-width: 1000px; margin: 2% auto; background: white; border-radius: 16px; box-shadow: 0 20px 25px rgba(0,0,0,0.1); overflow: hidden;">
             <div style="background: linear-gradient(135deg, #1a365d 0%, #3182ce 100%); color: white; padding: 24px 32px; display: flex; justify-content: space-between; align-items: center;">
                 <h2 style="margin: 0; font-size: 1.4rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">📋 Report History for ${currentUser.username}</h2>
@@ -466,276 +478,292 @@ ${report.report_content}
             </div>
         </div>
     `;
-    
-    document.body.appendChild(overlay);
-    
-    // Close on background click
-    overlay.addEventListener('click', function(e) {
-        if (e.target === overlay) {
-            overlay.remove();
-        }
-    });
+
+  document.body.appendChild(overlay);
+
+  // Close on background click
+  overlay.addEventListener("click", function (e) {
+    if (e.target === overlay) {
+      overlay.remove();
+    }
+  });
 }
 
 // Save current report to database
-window.saveCurrentReport = async function() {
-    const summaryDiv = document.getElementById('summary');
-    if (!summaryDiv || !summaryDiv.textContent.trim()) {
-        alert('No report to save.');
-        return;
-    }
-    
-    // Extract just the report text, excluding status messages
-    const reportElements = summaryDiv.querySelectorAll('.success, .police-report-form');
-    let reportContent = '';
-    
-    if (reportElements.length > 0) {
-        // Get text from the actual report content
-        reportElements.forEach(element => {
-            if (element.classList.contains('success')) {
-                reportContent += element.textContent.trim();
-            } else if (element.classList.contains('police-report-form')) {
-                // Extract form data if needed
-                const formData = new FormData(element);
-                for (let [key, value] of formData.entries()) {
-                    reportContent += `${key}: ${value}\n`;
-                }
-            }
-        });
-    } else {
-        reportContent = summaryDiv.textContent.trim();
-    }
-    
-    if (!reportContent) {
-        alert('No valid report content found.');
-        return;
-    }
-    
-    try {
-        const response = await fetch('/api/reports/save', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authToken}`
-            },
-            body: JSON.stringify({ reportContent })
-        });
-        
-        const data = await response.json();
-        
-        if (response.ok && data.success) {
-            alert('✅ Report saved successfully!');
-        } else {
-            alert('Failed to save report: ' + (data.error || 'Unknown error'));
+window.saveCurrentReport = async function () {
+  const summaryDiv = document.getElementById("summary");
+  if (!summaryDiv || !summaryDiv.textContent.trim()) {
+    alert("No report to save.");
+    return;
+  }
+
+  // Extract just the report text, excluding status messages
+  const reportElements = summaryDiv.querySelectorAll(
+    ".success, .police-report-form"
+  );
+  let reportContent = "";
+
+  if (reportElements.length > 0) {
+    // Get text from the actual report content
+    reportElements.forEach((element) => {
+      if (element.classList.contains("success")) {
+        reportContent += element.textContent.trim();
+      } else if (element.classList.contains("police-report-form")) {
+        // Extract form data if needed
+        const formData = new FormData(element);
+        for (let [key, value] of formData.entries()) {
+          reportContent += `${key}: ${value}\n`;
         }
-        
-    } catch (error) {
-        console.error('Error saving report:', error);
-        alert('Error saving report. Please try again.');
+      }
+    });
+  } else {
+    reportContent = summaryDiv.textContent.trim();
+  }
+
+  if (!reportContent) {
+    alert("No valid report content found.");
+    return;
+  }
+
+  try {
+    const response = await fetch("/api/reports/save", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
+      },
+      body: JSON.stringify({ reportContent }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok && data.success) {
+      alert("✅ Report saved successfully!");
+    } else {
+      alert("Failed to save report: " + (data.error || "Unknown error"));
     }
+  } catch (error) {
+    console.error("Error saving report:", error);
+    alert("Error saving report. Please try again.");
+  }
 };
 
 // Handle logout
 function handleLogout() {
-    authToken = null;
-    currentUser = null;
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('currentUser');
-    
-    console.log('👋 User logged out');
-    showAuthenticationForm();
+  authToken = null;
+  currentUser = null;
+  localStorage.removeItem("authToken");
+  localStorage.removeItem("currentUser");
+
+  console.log("👋 User logged out");
+  showAuthenticationForm();
 }
 
 // Tab switching functions (global for HTML onclick)
-window.showLoginForm = function() {
-    document.getElementById('loginForm').style.display = 'block';
-    document.getElementById('registerForm').style.display = 'none';
-    document.getElementById('loginTab').classList.add('active');
-    document.getElementById('registerTab').classList.remove('active');
-    document.getElementById('authMessage').innerHTML = '';
+window.showLoginForm = function () {
+  document.getElementById("loginForm").style.display = "block";
+  document.getElementById("registerForm").style.display = "none";
+  document.getElementById("loginTab").classList.add("active");
+  document.getElementById("registerTab").classList.remove("active");
+  document.getElementById("authMessage").innerHTML = "";
 };
 
-window.showRegisterForm = function() {
-    document.getElementById('loginForm').style.display = 'none';
-    document.getElementById('registerForm').style.display = 'block';
-    document.getElementById('loginTab').classList.remove('active');
-    document.getElementById('registerTab').classList.add('active');
-    document.getElementById('authMessage').innerHTML = '';
+window.showRegisterForm = function () {
+  document.getElementById("loginForm").style.display = "none";
+  document.getElementById("registerForm").style.display = "block";
+  document.getElementById("loginTab").classList.remove("active");
+  document.getElementById("registerTab").classList.add("active");
+  document.getElementById("authMessage").innerHTML = "";
 };
 
 // Set up all event listeners (for when main app is loaded)
 function initializeEventListeners() {
-    // This will be called after authentication, so elements might not exist yet
-    // Moved to initializeMainAppListeners()
+  // This will be called after authentication, so elements might not exist yet
+  // Moved to initializeMainAppListeners()
 }
 
 // Set up map overlay click and touch listeners
 function setupMapOverlayListeners() {
-    const mapOverlay = document.getElementById('mapOverlay');
-    if (mapOverlay) {
-        mapOverlay.addEventListener('click', function(e) {
-            // Close map when clicking on the overlay background (not the map content)
-            if (e.target === this) {
-                closeRouteMap();
-            }
-        });
-    }
+  const mapOverlay = document.getElementById("mapOverlay");
+  if (mapOverlay) {
+    mapOverlay.addEventListener("click", function (e) {
+      // Close map when clicking on the overlay background (not the map content)
+      if (e.target === this) {
+        closeRouteMap();
+      }
+    });
+  }
 }
 
 // Set up keyboard listeners
 function setupKeyboardListeners() {
-    document.addEventListener('keydown', function(e) {
-        // Close map with Escape key
-        const mapOverlay = document.getElementById('mapOverlay');
-        if (e.key === 'Escape' && mapOverlay && mapOverlay.style.display === 'block') {
-            closeRouteMap();
-        }
-        
-        // Close report history with Escape key
-        const reportHistoryOverlay = document.getElementById('reportHistoryOverlay');
-        if (e.key === 'Escape' && reportHistoryOverlay) {
-            reportHistoryOverlay.remove();
-        }
-    });
+  document.addEventListener("keydown", function (e) {
+    // Close map with Escape key
+    const mapOverlay = document.getElementById("mapOverlay");
+    if (
+      e.key === "Escape" &&
+      mapOverlay &&
+      mapOverlay.style.display === "block"
+    ) {
+      closeRouteMap();
+    }
+
+    // Close report history with Escape key
+    const reportHistoryOverlay = document.getElementById(
+      "reportHistoryOverlay"
+    );
+    if (e.key === "Escape" && reportHistoryOverlay) {
+      reportHistoryOverlay.remove();
+    }
+  });
 }
 
 // Initialize layout management system
 function initializeLayoutManagement() {
-    // Set up initial layout state
-    updatePreviewLayout();
-    
-    // Set up mutation observer to watch for dynamic changes
-    setupLayoutObserver();
-    
-    console.log('📱 Layout management system initialized');
+  // Set up initial layout state
+  updatePreviewLayout();
+
+  // Set up mutation observer to watch for dynamic changes
+  setupLayoutObserver();
+
+  console.log("📱 Layout management system initialized");
 }
 
 // Set up mutation observer to watch for style changes on preview sections
 function setupLayoutObserver() {
-    const videoSection = document.getElementById('videoPlayerSection');
-    const telemetrySection = document.getElementById('telemetryPreviewSection');
-    
-    if (!videoSection || !telemetrySection) return;
-    
-    // Create observer to watch for style attribute changes
-    const observer = new MutationObserver(function(mutations) {
-        let shouldUpdate = false;
-        
-        mutations.forEach(function(mutation) {
-            if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
-                shouldUpdate = true;
-            }
-        });
-        
-        if (shouldUpdate) {
-            // Small delay to ensure DOM is updated
-            setTimeout(updatePreviewLayout, 10);
-        }
+  const videoSection = document.getElementById("videoPlayerSection");
+  const telemetrySection = document.getElementById("telemetryPreviewSection");
+
+  if (!videoSection || !telemetrySection) return;
+
+  // Create observer to watch for style attribute changes
+  const observer = new MutationObserver(function (mutations) {
+    let shouldUpdate = false;
+
+    mutations.forEach(function (mutation) {
+      if (
+        mutation.type === "attributes" &&
+        mutation.attributeName === "style"
+      ) {
+        shouldUpdate = true;
+      }
     });
-    
-    // Observe both sections for style changes
-    observer.observe(videoSection, { attributes: true, attributeFilter: ['style'] });
-    observer.observe(telemetrySection, { attributes: true, attributeFilter: ['style'] });
-    
-    console.log('👁️ Layout observer set up for dynamic updates');
+
+    if (shouldUpdate) {
+      // Small delay to ensure DOM is updated
+      setTimeout(updatePreviewLayout, 10);
+    }
+  });
+
+  // Observe both sections for style changes
+  observer.observe(videoSection, {
+    attributes: true,
+    attributeFilter: ["style"],
+  });
+  observer.observe(telemetrySection, {
+    attributes: true,
+    attributeFilter: ["style"],
+  });
+
+  console.log("👁️ Layout observer set up for dynamic updates");
 }
 
 // Make functions available globally for HTML onclick handlers
 // This is the ONLY place we use global assignments, and it's intentional for HTML compatibility
 function initializeGlobalFunctions() {
-    // ENHANCED: Make sure functions are available immediately
-    window.showRouteOnMap = showRouteOnMap;
-    window.closeRouteMap = closeRouteMap;
-    window.updatePreviewLayout = updatePreviewLayout;
-    
-    // Add debug function to check if functions are working
-    window.testRouteFunction = function() {
-        console.log('🧪 Route function test - this should work!');
-        if (typeof showRouteOnMap === 'function') {
-            console.log('✅ showRouteOnMap function is available');
-        } else {
-            console.error('❌ showRouteOnMap function is NOT available');
-        }
-    };
-    
-    console.log('🌐 Global functions registered for HTML compatibility');
-    
-    // Test the functions immediately
-    setTimeout(() => {
-        if (window.showRouteOnMap) {
-            console.log('✅ showRouteOnMap is globally available');
-        } else {
-            console.error('❌ showRouteOnMap failed to register globally');
-        }
-    }, 100);
+  // ENHANCED: Make sure functions are available immediately
+  window.showRouteOnMap = showRouteOnMap;
+  window.closeRouteMap = closeRouteMap;
+  window.updatePreviewLayout = updatePreviewLayout;
+
+  // Add debug function to check if functions are working
+  window.testRouteFunction = function () {
+    console.log("🧪 Route function test - this should work!");
+    if (typeof showRouteOnMap === "function") {
+      console.log("✅ showRouteOnMap function is available");
+    } else {
+      console.error("❌ showRouteOnMap function is NOT available");
+    }
+  };
+
+  console.log("🌐 Global functions registered for HTML compatibility");
+
+  // Test the functions immediately
+  setTimeout(() => {
+    if (window.showRouteOnMap) {
+      console.log("✅ showRouteOnMap is globally available");
+    } else {
+      console.error("❌ showRouteOnMap failed to register globally");
+    }
+  }, 100);
 }
 
 // Additional utility functions for layout management
 
 // Force layout update (can be called externally)
 export function forceLayoutUpdate() {
-    console.log('🔄 Forcing layout update...');
-    updatePreviewLayout();
+  console.log("🔄 Forcing layout update...");
+  updatePreviewLayout();
 }
 
 // Check if preview container should be visible
 export function isPreviewContainerVisible() {
-    const videoSection = document.getElementById('videoPlayerSection');
-    const telemetrySection = document.getElementById('telemetryPreviewSection');
-    
-    if (!videoSection || !telemetrySection) return false;
-    
-    const videoVisible = videoSection.style.display !== 'none';
-    const telemetryVisible = telemetrySection.style.display !== 'none';
-    
-    return videoVisible || telemetryVisible;
+  const videoSection = document.getElementById("videoPlayerSection");
+  const telemetrySection = document.getElementById("telemetryPreviewSection");
+
+  if (!videoSection || !telemetrySection) return false;
+
+  const videoVisible = videoSection.style.display !== "none";
+  const telemetryVisible = telemetrySection.style.display !== "none";
+
+  return videoVisible || telemetryVisible;
 }
 
 // Get current layout state
 export function getLayoutState() {
-    const videoSection = document.getElementById('videoPlayerSection');
-    const telemetrySection = document.getElementById('telemetryPreviewSection');
-    
-    if (!videoSection || !telemetrySection) return 'unknown';
-    
-    const videoVisible = videoSection.style.display !== 'none';
-    const telemetryVisible = telemetrySection.style.display !== 'none';
-    
-    if (videoVisible && telemetryVisible) return 'side-by-side';
-    if (videoVisible) return 'video-only';
-    if (telemetryVisible) return 'telemetry-only';
-    return 'hidden';
+  const videoSection = document.getElementById("videoPlayerSection");
+  const telemetrySection = document.getElementById("telemetryPreviewSection");
+
+  if (!videoSection || !telemetrySection) return "unknown";
+
+  const videoVisible = videoSection.style.display !== "none";
+  const telemetryVisible = telemetrySection.style.display !== "none";
+
+  if (videoVisible && telemetryVisible) return "side-by-side";
+  if (videoVisible) return "video-only";
+  if (telemetryVisible) return "telemetry-only";
+  return "hidden";
 }
 
 // Get authentication token (for API calls)
 export function getAuthToken() {
-    return authToken;
+  return authToken;
 }
 
 // Get current user info
 export function getCurrentUser() {
-    return currentUser;
+  return currentUser;
 }
 
 // Check if user is authenticated
 export function isAuthenticated() {
-    return authToken !== null && currentUser !== null;
+  return authToken !== null && currentUser !== null;
 }
 
 // Handle window resize events
-window.addEventListener('resize', function() {
-    // Update layout on window resize with debouncing
-    clearTimeout(window.layoutResizeTimeout);
-    window.layoutResizeTimeout = setTimeout(() => {
-        updatePreviewLayout();
-        console.log('📱 Layout updated after window resize');
-    }, 250);
+window.addEventListener("resize", function () {
+  // Update layout on window resize with debouncing
+  clearTimeout(window.layoutResizeTimeout);
+  window.layoutResizeTimeout = setTimeout(() => {
+    updatePreviewLayout();
+    console.log("📱 Layout updated after window resize");
+  }, 250);
 });
 
 // Handle orientation change on mobile devices
-window.addEventListener('orientationchange', function() {
-    setTimeout(() => {
-        updatePreviewLayout();
-        console.log('Layout updated after orientation change');
-    }, 500);
+window.addEventListener("orientationchange", function () {
+  setTimeout(() => {
+    updatePreviewLayout();
+    console.log("Layout updated after orientation change");
+  }, 500);
 });

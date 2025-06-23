@@ -1,5 +1,5 @@
 // clear-reports.js
-const { db } = require('./utils/database');
+const { db } = require('../utils/database');
 
 console.log('🗑️ Clearing all reports from database...');
 

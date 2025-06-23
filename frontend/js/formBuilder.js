@@ -329,7 +329,7 @@ function formatFormDataAsReport(formData) {
     });
     
     // Add timestamp
-    reportText += `\n**REPORT GENERATED:**\n${new Date().toLocaleString()}\n`;
+    //reportText += `\n**REPORT GENERATED:**\n${new Date().toLocaleString()}\n`;
     
     return reportText;
 }

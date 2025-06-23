@@ -1,5 +1,5 @@
 // test-data.js - Script to insert test report data
-const { db, userQueries, reportQueries } = require('./utils/database');
+const { db, userQueries, reportQueries } = require('../utils/database');
 
 const testReport1 = `**INCIDENT REPORT**
 
