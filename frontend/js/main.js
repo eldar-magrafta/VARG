@@ -1,4 +1,4 @@
-// main.js - Modern ES6 Module Entry Point with Authentication Support
+// main.js - Modern ES6 Module Entry Point with Authentication Support and Report History
 import { checkInputs, updatePreviewLayout } from './fileHandlers.js';
 import { handleTelemetryFile } from './telemetryProcessor.js';
 import { transcribeVideo } from './transcription.js';
@@ -212,6 +212,7 @@ function showMainApplication() {
             <h1>Police Body Camera Report Generator</h1>
             <div class="user-info">
                 <span>👮 Welcome, ${currentUser.username}</span>
+                <button id="reportHistoryBtn" class="report-history-btn">📋 All Report History</button>
                 <button id="logoutBtn" class="logout-btn">🚪 Logout</button>
             </div>
         </div>
@@ -368,6 +369,7 @@ function initializeMainAppListeners() {
     const reportBtn = document.getElementById('reportBtn');
     const showRouteBtn = document.getElementById('showRouteBtn');
     const logoutBtn = document.getElementById('logoutBtn');
+    const reportHistoryBtn = document.getElementById('reportHistoryBtn');
     
     if (videoFile) videoFile.addEventListener('change', checkInputs);
     if (telemetryFile) telemetryFile.addEventListener('change', handleTelemetryFile);
@@ -375,6 +377,7 @@ function initializeMainAppListeners() {
     if (reportBtn) reportBtn.addEventListener('click', generateReport);
     if (showRouteBtn) showRouteBtn.addEventListener('click', showRouteOnMap);
     if (logoutBtn) logoutBtn.addEventListener('click', handleLogout);
+    if (reportHistoryBtn) reportHistoryBtn.addEventListener('click', showReportHistory);
     
     // Map overlay event listeners
     setupMapOverlayListeners();
@@ -384,6 +387,152 @@ function initializeMainAppListeners() {
     
     console.log('✅ Main application event listeners initialized');
 }
+
+// Show report history
+async function showReportHistory() {
+    try {
+        const response = await fetch('/api/reports/history', {
+            headers: {
+                'Authorization': `Bearer ${authToken}`
+            }
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok && data.success) {
+            displayReportHistory(data.reports);
+        } else {
+            alert('Failed to load report history: ' + (data.error || 'Unknown error'));
+        }
+        
+    } catch (error) {
+        console.error('Error fetching report history:', error);
+        alert('Error loading report history. Please try again.');
+    }
+}
+
+// Display report history in a modal/overlay
+function displayReportHistory(reports) {
+    // Remove existing overlay if present
+    const existingOverlay = document.getElementById('reportHistoryOverlay');
+    if (existingOverlay) {
+        existingOverlay.remove();
+    }
+    
+    const overlay = document.createElement('div');
+    overlay.id = 'reportHistoryOverlay';
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(26, 54, 93, 0.95);
+        backdrop-filter: blur(8px);
+        z-index: 1000;
+        overflow: auto;
+        animation: fadeIn 0.3s ease;
+    `;
+    
+    let reportsHTML = '';
+    if (reports.length === 0) {
+        reportsHTML = '<p style="text-align: center; color: #666; margin: 40px 0;">No reports found.</p>';
+    } else {
+        reports.forEach((report, index) => {
+            const date = new Date(report.created_at).toLocaleString();
+            reportsHTML += `
+                <div style="margin-bottom: 24px; padding: 20px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #3182ce;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <h4 style="margin: 0; color: #1a365d;">Report #${report.id}</h4>
+                        <span style="color: #666; font-size: 0.9rem;">${date}</span>
+                    </div>
+                    <div style="background: white; padding: 16px; border-radius: 6px; border: 1px solid #cbd5e0; white-space: pre-wrap; font-family: monospace; font-size: 0.85rem; max-height: 200px; overflow-y: auto;">
+${report.report_content}
+                    </div>
+                </div>
+            `;
+        });
+    }
+    
+    overlay.innerHTML = `
+        <div style="position: relative; width: 90%; max-width: 1000px; margin: 2% auto; background: white; border-radius: 16px; box-shadow: 0 20px 25px rgba(0,0,0,0.1); overflow: hidden;">
+            <div style="background: linear-gradient(135deg, #1a365d 0%, #3182ce 100%); color: white; padding: 24px 32px; display: flex; justify-content: space-between; align-items: center;">
+                <h2 style="margin: 0; font-size: 1.4rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">📋 Report History for ${currentUser.username}</h2>
+                <button onclick="document.getElementById('reportHistoryOverlay').remove()" style="background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.3); color: white; font-size: 20px; cursor: pointer; padding: 8px; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">&times;</button>
+            </div>
+            <div style="padding: 32px; max-height: 70vh; overflow-y: auto;">
+                ${reportsHTML}
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(overlay);
+    
+    // Close on background click
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) {
+            overlay.remove();
+        }
+    });
+}
+
+// Save current report to database
+window.saveCurrentReport = async function() {
+    const summaryDiv = document.getElementById('summary');
+    if (!summaryDiv || !summaryDiv.textContent.trim()) {
+        alert('No report to save.');
+        return;
+    }
+    
+    // Extract just the report text, excluding status messages
+    const reportElements = summaryDiv.querySelectorAll('.success, .police-report-form');
+    let reportContent = '';
+    
+    if (reportElements.length > 0) {
+        // Get text from the actual report content
+        reportElements.forEach(element => {
+            if (element.classList.contains('success')) {
+                reportContent += element.textContent.trim();
+            } else if (element.classList.contains('police-report-form')) {
+                // Extract form data if needed
+                const formData = new FormData(element);
+                for (let [key, value] of formData.entries()) {
+                    reportContent += `${key}: ${value}\n`;
+                }
+            }
+        });
+    } else {
+        reportContent = summaryDiv.textContent.trim();
+    }
+    
+    if (!reportContent) {
+        alert('No valid report content found.');
+        return;
+    }
+    
+    try {
+        const response = await fetch('/api/reports/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
+            },
+            body: JSON.stringify({ reportContent })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok && data.success) {
+            alert('✅ Report saved successfully!');
+        } else {
+            alert('Failed to save report: ' + (data.error || 'Unknown error'));
+        }
+        
+    } catch (error) {
+        console.error('Error saving report:', error);
+        alert('Error saving report. Please try again.');
+    }
+};
 
 // Handle logout
 function handleLogout() {
@@ -439,6 +588,12 @@ function setupKeyboardListeners() {
         const mapOverlay = document.getElementById('mapOverlay');
         if (e.key === 'Escape' && mapOverlay && mapOverlay.style.display === 'block') {
             closeRouteMap();
+        }
+        
+        // Close report history with Escape key
+        const reportHistoryOverlay = document.getElementById('reportHistoryOverlay');
+        if (e.key === 'Escape' && reportHistoryOverlay) {
+            reportHistoryOverlay.remove();
         }
     });
 }

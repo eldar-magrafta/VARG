@@ -1,4 +1,4 @@
-// reportGenerator.js - AI Report Generation (Backend Integration - Enhanced with Form Support)
+// reportGenerator.js - AI Report Generation (Backend Integration - Enhanced with Form Support and Save Feature)
 import { API_ENDPOINTS } from './config.js';
 import { getEnhancedTelemetryData } from './state.js';
 import { checkInputs, getAllSelectedCriteria, getCriteriaDisplayInfo } from './fileHandlers.js';
@@ -75,7 +75,7 @@ export async function generateReport() {
             throw new Error('No report content received from AI');
         }
         
-        // Display the enhanced report form
+        // Display the enhanced report form with save button
         displayEnhancedReport(data, existingTranscription, telemetryData, allCriteria, displayInfo);
         
         // Show success notification
@@ -239,7 +239,7 @@ async function handleApiError(response) {
     return new Error(`${errorMessage}: ${errorDetails}`);
 }
 
-// Display the enhanced report with form
+// Display the enhanced report with form and save button
 function displayEnhancedReport(data, transcription, telemetry, criteria, displayInfo) {
     try {
         showGeminiReport(
@@ -248,6 +248,11 @@ function displayEnhancedReport(data, transcription, telemetry, criteria, display
             telemetry !== null,
             criteria.reportType  // Pass the report type for form building
         );
+        
+        // Add save button to the report after it's displayed
+        setTimeout(() => {
+            addSaveButtonToReport();
+        }, 500);
         
         // Log successful display
         console.log('📋 Enhanced report form displayed successfully');
@@ -262,6 +267,60 @@ function displayEnhancedReport(data, transcription, telemetry, criteria, display
         showWarningNotification('⚠️ Using basic display mode due to form error');
         showBasicReport(data.report, transcription !== null, telemetry !== null);
     }
+}
+
+// Add save button to the generated report
+function addSaveButtonToReport() {
+    const resultSection = document.getElementById('resultSection');
+    const summaryDiv = document.getElementById('summary');
+    
+    if (!resultSection || !summaryDiv || !summaryDiv.textContent.trim()) {
+        return;
+    }
+    
+    // Check if save button already exists
+    if (document.getElementById('saveReportToDbBtn')) {
+        return;
+    }
+    
+    // Create save button
+    const saveButton = document.createElement('button');
+    saveButton.id = 'saveReportToDbBtn';
+    saveButton.className = 'btn-success';
+    saveButton.innerHTML = '💾 Save Report to Database';
+    saveButton.style.cssText = `
+        margin: 16px auto;
+        display: block;
+        padding: 12px 24px;
+        background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    `;
+    
+    saveButton.addEventListener('click', window.saveCurrentReport);
+    
+    saveButton.addEventListener('mouseenter', function() {
+        this.style.background = 'linear-gradient(135deg, #2f855a 0%, #38a169 100%)';
+        this.style.transform = 'translateY(-1px)';
+        this.style.boxShadow = '0 6px 8px rgba(0, 0, 0, 0.15)';
+    });
+    
+    saveButton.addEventListener('mouseleave', function() {
+        this.style.background = 'linear-gradient(135deg, #38a169 0%, #2f855a 100%)';
+        this.style.transform = 'translateY(0)';
+        this.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+    });
+    
+    // Insert the button at the top of the summary div
+    summaryDiv.insertBefore(saveButton, summaryDiv.firstChild);
 }
 
 // Fallback basic report display
@@ -291,6 +350,11 @@ function showBasicReport(report, hasTranscription, hasTelemetry) {
     
     summaryDiv.innerHTML = statusText + `<div class="success">${report.replace(/\n/g, '<br>')}</div>`;
     resultSection.style.display = 'block';
+    
+    // Add save button to basic report too
+    setTimeout(() => {
+        addSaveButtonToReport();
+    }, 100);
 }
 
 // Handle report generation errors
@@ -387,156 +451,4 @@ function getExistingTranscription() {
     }
     
     return null;
-}
-
-// Export report data (enhanced functionality)
-export function exportReportData() {
-    try {
-        const formData = getFormDataFromUI();
-        if (!formData) {
-            showWarningNotification('⚠️ No report data to export');
-            return;
-        }
-        
-        const exportData = {
-            reportData: formData,
-            metadata: {
-                exportDate: new Date().toISOString(),
-                reportType: getAllSelectedCriteria().reportType,
-                version: '1.0'
-            }
-        };
-        
-        downloadAsJson(exportData, `police_report_${Date.now()}.json`);
-        showSuccessNotification('📄 Report exported successfully');
-        
-    } catch (error) {
-        console.error('Export error:', error);
-        showErrorNotification('❌ Export failed');
-    }
-}
-
-// Get form data from current UI state
-function getFormDataFromUI() {
-    const form = document.getElementById('policeReportForm');
-    if (!form) return null;
-    
-    const formData = new FormData(form);
-    const data = {};
-    
-    for (let [key, value] of formData.entries()) {
-        data[key] = value;
-    }
-    
-    return data;
-}
-
-// Download data as JSON file
-function downloadAsJson(data, filename) {
-    const jsonString = JSON.stringify(data, null, 2);
-    const blob = new Blob([jsonString], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    
-    URL.revokeObjectURL(url);
-}
-
-// Save report draft to localStorage
-export function saveReportDraft() {
-    try {
-        const formData = getFormDataFromUI();
-        if (!formData) {
-            showWarningNotification('⚠️ No report data to save');
-            return;
-        }
-        
-        const draftData = {
-            formData,
-            criteria: getAllSelectedCriteria(),
-            timestamp: new Date().toISOString()
-        };
-        
-        localStorage.setItem('reportDraft', JSON.stringify(draftData));
-        showSuccessNotification('💾 Draft saved locally');
-        
-    } catch (error) {
-        console.error('Save draft error:', error);
-        showErrorNotification('❌ Failed to save draft');
-    }
-}
-
-// Load report draft from localStorage
-export function loadReportDraft() {
-    try {
-        const draftJson = localStorage.getItem('reportDraft');
-        if (!draftJson) {
-            showWarningNotification('⚠️ No saved draft found');
-            return;
-        }
-        
-        const draftData = JSON.parse(draftJson);
-        
-        // Restore form data
-        if (draftData.formData) {
-            populateFormWithData(draftData.formData);
-        }
-        
-        // Restore criteria
-        if (draftData.criteria) {
-            restoreCriteriaSettings(draftData.criteria);
-        }
-        
-        const draftAge = new Date() - new Date(draftData.timestamp);
-        const hoursAgo = Math.floor(draftAge / (1000 * 60 * 60));
-        
-        showSuccessNotification(`📁 Draft loaded (saved ${hoursAgo}h ago)`);
-        
-    } catch (error) {
-        console.error('Load draft error:', error);
-        showErrorNotification('❌ Failed to load draft');
-    }
-}
-
-// Populate form with saved data
-function populateFormWithData(data) {
-    Object.keys(data).forEach(key => {
-        const element = document.getElementById(`field_${key}`);
-        if (element) {
-            element.value = data[key];
-        }
-    });
-}
-
-// Restore criteria settings
-function restoreCriteriaSettings(criteria) {
-    if (criteria.reportType) {
-        const reportTypeSelect = document.getElementById('reportType');
-        if (reportTypeSelect) reportTypeSelect.value = criteria.reportType;
-    }
-    
-    if (criteria.timeOfDay) {
-        const timeOfDaySelect = document.getElementById('timeOfDay');
-        if (timeOfDaySelect) timeOfDaySelect.value = criteria.timeOfDay;
-    }
-    
-    if (criteria.priority) {
-        const prioritySelect = document.getElementById('incidentPriority');
-        if (prioritySelect) prioritySelect.value = criteria.priority;
-    }
-}
-
-// Clear report draft
-export function clearReportDraft() {
-    try {
-        localStorage.removeItem('reportDraft');
-        showSuccessNotification('🗑️ Draft cleared');
-    } catch (error) {
-        showErrorNotification('❌ Failed to clear draft');
-    }
 }

@@ -1756,6 +1756,74 @@ button:disabled {
     }
 }
 
+/* Add these styles to the existing styles.css file */
+
+/* Report History Button */
+.report-history-btn {
+    background: linear-gradient(135deg, var(--police-accent) 0%, var(--police-dark-blue) 100%);
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    min-height: auto;
+    margin: 0 8px;
+}
+
+.report-history-btn:hover {
+    background: linear-gradient(135deg, var(--police-dark-blue) 0%, var(--police-accent) 100%);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Update user-info layout for multiple buttons */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--police-primary);
+    font-weight: 600;
+    font-size: 0.9rem;
+    flex-wrap: wrap;
+}
+
+/* Mobile responsiveness updates */
+@media (max-width: 768px) {
+    .user-info {
+        width: 100%;
+        justify-content: center;
+        gap: 8px;
+    }
+    
+    .report-history-btn,
+    .logout-btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+        margin: 2px;
+    }
+}
+
+@media (max-width: 480px) {
+    .user-info {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .report-history-btn,
+    .logout-btn {
+        width: 100%;
+        max-width: 200px;
+        padding: 8px 16px;
+        font-size: 0.85rem;
+        margin: 2px 0;
+    }
+}
+
 /* ============================================
    END OF OPTIMIZED CSS WITH PREVIEW CONTAINER
    ============================================ */
