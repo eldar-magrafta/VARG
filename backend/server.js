@@ -3,8 +3,12 @@ const cors = require('cors');
 const path = require('path');
 require('dotenv').config();
 
+// Initialize database first
+require('./utils/database');
+
 const transcriptionRoutes = require('./routes/transcription');
 const reportRoutes = require('./routes/reports');
+const authRoutes = require('./routes/auth');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -18,6 +22,7 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.static(path.join(__dirname, '../frontend')));
 
 // API Routes
+app.use('/api/auth', authRoutes);
 app.use('/api/transcription', transcriptionRoutes);
 app.use('/api/reports', reportRoutes);
 
@@ -28,4 +33,4 @@ app.get('*', (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`🚔 Police Body Camera Server running on http://localhost:${PORT}`);
-}); 
+});
