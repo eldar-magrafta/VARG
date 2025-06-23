@@ -185,6 +185,6 @@ window.addEventListener('resize', function() {
 window.addEventListener('orientationchange', function() {
     setTimeout(() => {
         updatePreviewLayout();
-        console.log('📱 Layout updated after orientation change');
+        console.log('Layout updated after orientation change');
     }, 500);
 });
