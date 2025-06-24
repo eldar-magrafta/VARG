@@ -182,7 +182,7 @@ export function displayReportHistory(reports, currentUser) {
                     <div style="background: linear-gradient(135deg, #1a365d 0%, #3182ce 100%); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center;">
                         <h4 style="margin: 0; font-size: 1.2rem;">Report #${userReportNumber} - ${date}</h4>
                         <button onclick="toggleReportForm(${userReportNumber})" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">
-                            📄 View Text
+                            📄 View as plain Text
                         </button>
                     </div>
                     <div id="reportForm${userReportNumber}" style="display: block;">
@@ -230,7 +230,7 @@ export function toggleReportForm(reportNumber) {
         // Show form, hide text
         formDiv.style.display = 'block';
         textDiv.style.display = 'none';
-        if (button) button.innerHTML = '📄 View Text';
+        if (button) button.innerHTML = '📄 View as plain text';
     } else {
         // Show text, hide form
         formDiv.style.display = 'none';

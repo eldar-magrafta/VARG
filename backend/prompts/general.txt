@@ -27,23 +27,26 @@ General Incident Report
 [Describe lighting, weather, visibility, time of day, etc.]
 
 **INDIVIDUALS INVOLVED:**
-[Detailed physical descriptions using standard law enforcement identification protocols for each person]
+[Detailed physical descriptions using standard law enforcement identification protocols for each person. Use numbered lists (1., 2., 3.) or bullet points (-) for multiple individuals, vehicles, or items. DO NOT use double asterisks (**) within this section content.]
 
 **INCIDENT NARRATIVE:**
-[Concise, professional chronological summary focusing on ACTIONS and BEHAVIORS, not dialogue]
+[Concise, professional chronological summary focusing on ACTIONS and BEHAVIORS, not dialogue. Use numbered lists (1., 2., 3.) for sequence of events if needed. DO NOT use double asterisks (**) within this section content.]
 
 **OFFICER ACTIONS AND PROCEDURES:**
-[Commands given, compliance levels, use of force if any, Miranda rights, evidence preservation, etc.]
+[Commands given, compliance levels, use of force if any, Miranda rights, evidence preservation, etc. Use numbered lists (1., 2., 3.) for procedures. DO NOT use double asterisks (**) within this section content.]
 
 **EVIDENCE AND DOCUMENTATION:**
-[Body camera footage, audio recordings, physical evidence, witness statements, etc.]
+[Body camera footage, audio recordings, physical evidence, witness statements, etc. Use bullet points (-) or numbered lists (1., 2., 3.) for multiple items. DO NOT use double asterisks (**) within this section content.]
 
 **COMPLETE AUDIO TRANSCRIPT:**
-[Detailed chronological transcript of ALL spoken dialogue with timestamp formatting [HH:MM:SS]]
+[Detailed chronological transcript of ALL spoken dialogue with timestamp formatting [HH:MM:SS]. DO NOT use double asterisks (**) within this section content.]
 
 CRITICAL REQUIREMENTS:
 - Use EXACTLY the section headers shown above with double asterisks (**)
-- Include ALL sections even if information is not available. in case information is not available, put there the reason for its absence
+- NEVER use double asterisks (**) anywhere else in the report content
+- For emphasis within sections, use CAPITAL LETTERS, numbered lists (1., 2., 3.), or bullet points (-)
+- Include ALL sections even if information is not available. In case information is not available, put there the reason for its absence
 - Never omit any section
 - Keep content under each header focused and relevant to that specific section
 - Use consistent formatting throughout
+- For multiple items, vehicles, or individuals, use "1. Item One", "2. Item Two" format, NOT "**Item One:**"
