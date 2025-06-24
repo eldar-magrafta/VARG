@@ -92,7 +92,7 @@ function showAuthenticationForm() {
                         <label for="registerPassword">Password:</label>
                         <input type="password" id="registerPassword" required minlength="6">
                     </div>
-                    <button type="submit" class="auth-btn">✅ Register</button>
+                    <button type="submit" class="auth-btn">Register</button>
                 </form>
             </div>
             
@@ -147,7 +147,7 @@ async function handleLogin(event) {
             localStorage.setItem('authToken', authToken);
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
             
-            messageDiv.innerHTML = '<div class="success-message">✅ Login successful!</div>';
+            messageDiv.innerHTML = '<div class="success-message">Login successful!</div>';
             
             // Show main application after brief delay
             setTimeout(() => {
@@ -155,12 +155,12 @@ async function handleLogin(event) {
             }, 1000);
             
         } else {
-            messageDiv.innerHTML = `<div class="error-message">❌ ${data.error || 'Login failed'}</div>`;
+            messageDiv.innerHTML = `<div class="error-message">${data.error || 'Login failed'}</div>`;
         }
         
     } catch (error) {
         console.error('Login error:', error);
-        messageDiv.innerHTML = '<div class="error-message">❌ Network error. Please try again.</div>';
+        messageDiv.innerHTML = '<div class="error-message">Network error. Please try again.</div>';
     }
 }
 
@@ -187,7 +187,7 @@ async function handleRegister(event) {
         const data = await response.json();
         
         if (response.ok && data.success) {
-            messageDiv.innerHTML = '<div class="success-message">✅ Registration successful! Please login.</div>';
+            messageDiv.innerHTML = '<div class="success-message">Registration successful! Please login.</div>';
             
             // Auto-switch to login form after brief delay
             setTimeout(() => {
@@ -195,12 +195,12 @@ async function handleRegister(event) {
             }, 2000);
             
         } else {
-            messageDiv.innerHTML = `<div class="error-message">❌ ${data.error || 'Registration failed'}</div>`;
+            messageDiv.innerHTML = `<div class="error-message">${data.error || 'Registration failed'}</div>`;
         }
         
     } catch (error) {
         console.error('Registration error:', error);
-        messageDiv.innerHTML = '<div class="error-message">❌ Network error. Please try again.</div>';
+        messageDiv.innerHTML = '<div class="error-message">Network error. Please try again.</div>';
     }
 }
 
