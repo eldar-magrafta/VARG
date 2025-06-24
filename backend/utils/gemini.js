@@ -9,9 +9,10 @@ const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-
 const promptCache = {};
 
 async function loadPrompt(reportType) {
-     console.log(`🔍11 Loading prompt template for report type: ${reportType}`);
+    console.log(`🔍 Loading prompt template for report type: ${reportType}`);
     // Check if prompt is already cached
     if (promptCache[reportType]) {
+        console.log(`📋 Using cached prompt for: ${reportType}`);
         return promptCache[reportType];
     }
 
@@ -19,17 +20,19 @@ async function loadPrompt(reportType) {
         const promptsDir = path.join(__dirname, '../prompts');
         const promptFile = path.join(promptsDir, `${reportType}.txt`);
 
+        console.log(`📁 Looking for prompt file: ${promptFile}`);
+
         // Read the prompt file
         const promptContent = await fs.readFile(promptFile, 'utf8');
 
         // Cache the prompt for future use
         promptCache[reportType] = promptContent;
 
-        console.log(`📋 Loaded prompt template: ${reportType}`);
+        console.log(`✅ Successfully loaded prompt template: ${reportType}`);
         return promptContent;
 
     } catch (error) {
-        console.error(`❌ Error loading prompt file for ${reportType}:`, error);
+        console.error(`❌ Error loading prompt file for ${reportType}:`, error.message);
 
         // Fallback to general prompt if specific prompt fails to load
         if (reportType !== 'general') {
@@ -45,10 +48,12 @@ async function loadPrompt(reportType) {
 async function generateReport(videoBuffer, mimeType, transcription, telemetryData, reportType) {
     try {
         console.log('🚀 generateReport method called...');
+        console.log(`📋 Report type requested: ${reportType}`);
 
         const prompt = await buildPrompt(transcription, telemetryData, reportType);
 
-        console.log('📋 Generated prompt for report:', prompt);
+        console.log(`✅ Prompt loaded successfully for report type: ${reportType}`);
+        console.log('📝 Prompt preview:', prompt.substring(0, 200) + '...');
 
         const requestData = {
             contents: [{
@@ -76,7 +81,7 @@ async function generateReport(videoBuffer, mimeType, transcription, telemetryDat
         }
 
         const data = await response.json();
-        console.log('✅ Gemini API response received:', extractReport(data));
+        console.log('✅ Gemini API response received');
 
         return extractReport(data);
 
@@ -86,18 +91,24 @@ async function generateReport(videoBuffer, mimeType, transcription, telemetryDat
     }
 }
 
+// FIXED: This function now properly uses the reportType parameter
 async function buildPrompt(transcription, telemetryData, reportType) {
+    console.log(`🔧 Building prompt for report type: ${reportType}`);
+    
     // Load the appropriate prompt template from file
     let prompt = await loadPrompt(reportType);
 
     if (telemetryData) {
+        console.log('📊 Adding telemetry data to prompt');
         prompt += '\n\nTELEMETRY DATA:\n' + JSON.stringify(telemetryData, null, 2);
     }
 
     if (transcription) {
+        console.log('🎤 Adding transcription to prompt');
         prompt += '\n\nAUDIO TRANSCRIPTION:\n' + transcription;
     }
 
+    console.log(`📋 Final prompt built for ${reportType} (${prompt.length} characters)`);
     return prompt;
 }
 

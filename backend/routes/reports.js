@@ -38,21 +38,76 @@ router.post('/generate', upload.single('video'), async (req, res) => {
 
         const { transcription, telemetryData, reportCriteria } = req.body;
 
-        console.log('📋 Generating report with criteria:', reportCriteria);
+        console.log('📋 Raw request body keys:', Object.keys(req.body));
+        console.log('📋 Raw reportCriteria:', reportCriteria);
+
+        // Parse reportCriteria if it's a string
+        let parsedCriteria = null;
+        let reportType = 'general'; // Default fallback
+
+        try {
+            if (reportCriteria) {
+                if (typeof reportCriteria === 'string') {
+                    parsedCriteria = JSON.parse(reportCriteria);
+                } else {
+                    parsedCriteria = reportCriteria;
+                }
+                
+                // Extract the report type
+                if (parsedCriteria && parsedCriteria.reportType) {
+                    reportType = parsedCriteria.reportType;
+                }
+            }
+        } catch (parseError) {
+            console.error('❌ Error parsing reportCriteria:', parseError);
+            console.log('📋 Using default report type: general');
+        }
+
+        console.log('📋 Final extracted report type:', reportType);
+        console.log('📋 Generating report with criteria:', parsedCriteria);
+        
+        // Parse other data
+        let parsedTranscription = null;
+        let parsedTelemetryData = null;
+
+        try {
+            if (transcription) {
+                parsedTranscription = typeof transcription === 'string' ? JSON.parse(transcription) : transcription;
+            }
+        } catch (err) {
+            console.log('📝 Transcription is already a string, using as-is');
+            parsedTranscription = transcription;
+        }
+
+        try {
+            if (telemetryData) {
+                parsedTelemetryData = typeof telemetryData === 'string' ? JSON.parse(telemetryData) : telemetryData;
+            }
+        } catch (err) {
+            console.log('📊 Error parsing telemetry data:', err.message);
+        }
+
+        console.log('🔄 Calling generateReport with:');
+        console.log(`   📄 Report Type: ${reportType}`);
+        console.log(`   🎤 Has Transcription: ${!!parsedTranscription}`);
+        console.log(`   📊 Has Telemetry: ${!!parsedTelemetryData}`);
         
         const report = await generateReport(
             req.file.buffer, 
             req.file.mimetype,
-            transcription ? JSON.parse(transcription) : null,
-            telemetryData ? JSON.parse(telemetryData) : null,
-            reportCriteria?.reportType || 'general'
+            parsedTranscription,
+            parsedTelemetryData,
+            reportType  // Make sure this is passed correctly
         );
         
         res.json({ 
             success: true, 
             report,
-            message: 'Report generated successfully'
+            reportType: reportType, // Include in response for debugging
+            message: `${reportType} report generated successfully`
         });
+
+        console.log(`✅ ${reportType} report generated successfully!`);
 
     } catch (error) {
         console.error('❌ Report generation error:', error);
