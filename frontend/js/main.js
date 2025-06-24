@@ -1,213 +1,100 @@
-// main.js - Modern ES6 Module Entry Point with Authentication Support and Report History
+// main.js - Clean Main Application Entry Point
+// Handles app initialization, authentication flow, and main UI management
+
 import { checkInputs, updatePreviewLayout } from './fileHandlers.js';
 import { handleTelemetryFile } from './telemetryProcessor.js';
 import { transcribeVideo } from './transcription.js';
 import { generateReport } from './reportGenerator.js';
 import { closeRouteMap, showRouteOnMap } from './mapController.js';
-
-// Authentication state
-let currentUser = null;
-let authToken = null;
+import { initializeModalManager } from './ui/modalManager.js';
+import { 
+    checkAuthenticationStatus, 
+    showAuthenticationForm, 
+    handleLogout,
+    getCurrentUser,
+    getAuthToken,
+    isAuthenticated,
+    initializeAuth
+} from './auth/authManager.js';
 
 // Initialize the application when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🚔 Police Body Camera Report Generator initializing...');
     
-    // Check if user is already logged in
-    checkAuthenticationStatus();
-    
-    initializeEventListeners();
-    initializeGlobalFunctions();
-    initializeLayoutManagement();
-    
-    console.log('✅ Police Body Camera Report Generator initialized successfully!');
+    initializeApplication();
 });
 
-// Check if user is already authenticated (token in localStorage)
-function checkAuthenticationStatus() {
-    const storedToken = localStorage.getItem('authToken');
-    const storedUser = localStorage.getItem('currentUser');
-    
-    if (storedToken && storedUser) {
-        try {
-            authToken = storedToken;
-            currentUser = JSON.parse(storedUser);
+// Main application initialization
+async function initializeApplication() {
+    try {
+        // Initialize core modules
+        initializeAuth();
+        initializeModalManager();
+        
+        // Check authentication status
+        const isLoggedIn = checkAuthenticationStatus();
+        
+        if (isLoggedIn) {
             showMainApplication();
-            console.log('✅ User already logged in:', currentUser.username);
-        } catch (error) {
-            console.log('Invalid stored auth data, clearing...');
-            localStorage.removeItem('authToken');
-            localStorage.removeItem('currentUser');
+        } else {
             showAuthenticationForm();
         }
-    } else {
+        
+        // Set up authentication event listeners
+        setupAuthenticationEvents();
+        
+        // Initialize global functions for HTML compatibility
+        initializeGlobalFunctions();
+        
+        // Set up layout management
+        initializeLayoutManagement();
+        
+        console.log('✅ Police Body Camera Report Generator initialized successfully!');
+        
+    } catch (error) {
+        console.error('❌ Application initialization failed:', error);
+        showInitializationError(error);
+    }
+}
+
+// Set up authentication event listeners
+function setupAuthenticationEvents() {
+    document.addEventListener('authenticationSuccess', (event) => {
+        console.log('🎉 Authentication successful, showing main app');
+        showMainApplication();
+    });
+    
+    document.addEventListener('authenticationLogout', (event) => {
+        console.log('👋 User logged out, showing auth form');
         showAuthenticationForm();
-    }
+    });
 }
 
-// Show authentication form (login/register)
-function showAuthenticationForm() {
-    const container = document.querySelector('.container');
-    container.innerHTML = `
-        <h1>Police Body Camera System</h1>
-        <p style="text-align: center; color: #666; margin-bottom: 30px;">
-            Officer Authentication Required
-        </p>
-        
-        <div class="auth-container">
-            <div class="auth-tabs">
-                <button id="loginTab" class="auth-tab active" onclick="showLoginForm()">Login</button>
-                <button id="registerTab" class="auth-tab" onclick="showRegisterForm()">Register</button>
-            </div>
-            
-            <!-- Login Form -->
-            <div id="loginForm" class="auth-form">
-                <h3>👮 Officer Login</h3>
-                <form id="loginFormElement">
-                    <div class="form-field">
-                        <label for="loginUsername">Username:</label>
-                        <input type="text" id="loginUsername" required>
-                    </div>
-                    <div class="form-field">
-                        <label for="loginPassword">Password:</label>
-                        <input type="password" id="loginPassword" required>
-                    </div>
-                    <button type="submit" class="auth-btn">🔑 Login</button>
-                </form>
-            </div>
-            
-            <!-- Register Form -->
-            <div id="registerForm" class="auth-form" style="display: none;">
-                <h3>👮 New Officer Registration</h3>
-                <form id="registerFormElement">
-                    <div class="form-field">
-                        <label for="registerUsername">Username:</label>
-                        <input type="text" id="registerUsername" required>
-                    </div>
-                    <div class="form-field">
-                        <label for="registerEmail">Email:</label>
-                        <input type="email" id="registerEmail" required>
-                    </div>
-                    <div class="form-field">
-                        <label for="registerPassword">Password:</label>
-                        <input type="password" id="registerPassword" required minlength="6">
-                    </div>
-                    <button type="submit" class="auth-btn">Register</button>
-                </form>
-            </div>
-            
-            <div id="authMessage" class="auth-message"></div>
-        </div>
-    `;
-    
-    // Set up authentication form listeners
-    setupAuthenticationListeners();
-}
-
-// Set up authentication form event listeners
-function setupAuthenticationListeners() {
-    const loginForm = document.getElementById('loginFormElement');
-    const registerForm = document.getElementById('registerFormElement');
-    
-    if (loginForm) {
-        loginForm.addEventListener('submit', handleLogin);
-    }
-    
-    if (registerForm) {
-        registerForm.addEventListener('submit', handleRegister);
-    }
-}
-
-// Handle login form submission
-async function handleLogin(event) {
-    event.preventDefault();
-    
-    const username = document.getElementById('loginUsername').value;
-    const password = document.getElementById('loginPassword').value;
-    const messageDiv = document.getElementById('authMessage');
-    
-    try {
-        messageDiv.innerHTML = '<div class="loading-message">🔄 Logging in...</div>';
-        
-        const response = await fetch('/api/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, password })
-        });
-        
-        const data = await response.json();
-        
-        if (response.ok && data.success) {
-            // Store authentication data
-            authToken = data.token;
-            currentUser = data.user;
-            
-            localStorage.setItem('authToken', authToken);
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            
-            messageDiv.innerHTML = '<div class="success-message">Login successful!</div>';
-            
-            // Show main application after brief delay
-            setTimeout(() => {
-                showMainApplication();
-            }, 1000);
-            
-        } else {
-            messageDiv.innerHTML = `<div class="error-message">${data.error || 'Login failed'}</div>`;
-        }
-        
-    } catch (error) {
-        console.error('Login error:', error);
-        messageDiv.innerHTML = '<div class="error-message">Network error. Please try again.</div>';
-    }
-}
-
-// Handle register form submission
-async function handleRegister(event) {
-    event.preventDefault();
-    
-    const username = document.getElementById('registerUsername').value;
-    const email = document.getElementById('registerEmail').value;
-    const password = document.getElementById('registerPassword').value;
-    const messageDiv = document.getElementById('authMessage');
-    
-    try {
-        messageDiv.innerHTML = '<div class="loading-message">🔄 Creating account...</div>';
-        
-        const response = await fetch('/api/auth/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, email, password })
-        });
-        
-        const data = await response.json();
-        
-        if (response.ok && data.success) {
-            messageDiv.innerHTML = '<div class="success-message">Registration successful! Please login.</div>';
-            
-            // Auto-switch to login form after brief delay
-            setTimeout(() => {
-                showLoginForm();
-            }, 2000);
-            
-        } else {
-            messageDiv.innerHTML = `<div class="error-message">${data.error || 'Registration failed'}</div>`;
-        }
-        
-    } catch (error) {
-        console.error('Registration error:', error);
-        messageDiv.innerHTML = '<div class="error-message">Network error. Please try again.</div>';
-    }
-}
-
-// Show main application (original functionality)
+// Show main application interface
 function showMainApplication() {
+    const currentUser = getCurrentUser();
+    if (!currentUser) {
+        console.error('❌ No current user found');
+        showAuthenticationForm();
+        return;
+    }
+    
     const container = document.querySelector('.container');
-    container.innerHTML = `
+    container.innerHTML = createMainApplicationHTML(currentUser);
+    
+    // Add map overlay to the body if it doesn't exist
+    ensureMapOverlayExists();
+    
+    // Initialize main application functionality
+    initializeMainAppListeners();
+    initializeLayoutManagement();
+    
+    console.log('✅ Main application displayed for:', currentUser.username);
+}
+
+// Create main application HTML
+function createMainApplicationHTML(currentUser) {
+    return `
         <div class="user-header">
             <h1>Police Body Camera Report Generator</h1>
             <div class="user-info">
@@ -221,12 +108,11 @@ function showMainApplication() {
             Upload body camera footage and generate structured police incident reports using AI
         </p>
         
-        <!-- Report Criteria Selection Section (NOW FIRST) -->
+        <!-- Report Criteria Selection Section -->
         <div class="criteria-section">
             <h3>📋 Report Type & Criteria</h3>
             <p>Select the incident details to customize the police report format</p>
             
-            <!-- Report Type Dropdown -->
             <div class="criteria-input">
                 <label for="reportType">Report Type:</label>
                 <select id="reportType">
@@ -237,7 +123,6 @@ function showMainApplication() {
                 </select>
             </div>
             
-            <!-- Time of Day Classification Dropdown -->
             <div class="criteria-input">
                 <label for="timeOfDay">Time of Day Classification:</label>
                 <select id="timeOfDay">
@@ -247,7 +132,6 @@ function showMainApplication() {
                 </select>
             </div>
             
-            <!-- Incident Priority Dropdown -->
             <div class="criteria-input">
                 <label for="incidentPriority">Incident Priority:</label>
                 <select id="incidentPriority">
@@ -259,9 +143,8 @@ function showMainApplication() {
             </div>
         </div>
         
-        <!-- Upload Sections Container (Side by Side) - NOW SECOND -->
+        <!-- Upload Sections Container -->
         <div class="upload-container">
-            <!-- File Upload Section -->
             <div class="upload-section">
                 <h3>📹 Upload Body Camera Footage</h3>
                 <p>Choose a body camera video file (max 20MB)</p>
@@ -271,7 +154,6 @@ function showMainApplication() {
                 <div class="file-info" id="fileInfo"></div>
             </div>
             
-            <!-- Telemetry Data Upload Section -->
             <div class="upload-section">
                 <h3>📊 Upload Telemetry Data (Optional)</h3>
                 <p>Upload telemetry file from body camera device</p>
@@ -282,22 +164,19 @@ function showMainApplication() {
             </div>
         </div>
         
-        <!-- Preview Sections Container (Side by Side) - CLEAN WITH NO EMBEDDED STYLES -->
+        <!-- Preview Sections Container -->
         <div class="preview-container">
-            <!-- Video Player Section (Left Half) -->
             <div class="video-player-section" id="videoPlayerSection" style="display: none;">
                 <h4>🎬 Body Camera Footage Preview</h4>
-                <video id="videoPlayer" controls width="100%" style="max-width: 500px; border-radius: 8px;">
+                <video id="videoPlayer" controls width="100%">
                     Your browser does not support the video tag.
                 </video>
             </div>
             
-            <!-- Telemetry Preview Section (Right Half) -->
             <div class="telemetry-preview-section" id="telemetryPreviewSection" style="display: none;">
                 <h4>📋 Telemetry Data Preview</h4>
                 <div class="telemetry-summary" id="telemetrySummary"></div>
                 
-                <!-- Show Route Button -->
                 <div style="text-align: center; margin-top: 15px;">
                     <button id="showRouteBtn" onclick="window.showRouteOnMap()" disabled>
                         🗺️ Show Route on Map
@@ -333,8 +212,10 @@ function showMainApplication() {
             <div id="summary"></div>
         </div>
     `;
-    
-    // Add map overlay to the body (outside container)
+}
+
+// Ensure map overlay exists in the DOM
+function ensureMapOverlayExists() {
     if (!document.getElementById('mapOverlay')) {
         const mapOverlay = document.createElement('div');
         mapOverlay.innerHTML = `
@@ -354,10 +235,6 @@ function showMainApplication() {
         `;
         document.body.appendChild(mapOverlay);
     }
-    
-    // Re-initialize all the original functionality
-    initializeMainAppListeners();
-    initializeLayoutManagement();
 }
 
 // Initialize main application event listeners
@@ -379,32 +256,18 @@ function initializeMainAppListeners() {
     if (logoutBtn) logoutBtn.addEventListener('click', handleLogout);
     if (reportHistoryBtn) reportHistoryBtn.addEventListener('click', showReportHistory);
     
-    // Set up global functions for report history
-    setupReportHistoryGlobalFunctions();
-    
-    // Map overlay event listeners
-    setupMapOverlayListeners();
-    
-    // Escape key listener for closing map
-    setupKeyboardListeners();
-    
     console.log('✅ Main application event listeners initialized');
-}
-
-// Set up global functions for report history (to work with onclick handlers)
-async function setupReportHistoryGlobalFunctions() {
-    try {
-        const { toggleReportForm, updateReport } = await import('./reportHistoryManager.js');
-        window.toggleReportForm = toggleReportForm;
-        window.updateReport = updateReport;
-    } catch (error) {
-        console.error('Error setting up report history functions:', error);
-    }
 }
 
 // Show report history
 async function showReportHistory() {
     try {
+        const authToken = getAuthToken();
+        if (!authToken) {
+            console.error('❌ No auth token available');
+            return;
+        }
+        
         const response = await fetch('/api/reports/history', {
             headers: {
                 'Authorization': `Bearer ${authToken}`
@@ -414,214 +277,17 @@ async function showReportHistory() {
         const data = await response.json();
         
         if (response.ok && data.success) {
-            // Import and use the report history manager - FIXED PATH
+            // Import and use the report history manager
             const { displayReportHistory } = await import('./reportHistoryManager.js');
-            displayReportHistory(data.reports, currentUser);
+            displayReportHistory(data.reports, getCurrentUser());
         } else {
-            alert('Failed to load report history: ' + (data.error || 'Unknown error'));
+            showNotification('Failed to load report history: ' + (data.error || 'Unknown error'), 'error');
         }
         
     } catch (error) {
         console.error('Error fetching report history:', error);
-        alert('Error loading report history. Please try again.');
+        showNotification('Error loading report history. Please try again.', 'error');
     }
-}
-
-// Display report history in a modal/overlay
-function displayReportHistory(reports) {
-    // Remove existing overlay if present
-    const existingOverlay = document.getElementById('reportHistoryOverlay');
-    if (existingOverlay) {
-        existingOverlay.remove();
-    }
-    
-    // TEST: Let's test the parser with first report
-    if (reports.length > 0) {
-        console.log('🧪 Testing parser with first report...');
-        import('./reportTextParser.js').then(({ parseTextReportToFormData }) => {
-            const testResult = parseTextReportToFormData(reports[0].report_content);
-            console.log('📊 Parser test result:', testResult);
-        });
-    }
-    
-    const overlay = document.createElement('div');
-    overlay.id = 'reportHistoryOverlay';
-    overlay.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(26, 54, 93, 0.95);
-        backdrop-filter: blur(8px);
-        z-index: 1000;
-        overflow: auto;
-        animation: fadeIn 0.3s ease;
-    `;
-    
-    let reportsHTML = '';
-    if (reports.length === 0) {
-        reportsHTML = '<p style="text-align: center; color: #666; margin: 40px 0;">No reports found.</p>';
-    } else {
-        reports.forEach((report, index) => {
-            const date = new Date(report.created_at).toLocaleString();
-            const userReportNumber = index + 1; // User-specific sequential number
-            reportsHTML += `
-                <div style="margin-bottom: 24px; padding: 20px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #3182ce;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                        <h4 style="margin: 0; color: #1a365d;">Report #${userReportNumber}</h4>
-                        <span style="color: #666; font-size: 0.9rem;">${date}</span>
-                    </div>
-                    <div style="background: white; padding: 16px; border-radius: 6px; border: 1px solid #cbd5e0; white-space: pre-wrap; font-family: monospace; font-size: 0.85rem; max-height: 200px; overflow-y: auto;">
-${report.report_content}
-                    </div>
-                </div>
-            `;
-        });
-    }
-    
-    overlay.innerHTML = `
-        <div style="position: relative; width: 90%; max-width: 1000px; margin: 2% auto; background: white; border-radius: 16px; box-shadow: 0 20px 25px rgba(0,0,0,0.1); overflow: hidden;">
-            <div style="background: linear-gradient(135deg, #1a365d 0%, #3182ce 100%); color: white; padding: 24px 32px; display: flex; justify-content: space-between; align-items: center;">
-                <h2 style="margin: 0; font-size: 1.4rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">📋 Report History for ${currentUser.username}</h2>
-                <button onclick="document.getElementById('reportHistoryOverlay').remove()" style="background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.3); color: white; font-size: 20px; cursor: pointer; padding: 8px; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">&times;</button>
-            </div>
-            <div style="padding: 32px; max-height: 70vh; overflow-y: auto;">
-                ${reportsHTML}
-            </div>
-        </div>
-    `;
-    
-    document.body.appendChild(overlay);
-    
-    // Close on background click
-    overlay.addEventListener('click', function(e) {
-        if (e.target === overlay) {
-            overlay.remove();
-        }
-    });
-}
-
-// Save current report to database
-window.saveCurrentReport = async function() {
-    const summaryDiv = document.getElementById('summary');
-    if (!summaryDiv || !summaryDiv.textContent.trim()) {
-        alert('No report to save.');
-        return;
-    }
-    
-    // Extract just the report text, excluding status messages
-    const reportElements = summaryDiv.querySelectorAll('.success, .police-report-form');
-    let reportContent = '';
-    
-    if (reportElements.length > 0) {
-        // Get text from the actual report content
-        reportElements.forEach(element => {
-            if (element.classList.contains('success')) {
-                reportContent += element.textContent.trim();
-            } else if (element.classList.contains('police-report-form')) {
-                // Extract form data if needed
-                const formData = new FormData(element);
-                for (let [key, value] of formData.entries()) {
-                    reportContent += `${key}: ${value}\n`;
-                }
-            }
-        });
-    } else {
-        reportContent = summaryDiv.textContent.trim();
-    }
-    
-    if (!reportContent) {
-        alert('No valid report content found.');
-        return;
-    }
-    
-    try {
-        const response = await fetch('/api/reports/save', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authToken}`
-            },
-            body: JSON.stringify({ reportContent })
-        });
-        
-        const data = await response.json();
-        
-        if (response.ok && data.success) {
-            alert('✅ Report saved successfully!');
-        } else {
-            alert('Failed to save report: ' + (data.error || 'Unknown error'));
-        }
-        
-    } catch (error) {
-        console.error('Error saving report:', error);
-        alert('Error saving report. Please try again.');
-    }
-};
-
-// Handle logout
-function handleLogout() {
-    authToken = null;
-    currentUser = null;
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('currentUser');
-    
-    console.log('👋 User logged out');
-    showAuthenticationForm();
-}
-
-// Tab switching functions (global for HTML onclick)
-window.showLoginForm = function() {
-    document.getElementById('loginForm').style.display = 'block';
-    document.getElementById('registerForm').style.display = 'none';
-    document.getElementById('loginTab').classList.add('active');
-    document.getElementById('registerTab').classList.remove('active');
-    document.getElementById('authMessage').innerHTML = '';
-};
-
-window.showRegisterForm = function() {
-    document.getElementById('loginForm').style.display = 'none';
-    document.getElementById('registerForm').style.display = 'block';
-    document.getElementById('loginTab').classList.remove('active');
-    document.getElementById('registerTab').classList.add('active');
-    document.getElementById('authMessage').innerHTML = '';
-};
-
-// Set up all event listeners (for when main app is loaded)
-function initializeEventListeners() {
-    // This will be called after authentication, so elements might not exist yet
-    // Moved to initializeMainAppListeners()
-}
-
-// Set up map overlay click and touch listeners
-function setupMapOverlayListeners() {
-    const mapOverlay = document.getElementById('mapOverlay');
-    if (mapOverlay) {
-        mapOverlay.addEventListener('click', function(e) {
-            // Close map when clicking on the overlay background (not the map content)
-            if (e.target === this) {
-                closeRouteMap();
-            }
-        });
-    }
-}
-
-// Set up keyboard listeners
-function setupKeyboardListeners() {
-    document.addEventListener('keydown', function(e) {
-        // Close map with Escape key
-        const mapOverlay = document.getElementById('mapOverlay');
-        if (e.key === 'Escape' && mapOverlay && mapOverlay.style.display === 'block') {
-            closeRouteMap();
-        }
-        
-        // Close report history with Escape key
-        const reportHistoryOverlay = document.getElementById('reportHistoryOverlay');
-        if (e.key === 'Escape' && reportHistoryOverlay) {
-            reportHistoryOverlay.remove();
-        }
-    });
 }
 
 // Initialize layout management system
@@ -666,85 +332,127 @@ function setupLayoutObserver() {
 }
 
 // Make functions available globally for HTML onclick handlers
-// This is the ONLY place we use global assignments, and it's intentional for HTML compatibility
 function initializeGlobalFunctions() {
-    // ENHANCED: Make sure functions are available immediately
+    // Map functions
     window.showRouteOnMap = showRouteOnMap;
     window.closeRouteMap = closeRouteMap;
     window.updatePreviewLayout = updatePreviewLayout;
     
-    // Add debug function to check if functions are working
-    window.testRouteFunction = function() {
-        console.log('🧪 Route function test - this should work!');
-        if (typeof showRouteOnMap === 'function') {
-            console.log('✅ showRouteOnMap function is available');
-        } else {
-            console.error('❌ showRouteOnMap function is NOT available');
-        }
-    };
+    // Report history functions (will be set when module loads)
+    setupReportHistoryGlobalFunctions();
     
     console.log('🌐 Global functions registered for HTML compatibility');
+}
+
+// Set up global functions for report history
+async function setupReportHistoryGlobalFunctions() {
+    try {
+        const { toggleReportForm, updateReport } = await import('./reportHistoryManager.js');
+        window.toggleReportForm = toggleReportForm;
+        window.updateReport = updateReport;
+    } catch (error) {
+        console.error('Error setting up report history functions:', error);
+    }
+}
+
+// Save current report to database
+window.saveCurrentReport = async function() {
+    const summaryDiv = document.getElementById('summary');
+    if (!summaryDiv || !summaryDiv.textContent.trim()) {
+        showNotification('No report to save.', 'warning');
+        return;
+    }
     
-    // Test the functions immediately
-    setTimeout(() => {
-        if (window.showRouteOnMap) {
-            console.log('✅ showRouteOnMap is globally available');
-        } else {
-            console.error('❌ showRouteOnMap failed to register globally');
+    // Extract report content
+    const reportElements = summaryDiv.querySelectorAll('.success, .police-report-form');
+    let reportContent = '';
+    
+    if (reportElements.length > 0) {
+        reportElements.forEach(element => {
+            if (element.classList.contains('success')) {
+                reportContent += element.textContent.trim();
+            } else if (element.classList.contains('police-report-form')) {
+                // Extract form data if needed
+                const formData = new FormData(element);
+                for (let [key, value] of formData.entries()) {
+                    reportContent += `${key}: ${value}\n`;
+                }
+            }
+        });
+    } else {
+        reportContent = summaryDiv.textContent.trim();
+    }
+    
+    if (!reportContent) {
+        showNotification('No valid report content found.', 'warning');
+        return;
+    }
+    
+    try {
+        const authToken = getAuthToken();
+        if (!authToken) {
+            showNotification('Authentication required. Please log in again.', 'error');
+            return;
         }
-    }, 100);
+        
+        const response = await fetch('/api/reports/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
+            },
+            body: JSON.stringify({ reportContent })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok && data.success) {
+            showNotification('✅ Report saved successfully!', 'success');
+        } else {
+            showNotification('Failed to save report: ' + (data.error || 'Unknown error'), 'error');
+        }
+        
+    } catch (error) {
+        console.error('Error saving report:', error);
+        showNotification('Error saving report. Please try again.', 'error');
+    }
+};
+
+// Show initialization error
+function showInitializationError(error) {
+    const container = document.querySelector('.container');
+    container.innerHTML = `
+        <h1>System Error</h1>
+        <div class="error">
+            <h3>❌ Application Failed to Initialize</h3>
+            <p>The police body camera system encountered an error during startup.</p>
+            <p><strong>Error:</strong> ${error.message}</p>
+            <button onclick="location.reload()" class="btn-primary">
+                🔄 Reload Application
+            </button>
+        </div>
+    `;
 }
 
-// Additional utility functions for layout management
-
-// Force layout update (can be called externally)
-export function forceLayoutUpdate() {
-    console.log('🔄 Forcing layout update...');
-    updatePreviewLayout();
-}
-
-// Check if preview container should be visible
-export function isPreviewContainerVisible() {
-    const videoSection = document.getElementById('videoPlayerSection');
-    const telemetrySection = document.getElementById('telemetryPreviewSection');
+// Simple notification function (until full notification system loads)
+function showNotification(message, type = 'info', duration = 4000) {
+    // Remove existing notifications
+    const existing = document.querySelector('.notification');
+    if (existing) existing.remove();
     
-    if (!videoSection || !telemetrySection) return false;
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.textContent = message;
     
-    const videoVisible = videoSection.style.display !== 'none';
-    const telemetryVisible = telemetrySection.style.display !== 'none';
+    document.body.appendChild(notification);
     
-    return videoVisible || telemetryVisible;
-}
-
-// Get current layout state
-export function getLayoutState() {
-    const videoSection = document.getElementById('videoPlayerSection');
-    const telemetrySection = document.getElementById('telemetryPreviewSection');
-    
-    if (!videoSection || !telemetrySection) return 'unknown';
-    
-    const videoVisible = videoSection.style.display !== 'none';
-    const telemetryVisible = telemetrySection.style.display !== 'none';
-    
-    if (videoVisible && telemetryVisible) return 'side-by-side';
-    if (videoVisible) return 'video-only';
-    if (telemetryVisible) return 'telemetry-only';
-    return 'hidden';
-}
-
-// Get authentication token (for API calls)
-export function getAuthToken() {
-    return authToken;
-}
-
-// Get current user info
-export function getCurrentUser() {
-    return currentUser;
-}
-
-// Check if user is authenticated
-export function isAuthenticated() {
-    return authToken !== null && currentUser !== null;
+    // Auto-remove notification
+    setTimeout(() => {
+        if (notification && notification.parentNode) {
+            notification.style.opacity = '0';
+            setTimeout(() => notification.remove(), 300);
+        }
+    }, duration);
 }
 
 // Handle window resize events
@@ -761,6 +469,9 @@ window.addEventListener('resize', function() {
 window.addEventListener('orientationchange', function() {
     setTimeout(() => {
         updatePreviewLayout();
-        console.log('Layout updated after orientation change');
+        console.log('📱 Layout updated after orientation change');
     }, 500);
 });
+
+// Export utility functions for other modules
+export { getCurrentUser, getAuthToken, isAuthenticated };

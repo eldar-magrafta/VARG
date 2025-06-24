@@ -1,7 +1,7 @@
-// formBuilder.js - Build dynamic editable forms for police reports
+// formBuilder.js - Clean Form Builder without Inline Styles
+// Builds dynamic editable forms for police reports using external CSS
 
 import { getFieldDefinitions } from './reportParser.js';
-import { getAuthToken } from './main.js';
 
 // Build and return the complete form HTML
 export function buildReportForm(reportType, parsedData) {
@@ -269,14 +269,16 @@ export function setupFormEventListeners() {
         // Add form validation
         form.addEventListener('submit', handleFormSubmit);
     }
+    
+    console.log('📝 Form event listeners initialized');
 }
 
-// Handle save report - NOW SAVES TO DATABASE
+// Handle save report - saves to database using external auth
 async function handleSaveReport() {
     const formData = getFormData();
     
     if (!formData || Object.keys(formData).length === 0) {
-        showNotification('⚠️ No report data to save', 'warning');
+        showFormNotification('⚠️ No report data to save', 'warning');
         return;
     }
     
@@ -284,9 +286,10 @@ async function handleSaveReport() {
     const reportContent = formatFormDataAsReport(formData);
     
     try {
-        const authToken = getAuthToken();
+        // Get auth token from localStorage (avoiding circular import)
+        const authToken = localStorage.getItem('authToken');
         if (!authToken) {
-            showNotification('❌ Authentication required', 'error');
+            showFormNotification('❌ Authentication required', 'error');
             return;
         }
         
@@ -302,15 +305,15 @@ async function handleSaveReport() {
         const data = await response.json();
         
         if (response.ok && data.success) {
-            showNotification('✅ Report saved to database successfully!', 'success');
+            showFormNotification('✅ Report saved to database successfully!', 'success');
             console.log('📄 Report saved to database:', data.reportId);
         } else {
-            showNotification('❌ Failed to save report: ' + (data.error || 'Unknown error'), 'error');
+            showFormNotification('❌ Failed to save report: ' + (data.error || 'Unknown error'), 'error');
         }
         
     } catch (error) {
         console.error('Error saving report:', error);
-        showNotification('❌ Error saving report. Please try again.', 'error');
+        showFormNotification('❌ Error saving report. Please try again.', 'error');
     }
 }
 
@@ -327,9 +330,6 @@ function formatFormDataAsReport(formData) {
             reportText += `**${label.toUpperCase()}:**\n${value}\n\n`;
         }
     });
-    
-    // Add timestamp
-    //reportText += `\n**REPORT GENERATED:**\n${new Date().toLocaleString()}\n`;
     
     return reportText;
 }
@@ -357,22 +357,24 @@ function formatFieldLabel(fieldKey) {
 
 // Handle print report
 function handlePrintReport() {
-    // Hide form controls for printing
+    // Hide form controls for printing using CSS class
     const formActions = document.querySelector('.form-actions');
-    if (formActions) formActions.style.display = 'none';
+    if (formActions) formActions.classList.add('print-hidden');
     
     // Print
     window.print();
     
     // Restore form controls
     setTimeout(() => {
-        if (formActions) formActions.style.display = 'flex';
+        if (formActions) formActions.classList.remove('print-hidden');
     }, 1000);
+    
+    console.log('🖨️ Print dialog opened');
 }
 
-// Handle export to PDF (placeholder - would need additional library)
+// Handle export to PDF (placeholder)
 function handleExportReport() {
-    showNotification('📄 PDF export feature coming soon!', 'info');
+    showFormNotification('📄 PDF export feature coming soon!', 'info');
     console.log('📄 Export requested - would generate PDF here');
 }
 
@@ -380,7 +382,7 @@ function handleExportReport() {
 function handleAutoSave() {
     const formData = getFormData();
     sessionStorage.setItem('currentReport', JSON.stringify(formData));
-    showNotification('💾 Auto-saved', 'info', 2000);
+    showFormNotification('💾 Auto-saved', 'info', 2000);
 }
 
 // Handle form submission
@@ -404,17 +406,20 @@ function getFormData() {
     return data;
 }
 
-// Show notification to user
-function showNotification(message, type = 'info', duration = 4000) {
-    // Remove existing notifications
-    const existing = document.querySelector('.notification');
-    if (existing) existing.remove();
-    
+// Show form notification using notification system
+function showFormNotification(message, type = 'info', duration = 4000) {
+    // Create a simple notification element
     const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
+    notification.className = `form-notification notification-${type}`;
     notification.textContent = message;
     
-    document.body.appendChild(notification);
+    // Find the form container to append notification
+    const formContainer = document.querySelector('.report-form-container');
+    if (formContainer) {
+        formContainer.insertBefore(notification, formContainer.firstChild);
+    } else {
+        document.body.appendChild(notification);
+    }
     
     // Auto-remove notification
     setTimeout(() => {
@@ -444,4 +449,88 @@ function debounce(func, wait) {
         clearTimeout(timeout);
         timeout = setTimeout(later, wait);
     };
+}
+
+// Load saved form data from session storage
+export function loadSavedFormData() {
+    try {
+        const savedData = sessionStorage.getItem('currentReport');
+        if (savedData) {
+            const formData = JSON.parse(savedData);
+            populateFormWithData(formData);
+            showFormNotification('📋 Restored previous form data', 'info');
+            console.log('📋 Loaded saved form data from session');
+        }
+    } catch (error) {
+        console.warn('Could not load saved form data:', error);
+    }
+}
+
+// Populate form with data
+function populateFormWithData(formData) {
+    Object.keys(formData).forEach(key => {
+        const field = document.querySelector(`[name="${key}"]`);
+        if (field && formData[key]) {
+            field.value = formData[key];
+        }
+    });
+}
+
+// Clear saved form data
+export function clearSavedFormData() {
+    sessionStorage.removeItem('currentReport');
+    console.log('🧹 Cleared saved form data');
+}
+
+// Validate form data
+export function validateFormData(formData) {
+    const errors = [];
+    
+    // Basic validation rules
+    const requiredFields = ['reportHeader', 'incidentDate', 'incidentTime', 'location', 'reportingOfficer'];
+    
+    requiredFields.forEach(field => {
+        if (!formData[field] || !formData[field].trim()) {
+            errors.push(`${formatFieldLabel(field)} is required`);
+        }
+    });
+    
+    // Date validation
+    if (formData.incidentDate) {
+        const date = new Date(formData.incidentDate);
+        const now = new Date();
+        if (date > now) {
+            errors.push('Incident date cannot be in the future');
+        }
+    }
+    
+    // Time validation
+    if (formData.incidentTime) {
+        const timePattern = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
+        if (!timePattern.test(formData.incidentTime)) {
+            errors.push('Invalid time format');
+        }
+    }
+    
+    return {
+        isValid: errors.length === 0,
+        errors: errors
+    };
+}
+
+// Initialize form builder
+export function initializeFormBuilder() {
+    console.log('📝 Form builder initialized');
+    
+    // Load any saved form data on page load
+    document.addEventListener('DOMContentLoaded', loadSavedFormData);
+    
+    // Clear saved data when page unloads
+    window.addEventListener('beforeunload', clearSavedFormData);
+}
+
+// Cleanup form builder
+export function cleanupFormBuilder() {
+    clearSavedFormData();
+    console.log('🧹 Form builder cleaned up');
 }

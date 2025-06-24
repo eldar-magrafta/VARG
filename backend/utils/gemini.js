@@ -9,6 +9,7 @@ const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-
 const promptCache = {};
 
 async function loadPrompt(reportType) {
+     console.log(`🔍11 Loading prompt template for report type: ${reportType}`);
     // Check if prompt is already cached
     if (promptCache[reportType]) {
         return promptCache[reportType];
@@ -46,6 +47,8 @@ async function generateReport(videoBuffer, mimeType, transcription, telemetryDat
         console.log('🚀 generateReport method called...');
 
         const prompt = await buildPrompt(transcription, telemetryData, reportType);
+
+        console.log('📋 Generated prompt for report:', prompt);
 
         const requestData = {
             contents: [{

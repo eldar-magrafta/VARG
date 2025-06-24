@@ -1,4 +1,5 @@
-// reportHistoryManager.js - Complete Report History Management with Proper Update Functionality
+// reportHistoryManager.js - Clean Report History Management
+// Manages report history display, editing, and updates without inline styles
 
 // Parse report text back to form data
 export function parseReportText(reportText) {
@@ -68,84 +69,84 @@ function getSectionFieldName(sectionName) {
     return fieldMapping[sectionName] || null;
 }
 
-// Build form HTML for report history - NOW INCLUDES ACTUAL REPORT ID
+// Build form HTML for report history
 export function buildHistoryReportForm(formData, reportNumber, actualReportId) {
     return `
-        <div style="padding: 24px; background: #f8f9fa;">
+        <div class="report-form-view">
             <!-- Hidden field to store the actual database ID -->
             <input type="hidden" id="reportId_${reportNumber}" value="${actualReportId}">
             
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
-                <div>
-                    <label style="display: block; font-weight: 600; color: #1a365d; margin-bottom: 6px; font-size: 0.9rem; text-transform: uppercase;">Report Type:</label>
-                    <input type="text" id="reportHeader_${reportNumber}" value="${formData.reportHeader || ''}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem;">
+            <div class="report-form-grid">
+                <div class="report-form-field">
+                    <label class="report-form-label" for="reportHeader_${reportNumber}">Report Type:</label>
+                    <input type="text" class="report-form-input" id="reportHeader_${reportNumber}" value="${escapeHtml(formData.reportHeader || '')}">
                 </div>
-                <div>
-                    <label style="display: block; font-weight: 600; color: #1a365d; margin-bottom: 6px; font-size: 0.9rem; text-transform: uppercase;">Incident Date:</label>
-                    <input type="date" id="incidentDate_${reportNumber}" value="${formData.incidentDate || ''}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem;">
+                <div class="report-form-field">
+                    <label class="report-form-label" for="incidentDate_${reportNumber}">Incident Date:</label>
+                    <input type="date" class="report-form-input" id="incidentDate_${reportNumber}" value="${formData.incidentDate || ''}">
                 </div>
-                <div>
-                    <label style="display: block; font-weight: 600; color: #1a365d; margin-bottom: 6px; font-size: 0.9rem; text-transform: uppercase;">Incident Time:</label>
-                    <input type="time" id="incidentTime_${reportNumber}" value="${formData.incidentTime || ''}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem;">
+                <div class="report-form-field">
+                    <label class="report-form-label" for="incidentTime_${reportNumber}">Incident Time:</label>
+                    <input type="time" class="report-form-input" id="incidentTime_${reportNumber}" value="${formData.incidentTime || ''}">
                 </div>
-                <div>
-                    <label style="display: block; font-weight: 600; color: #1a365d; margin-bottom: 6px; font-size: 0.9rem; text-transform: uppercase;">Reporting Officer:</label>
-                    <input type="text" id="reportingOfficer_${reportNumber}" value="${formData.reportingOfficer || ''}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem;">
+                <div class="report-form-field">
+                    <label class="report-form-label" for="reportingOfficer_${reportNumber}">Reporting Officer:</label>
+                    <input type="text" class="report-form-input" id="reportingOfficer_${reportNumber}" value="${escapeHtml(formData.reportingOfficer || '')}">
                 </div>
-                <div>
-                    <label style="display: block; font-weight: 600; color: #1a365d; margin-bottom: 6px; font-size: 0.9rem; text-transform: uppercase;">Badge Number:</label>
-                    <input type="text" id="badgeNumber_${reportNumber}" value="${formData.badgeNumber || ''}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem;">
+                <div class="report-form-field">
+                    <label class="report-form-label" for="badgeNumber_${reportNumber}">Badge Number:</label>
+                    <input type="text" class="report-form-input" id="badgeNumber_${reportNumber}" value="${escapeHtml(formData.badgeNumber || '')}">
                 </div>
-                <div>
-                    <label style="display: block; font-weight: 600; color: #1a365d; margin-bottom: 6px; font-size: 0.9rem; text-transform: uppercase;">Incident Classification:</label>
-                    <input type="text" id="incidentType_${reportNumber}" value="${formData.incidentType || ''}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem;">
+                <div class="report-form-field">
+                    <label class="report-form-label" for="incidentType_${reportNumber}">Incident Classification:</label>
+                    <input type="text" class="report-form-input" id="incidentType_${reportNumber}" value="${escapeHtml(formData.incidentType || '')}">
                 </div>
             </div>
             
-            <div style="margin-bottom: 20px;">
-                <label style="display: block; font-weight: 600; color: #1a365d; margin-bottom: 6px; font-size: 0.9rem; text-transform: uppercase;">Location:</label>
-                <textarea rows="2" id="location_${reportNumber}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem; font-family: inherit; resize: vertical;">${formData.location || ''}</textarea>
+            <div class="report-form-field report-form-full-width">
+                <label class="report-form-label" for="location_${reportNumber}">Location:</label>
+                <textarea rows="2" class="report-form-textarea" id="location_${reportNumber}">${escapeHtml(formData.location || '')}</textarea>
             </div>
             
-            <div style="margin-bottom: 20px;">
-                <label style="display: block; font-weight: 600; color: #1a365d; margin-bottom: 6px; font-size: 0.9rem; text-transform: uppercase;">Weather/Environmental Conditions:</label>
-                <textarea rows="2" id="weatherConditions_${reportNumber}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem; font-family: inherit; resize: vertical;">${formData.weatherConditions || ''}</textarea>
+            <div class="report-form-field report-form-full-width">
+                <label class="report-form-label" for="weatherConditions_${reportNumber}">Weather/Environmental Conditions:</label>
+                <textarea rows="2" class="report-form-textarea" id="weatherConditions_${reportNumber}">${escapeHtml(formData.weatherConditions || '')}</textarea>
             </div>
             
-            <div style="margin-bottom: 20px;">
-                <label style="display: block; font-weight: 600; color: #1a365d; margin-bottom: 6px; font-size: 0.9rem; text-transform: uppercase;">Individuals Involved:</label>
-                <textarea rows="4" id="individualsInvolved_${reportNumber}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem; font-family: inherit; resize: vertical;">${formData.individualsInvolved || ''}</textarea>
+            <div class="report-form-field report-form-full-width">
+                <label class="report-form-label" for="individualsInvolved_${reportNumber}">Individuals Involved:</label>
+                <textarea rows="4" class="report-form-textarea" id="individualsInvolved_${reportNumber}">${escapeHtml(formData.individualsInvolved || '')}</textarea>
             </div>
             
-            <div style="margin-bottom: 20px;">
-                <label style="display: block; font-weight: 600; color: #1a365d; margin-bottom: 6px; font-size: 0.9rem; text-transform: uppercase;">Incident Narrative:</label>
-                <textarea rows="6" id="incidentNarrative_${reportNumber}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem; font-family: inherit; resize: vertical;">${formData.incidentNarrative || ''}</textarea>
+            <div class="report-form-field report-form-full-width">
+                <label class="report-form-label" for="incidentNarrative_${reportNumber}">Incident Narrative:</label>
+                <textarea rows="6" class="report-form-textarea" id="incidentNarrative_${reportNumber}">${escapeHtml(formData.incidentNarrative || '')}</textarea>
             </div>
             
-            <div style="margin-bottom: 20px;">
-                <label style="display: block; font-weight: 600; color: #1a365d; margin-bottom: 6px; font-size: 0.9rem; text-transform: uppercase;">Officer Actions and Procedures:</label>
-                <textarea rows="4" id="officerActions_${reportNumber}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem; font-family: inherit; resize: vertical;">${formData.officerActions || ''}</textarea>
+            <div class="report-form-field report-form-full-width">
+                <label class="report-form-label" for="officerActions_${reportNumber}">Officer Actions and Procedures:</label>
+                <textarea rows="4" class="report-form-textarea" id="officerActions_${reportNumber}">${escapeHtml(formData.officerActions || '')}</textarea>
             </div>
             
-            <div style="margin-bottom: 20px;">
-                <label style="display: block; font-weight: 600; color: #1a365d; margin-bottom: 6px; font-size: 0.9rem; text-transform: uppercase;">Evidence and Documentation:</label>
-                <textarea rows="3" id="evidenceCollected_${reportNumber}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem; font-family: inherit; resize: vertical;">${formData.evidenceCollected || ''}</textarea>
+            <div class="report-form-field report-form-full-width">
+                <label class="report-form-label" for="evidenceCollected_${reportNumber}">Evidence and Documentation:</label>
+                <textarea rows="3" class="report-form-textarea" id="evidenceCollected_${reportNumber}">${escapeHtml(formData.evidenceCollected || '')}</textarea>
             </div>
             
-            <div style="margin-bottom: 20px;">
-                <label style="display: block; font-weight: 600; color: #1a365d; margin-bottom: 6px; font-size: 0.9rem; text-transform: uppercase;">Complete Audio Transcript:</label>
-                <textarea rows="6" id="audioTranscript_${reportNumber}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem; font-family: monospace; resize: vertical;">${formData.audioTranscript || ''}</textarea>
+            <div class="report-form-field report-form-full-width">
+                <label class="report-form-label" for="audioTranscript_${reportNumber}">Complete Audio Transcript:</label>
+                <textarea rows="6" class="report-form-textarea" id="audioTranscript_${reportNumber}">${escapeHtml(formData.audioTranscript || '')}</textarea>
             </div>
             
-            <div style="text-align: center; margin-top: 24px;">
-                <button onclick="updateReport(${reportNumber})" style="background: linear-gradient(135deg, #38a169 0%, #2f855a 100%); color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-right: 12px;">💾 Update Report</button>
-                <button onclick="toggleReportForm(${reportNumber})" style="background: linear-gradient(135deg, #718096 0%, #4a5568 100%); color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">❌ Cancel</button>
+            <div class="report-form-actions">
+                <button onclick="updateReport(${reportNumber})" class="report-update-btn">💾 Update Report</button>
+                <button onclick="toggleReportForm(${reportNumber})" class="report-cancel-btn">❌ Cancel</button>
             </div>
         </div>
     `;
 }
 
-// Display report history in a modal/overlay with forms - NOW PASSES ACTUAL REPORT IDS
+// Display report history in a modal/overlay with forms
 export function displayReportHistory(reports, currentUser) {
     // Remove existing overlay if present
     const existingOverlay = document.getElementById('reportHistoryOverlay');
@@ -155,22 +156,11 @@ export function displayReportHistory(reports, currentUser) {
     
     const overlay = document.createElement('div');
     overlay.id = 'reportHistoryOverlay';
-    overlay.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(26, 54, 93, 0.95);
-        backdrop-filter: blur(8px);
-        z-index: 1000;
-        overflow: auto;
-        animation: fadeIn 0.3s ease;
-    `;
+    overlay.className = 'modal-overlay';
     
     let reportsHTML = '';
     if (reports.length === 0) {
-        reportsHTML = '<p style="text-align: center; color: #666; margin: 40px 0;">No reports found.</p>';
+        reportsHTML = '<div class="report-history-empty"><p>No reports found.</p></div>';
     } else {
         reports.forEach((report, index) => {
             const date = new Date(report.created_at).toLocaleString();
@@ -182,23 +172,21 @@ export function displayReportHistory(reports, currentUser) {
             const formHTML = buildHistoryReportForm(formData, userReportNumber, actualReportId);
             
             reportsHTML += `
-                <div style="margin-bottom: 32px; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 16px rgba(0,0,0,0.1);">
-                    <div style="background: linear-gradient(135deg, #1a365d 0%, #3182ce 100%); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center;">
-                        <h4 style="margin: 0; font-size: 1.2rem;">Report #${userReportNumber} - ${date}</h4>
-                        <div style="display: flex; gap: 8px;">
-                            <span style="background: rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">internal report ID in the DB: ${actualReportId}</span>
-                            <button onclick="toggleReportForm(${userReportNumber})" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">
-                                📄 View as plain Text
+                <div class="report-card">
+                    <div class="report-card-header">
+                        <h4>Report #${userReportNumber} - ${date}</h4>
+                        <div class="report-card-actions">
+                            <span class="report-card-badge">DB ID: ${actualReportId}</span>
+                            <button onclick="toggleReportForm(${userReportNumber})" class="report-toggle-btn">
+                                📄 View as Text
                             </button>
                         </div>
                     </div>
-                    <div id="reportForm${userReportNumber}" style="display: block;">
+                    <div id="reportForm${userReportNumber}" class="report-form-container">
                         ${formHTML}
                     </div>
-                    <div id="reportText${userReportNumber}" style="display: none; padding: 20px; background: #f8f9fa; border-radius: 0 0 12px 12px;">
-                        <div style="background: white; padding: 16px; border-radius: 6px; border: 1px solid #cbd5e0; white-space: pre-wrap; font-family: monospace; font-size: 0.85rem; max-height: 300px; overflow-y: auto;">
-${report.report_content}
-                        </div>
+                    <div id="reportText${userReportNumber}" class="report-text-view" style="display: none;">
+                        <div class="report-text-content">${escapeHtml(report.report_content)}</div>
                     </div>
                 </div>
             `;
@@ -206,12 +194,12 @@ ${report.report_content}
     }
     
     overlay.innerHTML = `
-        <div style="position: relative; width: 95%; max-width: 1200px; margin: 2% auto; background: white; border-radius: 16px; box-shadow: 0 20px 25px rgba(0,0,0,0.1); overflow: hidden;">
-            <div style="background: linear-gradient(135deg, #1a365d 0%, #3182ce 100%); color: white; padding: 24px 32px; display: flex; justify-content: space-between; align-items: center;">
-                <h2 style="margin: 0; font-size: 1.4rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">📋 Report History for ${currentUser.username}</h2>
-                <button onclick="document.getElementById('reportHistoryOverlay').remove()" style="background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.3); color: white; font-size: 20px; cursor: pointer; padding: 8px; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">&times;</button>
+        <div class="report-history-container">
+            <div class="report-history-header">
+                <h2>📋 Report History for ${currentUser.username}</h2>
+                <button onclick="document.getElementById('reportHistoryOverlay').remove()" class="report-history-close">&times;</button>
             </div>
-            <div style="padding: 32px; max-height: 75vh; overflow-y: auto;">
+            <div class="report-history-content">
                 ${reportsHTML}
             </div>
         </div>
@@ -225,6 +213,8 @@ ${report.report_content}
             overlay.remove();
         }
     });
+    
+    console.log('📋 Report history displayed with', reports.length, 'reports');
 }
 
 // Toggle between form and text view
@@ -233,20 +223,27 @@ export function toggleReportForm(reportNumber) {
     const textDiv = document.getElementById(`reportText${reportNumber}`);
     const button = document.querySelector(`button[onclick="toggleReportForm(${reportNumber})"]`);
     
+    if (!formDiv || !textDiv || !button) {
+        console.error('❌ Could not find form elements for report', reportNumber);
+        return;
+    }
+    
     if (formDiv.style.display === 'none') {
         // Show form, hide text
         formDiv.style.display = 'block';
         textDiv.style.display = 'none';
-        if (button) button.innerHTML = '📄 View as plain text';
+        button.innerHTML = '📄 View as Text';
     } else {
         // Show text, hide form
         formDiv.style.display = 'none';
         textDiv.style.display = 'block';
-        if (button) button.innerHTML = '📝 Edit Form';
+        button.innerHTML = '📝 Edit Form';
     }
+    
+    console.log('🔄 Toggled view for report', reportNumber);
 }
 
-// NEW: Collect form data from the editable form
+// Collect form data from the editable form
 function collectFormData(reportNumber) {
     const formData = {};
     
@@ -268,7 +265,7 @@ function collectFormData(reportNumber) {
     return formData;
 }
 
-// NEW: Convert form data back to report text format
+// Convert form data back to report text format
 function formatFormDataAsReport(formData) {
     let reportText = '**INCIDENT REPORT**\n\n';
     
@@ -301,13 +298,13 @@ function formatFormDataAsReport(formData) {
     return reportText;
 }
 
-// UPDATED: Update report function with proper implementation
+// Update report function with proper implementation
 export async function updateReport(reportNumber) {
     try {
         // Get the actual database ID
         const reportIdElement = document.getElementById(`reportId_${reportNumber}`);
         if (!reportIdElement) {
-            alert('❌ Error: Could not find report ID');
+            showUpdateNotification('❌ Error: Could not find report ID', 'error');
             return;
         }
         
@@ -323,7 +320,7 @@ export async function updateReport(reportNumber) {
         // Get authentication token
         const authToken = localStorage.getItem('authToken');
         if (!authToken) {
-            alert('❌ Authentication required. Please log in again.');
+            showUpdateNotification('❌ Authentication required. Please log in again.', 'error');
             return;
         }
         
@@ -348,25 +345,25 @@ export async function updateReport(reportNumber) {
         
         if (response.ok && data.success) {
             // Success
-            alert('✅ Report updated successfully!');
+            showUpdateNotification('✅ Report updated successfully!', 'success');
             console.log('📄 Report updated in database');
             
             // Update the text view with the new content
             const textDiv = document.getElementById(`reportText${reportNumber}`);
             if (textDiv) {
-                const contentDiv = textDiv.querySelector('div');
+                const contentDiv = textDiv.querySelector('.report-text-content');
                 if (contentDiv) {
                     contentDiv.textContent = reportContent;
                 }
             }
             
         } else {
-            alert('❌ Failed to update report: ' + (data.error || 'Unknown error'));
+            showUpdateNotification('❌ Failed to update report: ' + (data.error || 'Unknown error'), 'error');
         }
         
     } catch (error) {
         console.error('❌ Error updating report:', error);
-        alert('❌ Error updating report. Please try again.');
+        showUpdateNotification('❌ Error updating report. Please try again.', 'error');
     } finally {
         // Restore button state
         const updateButton = document.querySelector(`button[onclick="updateReport(${reportNumber})"]`);
@@ -375,4 +372,60 @@ export async function updateReport(reportNumber) {
             updateButton.disabled = false;
         }
     }
+}
+
+// Show update notification without inline styles
+function showUpdateNotification(message, type) {
+    // Remove existing notifications
+    const existing = document.querySelector('.update-notification');
+    if (existing) existing.remove();
+    
+    const notification = document.createElement('div');
+    notification.className = `update-notification update-${type}`;
+    notification.textContent = message;
+    
+    // Find a good place to insert the notification
+    const reportHistory = document.querySelector('.report-history-content');
+    if (reportHistory) {
+        reportHistory.insertBefore(notification, reportHistory.firstChild);
+    } else {
+        document.body.appendChild(notification);
+    }
+    
+    // Auto-remove notification after 5 seconds
+    setTimeout(() => {
+        if (notification && notification.parentNode) {
+            notification.remove();
+        }
+    }, 5000);
+}
+
+// Utility function to escape HTML
+function escapeHtml(text) {
+    if (typeof text !== 'string') return '';
+    
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// Initialize report history management
+export function initializeReportHistory() {
+    console.log('📋 Report history manager initialized');
+    
+    // Set up global functions for HTML onclick compatibility
+    if (typeof window !== 'undefined') {
+        window.toggleReportForm = toggleReportForm;
+        window.updateReport = updateReport;
+    }
+}
+
+// Cleanup function
+export function cleanupReportHistory() {
+    const overlay = document.getElementById('reportHistoryOverlay');
+    if (overlay) {
+        overlay.remove();
+    }
+    
+    console.log('🧹 Report history cleaned up');
 }

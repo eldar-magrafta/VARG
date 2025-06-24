@@ -1,6 +1,6 @@
 /* ============================================
-   PROFESSIONAL POLICE APPLICATION THEME
-   Optimized & Complete CSS File with Preview Container
+   CORE STYLES - POLICE APPLICATION THEME
+   Base layout, typography, and component styles
    ============================================ */
 
 :root {
@@ -43,8 +43,13 @@
    GLOBAL STYLES
    ============================================ */
 
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+* { 
+    box-sizing: border-box; 
+}
+
+html { 
+    scroll-behavior: smooth; 
+}
 
 body {
     font-family: 'Inter', 'Segoe UI', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -59,6 +64,10 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+/* ============================================
+   MAIN CONTAINER
+   ============================================ */
 
 .container {
     background: var(--bg-card);
@@ -87,6 +96,10 @@ body {
     50% { background-position: 100% 50%; }
 }
 
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+
 h1 {
     color: var(--police-primary);
     text-align: center;
@@ -111,15 +124,7 @@ h1::after {
     border-radius: 2px;
 }
 
-/* ============================================
-   SECTION HEADERS
-   ============================================ */
-
-.upload-section h3, 
-.criteria-section h3,
-.result-section h3,
-.video-player-section h4,
-.telemetry-preview-section h4 {
+h3 {
     color: var(--police-primary);
     font-size: 1.25rem;
     font-weight: 600;
@@ -133,11 +138,7 @@ h1::after {
     padding-left: 20px;
 }
 
-.upload-section h3::before,
-.criteria-section h3::before,
-.result-section h3::before,
-.video-player-section h4::before,
-.telemetry-preview-section h4::before {
+h3::before {
     content: '';
     position: absolute;
     left: 0;
@@ -149,8 +150,34 @@ h1::after {
     border-radius: 2px;
 }
 
+h4 {
+    color: var(--police-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    padding-left: 20px;
+}
+
+h4::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 20px;
+    background: var(--police-accent);
+    border-radius: 2px;
+}
+
 /* ============================================
-   CONTAINERS & SECTIONS
+   LAYOUT CONTAINERS
    ============================================ */
 
 .upload-container {
@@ -159,10 +186,6 @@ h1::after {
     gap: 24px;
     margin-bottom: 32px;
 }
-
-/* ============================================
-   ENHANCED PREVIEW CONTAINER - SIDE BY SIDE LAYOUT
-   ============================================ */
 
 .preview-container {
     display: grid;
@@ -212,10 +235,12 @@ h1::after {
 }
 
 /* ============================================
-   SECTION STYLING (UPLOAD, VIDEO, TELEMETRY)
+   SECTION STYLING
    ============================================ */
 
-.upload-section, .video-player-section, .telemetry-preview-section {
+.upload-section, 
+.video-player-section, 
+.telemetry-preview-section {
     padding: 32px;
     border: 2px solid var(--border-color);
     border-radius: var(--radius-lg);
@@ -228,10 +253,8 @@ h1::after {
     margin-bottom: 0;
 }
 
-.video-player-section { margin: 0; }
-.telemetry-preview-section { margin: 0; }
-
-.upload-section::before, .video-player-section::before {
+.upload-section::before, 
+.video-player-section::before {
     content: '';
     position: absolute;
     top: 0;
@@ -261,13 +284,16 @@ h1::after {
     border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
-.upload-section:hover, .telemetry-preview-section:hover {
+.upload-section:hover, 
+.telemetry-preview-section:hover {
     border-color: var(--border-active);
     transform: translateY(-2px);
     box-shadow: var(--shadow-lg);
 }
 
-.upload-section:hover::before { opacity: 1; }
+.upload-section:hover::before { 
+    opacity: 1; 
+}
 
 .criteria-section {
     margin-bottom: 32px;
@@ -301,9 +327,12 @@ h1::after {
     box-shadow: var(--shadow-lg);
 }
 
-.criteria-section:hover::before { opacity: 1; }
+.criteria-section:hover::before { 
+    opacity: 1; 
+}
 
-.upload-section p, .criteria-section p {
+.upload-section p, 
+.criteria-section p {
     color: var(--text-secondary);
     margin-bottom: 20px;
     font-size: 0.95rem;
@@ -311,10 +340,11 @@ h1::after {
 }
 
 /* ============================================
-   FORM INPUTS & STYLING
+   FORM INPUTS
    ============================================ */
 
-.file-input, .criteria-input {
+.file-input, 
+.criteria-input {
     margin: 20px auto;
     max-width: 400px;
 }
@@ -330,7 +360,8 @@ h1::after {
     text-align: left;
 }
 
-input[type="file"], select {
+input[type="file"], 
+select {
     padding: 16px 20px;
     border: 2px solid var(--border-color);
     border-radius: var(--radius-md);
@@ -354,12 +385,14 @@ select {
     padding-right: 50px;
 }
 
-input[type="file"]:hover, select:hover {
+input[type="file"]:hover, 
+select:hover {
     border-color: var(--border-active);
     box-shadow: 0 0 0 1px var(--border-active);
 }
 
-input[type="file"]:focus, select:focus {
+input[type="file"]:focus, 
+select:focus {
     outline: none;
     border-color: var(--border-active);
     box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
@@ -383,119 +416,6 @@ select:focus {
     font-size: 0.9rem;
     color: var(--text-secondary);
     font-family: 'JetBrains Mono', monospace;
-}
-
-.success-message, .warning-message, .error-message {
-    color: var(--status-success);
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 8px;
-    padding: 8px 12px;
-    background: rgba(56, 161, 105, 0.1);
-    border: 1px solid rgba(56, 161, 105, 0.2);
-    border-radius: var(--radius-sm);
-    font-size: 0.85rem;
-}
-
-.success-message::before { content: '✅'; font-size: 1rem; }
-
-.warning-message {
-    color: var(--status-warning);
-    background: rgba(214, 158, 46, 0.1);
-    border-color: rgba(214, 158, 46, 0.2);
-}
-
-.warning-message::before { content: '⚠️'; font-size: 1rem; }
-
-.error-message {
-    color: var(--status-error);
-    background: rgba(229, 62, 62, 0.1);
-    border-color: rgba(229, 62, 62, 0.2);
-}
-
-.error-message::before { content: '❌'; font-size: 1rem; }
-
-/* ============================================
-   TELEMETRY PREVIEW
-   ============================================ */
-
-.telemetry-summary-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
-    margin-bottom: 24px;
-}
-
-.telemetry-card {
-    background: linear-gradient(145deg, var(--bg-card), var(--bg-secondary));
-    border: 2px solid var(--border-color);
-    border-radius: var(--radius-md);
-    padding: 20px;
-    box-shadow: var(--shadow-sm);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 16px;
-}
-
-.telemetry-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 4px;
-    height: 100%;
-    background: var(--police-accent);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.telemetry-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-    border-color: var(--border-active);
-}
-
-.telemetry-card:hover::before { opacity: 1; }
-
-.telemetry-card h5 {
-    margin: 0 0 12px 0;
-    color: var(--police-primary);
-    font-size: 0.9rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border-bottom: 2px solid var(--border-color);
-    padding-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.telemetry-card p {
-    margin: 8px 0;
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    line-height: 1.5;
-}
-
-.telemetry-card p strong {
-    color: var(--police-primary);
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    letter-spacing: 0.3px;
-}
-
-.video-player-section video {
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-lg);
-    display: block;
-    margin: 0 auto;
-    border: 2px solid var(--border-color);
-    max-width: 100%;
 }
 
 /* ============================================
@@ -563,10 +483,21 @@ button:disabled {
 }
 
 /* Button Variants */
-.btn-secondary { background: linear-gradient(135deg, var(--text-light) 0%, var(--text-secondary) 100%); }
-.btn-warning { background: linear-gradient(135deg, var(--status-warning) 0%, #b7791f 100%); }
-.btn-danger { background: linear-gradient(135deg, var(--status-error) 0%, #c53030 100%); }
-.btn-success { background: linear-gradient(135deg, var(--status-success) 0%, #2f855a 100%); }
+.btn-secondary { 
+    background: linear-gradient(135deg, var(--text-light) 0%, var(--text-secondary) 100%); 
+}
+
+.btn-warning { 
+    background: linear-gradient(135deg, var(--status-warning) 0%, #b7791f 100%); 
+}
+
+.btn-danger { 
+    background: linear-gradient(135deg, var(--status-error) 0%, #c53030 100%); 
+}
+
+.btn-success { 
+    background: linear-gradient(135deg, var(--status-success) 0%, #2f855a 100%); 
+}
 
 .btn-outline {
     background: transparent;
@@ -577,6 +508,89 @@ button:disabled {
 .btn-outline:hover {
     background: var(--police-accent);
     color: white;
+}
+
+/* ============================================
+   TELEMETRY PREVIEW
+   ============================================ */
+
+.telemetry-summary-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.telemetry-card {
+    background: linear-gradient(145deg, var(--bg-card), var(--bg-secondary));
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.telemetry-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--police-accent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.telemetry-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--border-active);
+}
+
+.telemetry-card:hover::before { 
+    opacity: 1; 
+}
+
+.telemetry-card h5 {
+    margin: 0 0 12px 0;
+    color: var(--police-primary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.telemetry-card p {
+    margin: 8px 0;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.telemetry-card p strong {
+    color: var(--police-primary);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.3px;
+}
+
+.video-player-section video {
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    display: block;
+    margin: 0 auto;
+    border: 2px solid var(--border-color);
+    max-width: 100%;
 }
 
 /* ============================================
@@ -655,37 +669,6 @@ button:disabled {
     font-weight: 500;
 }
 
-.success {
-    color: var(--text-primary);
-    background: linear-gradient(145deg, #f0fff4, var(--bg-card));
-    padding: 32px;
-    border-radius: var(--radius-md);
-    white-space: pre-wrap;
-    line-height: 1.8;
-    border-left: 4px solid var(--status-success);
-    box-shadow: var(--shadow-sm);
-    font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
-    font-size: 0.9rem;
-}
-
-.report-status {
-    margin-bottom: 24px;
-    padding: 24px;
-    background: linear-gradient(145deg, #f0fff4, var(--bg-card));
-    border-radius: var(--radius-md);
-    border-left: 4px solid var(--status-success);
-    box-shadow: var(--shadow-sm);
-}
-
-.report-status p {
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: 500;
-    font-size: 0.9rem;
-}
-
 /* ============================================
    TRANSCRIPTION
    ============================================ */
@@ -712,563 +695,37 @@ button:disabled {
 }
 
 /* ============================================
-   POLICE REPORT FORMS
-   ============================================ */
-
-.report-form-container {
-    background: var(--bg-card);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
-    overflow: hidden;
-    border: 2px solid var(--border-color);
-    margin-top: 20px;
-}
-
-.report-form-header {
-    background: linear-gradient(135deg, var(--police-primary) 0%, var(--police-accent) 100%);
-    color: white;
-    padding: 24px 32px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 16px;
-}
-
-.report-form-header h3 {
-    margin: 0;
-    font-size: 1.4rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.form-actions {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-}
-
-.form-actions button {
-    background: rgba(255, 255, 255, 0.15);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    color: white;
-    padding: 10px 20px;
-    border-radius: var(--radius-md);
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    min-height: auto;
-}
-
-.form-actions button:hover {
-    background: rgba(255, 255, 255, 0.25);
-    border-color: rgba(255, 255, 255, 0.5);
-    transform: translateY(-1px);
-}
-
-.form-actions .btn-success {
-    background: rgba(56, 161, 105, 0.9);
-    border-color: rgba(56, 161, 105, 0.5);
-}
-
-.form-actions .btn-success:hover {
-    background: rgba(56, 161, 105, 1);
-    border-color: rgba(56, 161, 105, 0.8);
-}
-
-.form-actions button:disabled {
-    opacity: 0.7;
-    pointer-events: none;
-}
-
-.police-report-form { padding: 0; }
-
-.form-section {
-    border-bottom: 2px solid var(--border-color);
-    background: var(--bg-card);
-}
-
-.form-section:last-child { border-bottom: none; }
-
-.section-header {
-    background: linear-gradient(145deg, var(--bg-secondary), var(--police-light-blue));
-    color: var(--police-primary);
-    margin: 0;
-    padding: 20px 32px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border-bottom: 2px solid var(--border-color);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    position: relative;
-}
-
-.section-header::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    background: var(--police-accent);
-}
-
-.form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    padding: 32px;
-    background: var(--bg-card);
-}
-
-.form-field {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.form-field-full { grid-column: 1 / -1; }
-
-.form-label {
-    color: var(--police-primary);
-    font-weight: 600;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 4px;
-}
-
-.required-indicator {
-    color: var(--status-error);
-    font-weight: bold;
-    font-size: 1.1rem;
-}
-
-.form-input, .form-textarea {
-    padding: 12px 16px;
-    border: 2px solid var(--border-color);
-    border-radius: var(--radius-md);
-    font-size: 0.95rem;
-    font-family: inherit;
-    color: var(--text-primary);
-    background: var(--bg-card);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.form-input:focus, .form-textarea:focus {
-    outline: none;
-    border-color: var(--police-accent);
-    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
-    background: #fafbfc;
-}
-
-.form-textarea {
-    resize: vertical;
-    min-height: 100px;
-    font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
-    line-height: 1.6;
-}
-
-.form-input:hover, .form-textarea:hover { border-color: var(--border-active); }
-.form-input[type="date"], .form-input[type="time"] { cursor: pointer; }
-
-/* ============================================
-   NOTIFICATIONS
-   ============================================ */
-
-.notification {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 16px 24px;
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-lg);
-    z-index: 10000;
-    font-weight: 600;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    animation: slideInRight 0.3s ease;
-    max-width: 350px;
-    border: 2px solid transparent;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.notification-success {
-    background: linear-gradient(135deg, var(--status-success), #2f855a);
-    color: white;
-    border-color: var(--status-success);
-}
-
-.notification-error {
-    background: linear-gradient(135deg, var(--status-error), #c53030);
-    color: white;
-    border-color: var(--status-error);
-}
-
-.notification-warning {
-    background: linear-gradient(135deg, var(--status-warning), #b7791f);
-    color: white;
-    border-color: var(--status-warning);
-}
-
-.notification-info {
-    background: linear-gradient(135deg, var(--status-info), #2c5aa0);
-    color: white;
-    border-color: var(--status-info);
-}
-
-.notification-close {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 18px;
-    cursor: pointer;
-    padding: 0;
-    margin-left: auto;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: auto;
-    text-transform: none;
-    letter-spacing: normal;
-}
-
-@keyframes slideInRight {
-    from {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-/* ============================================
-   ERROR DISPLAYS
-   ============================================ */
-
-.detailed-error {
-    background: linear-gradient(145deg, #fed7d7, var(--bg-card));
-    border: 2px solid var(--status-error);
-    border-radius: var(--radius-lg);
-    padding: 24px;
-    margin-top: 16px;
-}
-
-.error-main {
-    color: var(--status-error);
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 16px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.error-details {
-    background: rgba(229, 62, 62, 0.1);
-    border: 1px solid rgba(229, 62, 62, 0.2);
-    border-radius: var(--radius-md);
-    padding: 16px;
-    margin: 12px 0;
-}
-
-.error-details h4 {
-    color: var(--status-error);
-    margin: 0 0 8px 0;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.error-details p {
-    color: var(--text-secondary);
-    margin: 0;
-    font-size: 0.9rem;
-    line-height: 1.5;
-}
-
-.error-actions {
-    background: rgba(214, 158, 46, 0.1);
-    border: 1px solid rgba(214, 158, 46, 0.2);
-    border-radius: var(--radius-md);
-    padding: 16px;
-    margin: 12px 0;
-}
-
-.error-actions h4 {
-    color: var(--status-warning);
-    margin: 0 0 8px 0;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.error-actions ul {
-    margin: 0;
-    padding-left: 20px;
-}
-
-.error-actions li {
-    color: var(--text-secondary);
-    margin: 4px 0;
-    font-size: 0.9rem;
-    line-height: 1.5;
-}
-
-.error-actions p {
-    color: var(--text-secondary);
-    margin: 0;
-    font-size: 0.9rem;
-    line-height: 1.5;
-}
-
-.basic-report-notice {
-    background: linear-gradient(145deg, #fff3cd, #ffeaa7);
-    border: 2px solid var(--status-warning);
-    border-radius: var(--radius-md);
-    padding: 16px;
-    margin-bottom: 20px;
-    box-shadow: var(--shadow-sm);
-}
-
-.basic-report-notice strong {
-    color: var(--status-warning);
-    display: block;
-    margin-bottom: 4px;
-    font-size: 0.95rem;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-}
-
-/* ============================================
-   MAP OVERLAY
-   ============================================ */
-
-.map-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(26, 54, 93, 0.95);
-    backdrop-filter: blur(8px);
-    z-index: 1000;
-    overflow: auto;
-    animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-.map-container {
-    position: relative;
-    width: 95%;
-    height: 90%;
-    margin: 2.5% auto;
-    background: var(--bg-card);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-xl);
-    overflow: hidden;
-    animation: slideIn 0.4s ease;
-    border: 2px solid var(--border-color);
-}
-
-@keyframes slideIn {
-    from { 
-        transform: translateY(-30px) scale(0.98);
-        opacity: 0;
-    }
-    to { 
-        transform: translateY(0) scale(1);
-        opacity: 1;
-    }
-}
-
-.map-header {
-    background: linear-gradient(135deg, var(--police-primary) 0%, var(--police-accent) 100%);
-    color: white;
-    padding: 24px 32px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: var(--shadow-md);
-    position: relative;
-}
-
-.map-header::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--police-gold), transparent);
-}
-
-.map-header h3 {
-    margin: 0;
-    font-size: 1.4rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.map-close-btn {
-    background: rgba(255, 255, 255, 0.15);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    color: white;
-    font-size: 20px;
-    cursor: pointer;
-    padding: 8px;
-    width: 40px;
-    height: 40px;
-    border-radius: var(--radius-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-    font-weight: bold;
-}
-
-.map-close-btn:hover {
-    background: rgba(255, 255, 255, 0.25);
-    border-color: rgba(255, 255, 255, 0.5);
-    transform: scale(1.05);
-}
-
-#routeMap {
-    width: 100%;
-    height: calc(100% - 88px);
-}
-
-.route-info {
-    position: absolute;
-    top: 100px;
-    right: 20px;
-    background: rgba(255, 255, 255, 0.98);
-    backdrop-filter: blur(15px);
-    padding: 24px;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
-    z-index: 1001;
-    max-width: 320px;
-    border: 2px solid var(--border-color);
-}
-
-.route-info h4 {
-    margin: 0 0 16px 0;
-    color: var(--police-primary);
-    font-size: 1.1rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border-bottom: 2px solid var(--border-color);
-    padding-bottom: 8px;
-}
-
-.route-info p {
-    margin: 12px 0;
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    line-height: 1.6;
-}
-
-.route-info strong {
-    color: var(--police-primary);
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    letter-spacing: 0.3px;
-}
-
-.route-info hr {
-    border: none;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--border-color), transparent);
-    margin: 16px 0;
-}
-
-/* ============================================
    MOBILE RESPONSIVENESS
    ============================================ */
 
 @media (max-width: 968px) {
-    .upload-container, .preview-container {
+    .upload-container, 
+    .preview-container {
         grid-template-columns: 1fr;
         gap: 20px;
     }
     
-    .telemetry-summary-grid { grid-template-columns: 1fr; }
-    
-    .form-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-        padding: 24px;
-    }
-    
-    .form-field-full { grid-column: 1; }
-    
-    .report-form-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
-    }
-    
-    .form-actions {
-        width: 100%;
-        justify-content: flex-start;
-    }
-    
-    .notification {
-        top: 10px;
-        right: 10px;
-        left: 10px;
-        max-width: none;
+    .telemetry-summary-grid { 
+        grid-template-columns: 1fr; 
     }
 }
 
 @media (max-width: 768px) {
-    body { padding: 16px; }
+    body { 
+        padding: 16px; 
+    }
+    
     .container {
         padding: 24px;
         border-radius: var(--radius-lg);
     }
     
-    h1 { font-size: 2.25rem; }
+    h1 { 
+        font-size: 2.25rem; 
+    }
     
-    .upload-container, .preview-container {
+    .upload-container, 
+    .preview-container {
         grid-template-columns: 1fr;
         gap: 16px;
     }
@@ -1294,83 +751,72 @@ button:disabled {
         flex-direction: column;
     }
     
-    .button-group button { min-width: auto; }
+    .button-group button { 
+        min-width: auto; 
+    }
     
-    .telemetry-card, .upload-section, .criteria-section {
+    .telemetry-card, 
+    .upload-section, 
+    .criteria-section {
         padding: 20px;
     }
     
-    .video-player-section, .telemetry-preview-section {
+    .video-player-section, 
+    .telemetry-preview-section {
         padding: 24px;
     }
-    
-    .map-container {
-        width: 98%;
-        height: 95%;
-        margin: 1% auto;
-        border-radius: var(--radius-lg);
-    }
-    
-    .route-info {
-        position: relative;
-        top: auto;
-        right: auto;
-        margin: 16px;
-        max-width: none;
-    }
-    
-    .map-header { padding: 20px 24px; }
-    .map-header h3 { font-size: 1.2rem; }
     
     select {
         max-width: 100%;
         padding: 14px 16px;
         padding-right: 45px;
     }
-    
-    .form-grid { padding: 20px; gap: 16px; }
-    .section-header { padding: 16px 20px; font-size: 1rem; }
-    .report-form-header { padding: 20px 24px; }
-    .report-form-header h3 { font-size: 1.2rem; }
-    
-    .form-actions button {
-        padding: 8px 16px;
-        font-size: 0.85rem;
-        flex: 1;
-        min-width: 120px;
-    }
 }
 
 @media (max-width: 480px) {
-    .container { padding: 20px; }
-    .upload-section, .criteria-section { padding: 20px; }
-    .video-player-section, .telemetry-preview-section { padding: 20px; }
+    .container { 
+        padding: 20px; 
+    }
     
-    input[type="file"], select {
+    .upload-section, 
+    .criteria-section { 
+        padding: 20px; 
+    }
+    
+    .video-player-section, 
+    .telemetry-preview-section { 
+        padding: 20px; 
+    }
+    
+    input[type="file"], 
+    select {
         max-width: 100%;
         padding: 14px 16px;
     }
     
-    select { padding-right: 45px; }
+    select { 
+        padding-right: 45px; 
+    }
     
     button {
         padding: 14px 24px;
         font-size: 0.9rem;
     }
     
-    h1 { font-size: 2rem; }
-    .telemetry-card { padding: 16px; }
-    .telemetry-card h5 { font-size: 0.85rem; }
-    .telemetry-card p { font-size: 0.8rem; }
+    h1 { 
+        font-size: 2rem; 
+    }
     
-    .form-grid { padding: 16px; gap: 12px; }
-    .section-header { padding: 12px 16px; font-size: 0.9rem; }
-    .report-form-header { padding: 16px 20px; }
+    .telemetry-card { 
+        padding: 16px; 
+    }
     
-    .form-actions { flex-direction: column; }
-    .form-actions button {
-        width: 100%;
-        margin: 4px 0;
+    .telemetry-card h5 { 
+        font-size: 0.85rem; 
+    }
+    
+    .telemetry-card p { 
+        font-size: 0.8rem; 
     }
 }
 
@@ -1396,9 +842,7 @@ button:disabled {
     .upload-section,
     .criteria-section,
     .button-group,
-    .video-player-section,
-    .form-actions,
-    .notification {
+    .video-player-section {
         display: none !important;
     }
     
@@ -1414,53 +858,10 @@ button:disabled {
         padding-bottom: 10pt;
     }
     
-    .success {
-        background: white !important;
-        border: 1pt solid black;
-        padding: 10pt;
-    }
-    
     .telemetry-card {
         border: 1pt solid black;
         margin-bottom: 10pt;
         page-break-inside: avoid;
-    }
-    
-    .report-form-header {
-        background: white !important;
-        color: black !important;
-        border-bottom: 2px solid black;
-    }
-    
-    .section-header {
-        background: white !important;
-        color: black !important;
-        border-bottom: 1px solid black;
-        page-break-after: avoid;
-    }
-    
-    .form-section {
-        page-break-inside: avoid;
-        border-bottom: 1px solid black;
-    }
-    
-    .form-input, .form-textarea {
-        border: 1px solid black !important;
-        background: white !important;
-        box-shadow: none !important;
-    }
-    
-    .form-grid { display: block; padding: 10pt; }
-    
-    .form-field {
-        margin-bottom: 10pt;
-        page-break-inside: avoid;
-    }
-    
-    .form-label {
-        color: black !important;
-        font-weight: bold;
-        margin-bottom: 2pt;
     }
 }
 
@@ -1468,362 +869,18 @@ button:disabled {
    UTILITY CLASSES
    ============================================ */
 
-.text-center { text-align: center; }
-.hidden { display: none; }
-.w-full { width: 100%; }
-.font-mono { font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace; }
-
-/* ============================================
-   AUTHENTICATION STYLES
-   ============================================ */
-
-.user-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-    flex-wrap: wrap;
-    gap: 16px;
+.text-center { 
+    text-align: center; 
 }
 
-.user-header h1 {
-    margin: 0;
-    flex: 1;
+.hidden { 
+    display: none; 
 }
 
-.user-info {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    color: var(--police-primary);
-    font-weight: 600;
-    font-size: 0.9rem;
+.w-full { 
+    width: 100%; 
 }
 
-.logout-btn {
-    background: linear-gradient(135deg, var(--status-error) 0%, #c53030 100%);
-    color: white;
-    padding: 8px 16px;
-    border: none;
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    font-size: 0.85rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    min-height: auto;
+.font-mono { 
+    font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace; 
 }
-
-.logout-btn:hover {
-    background: linear-gradient(135deg, #c53030 0%, var(--status-error) 100%);
-    transform: translateY(-1px);
-}
-
-.auth-container {
-    max-width: 400px;
-    margin: 0 auto;
-    background: var(--bg-card);
-    padding: 32px;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
-    border: 2px solid var(--border-color);
-}
-
-.auth-tabs {
-    display: flex;
-    margin-bottom: 24px;
-    border-bottom: 2px solid var(--border-color);
-}
-
-.auth-tab {
-    flex: 1;
-    padding: 12px 16px;
-    background: transparent;
-    border: none;
-    color: var(--text-secondary);
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-size: 0.9rem;
-    min-height: auto;
-    margin: 0;
-    border-radius: 0;
-    box-shadow: none;
-}
-
-.auth-tab:hover {
-    color: var(--police-accent);
-    background: rgba(49, 130, 206, 0.1);
-    transform: none;
-    box-shadow: none;
-}
-
-.auth-tab.active {
-    color: var(--police-primary);
-    border-bottom: 3px solid var(--police-accent);
-    background: rgba(49, 130, 206, 0.1);
-}
-
-.auth-form {
-    margin-bottom: 20px;
-}
-
-.auth-form h3 {
-    color: var(--police-primary);
-    text-align: center;
-    margin-bottom: 24px;
-    font-size: 1.2rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.auth-form .form-field {
-    margin-bottom: 20px;
-}
-
-.auth-form label {
-    display: block;
-    margin-bottom: 8px;
-    color: var(--police-primary);
-    font-weight: 600;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-}
-
-.auth-form input {
-    width: 100%;
-    padding: 12px 16px;
-    border: 2px solid var(--border-color);
-    border-radius: var(--radius-md);
-    font-size: 0.95rem;
-    font-family: inherit;
-    color: var(--text-primary);
-    background: var(--bg-card);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-sizing: border-box;
-}
-
-.auth-form input:focus {
-    outline: none;
-    border-color: var(--police-accent);
-    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
-    background: #fafbfc;
-}
-
-.auth-form input:hover {
-    border-color: var(--border-active);
-}
-
-.auth-btn {
-    width: 100%;
-    background: linear-gradient(135deg, var(--police-primary) 0%, var(--police-accent) 100%);
-    color: white;
-    padding: 14px 24px;
-    border: none;
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    font-size: 0.95rem;
-    font-weight: 600;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-family: inherit;
-    min-height: auto;
-    margin: 0;
-}
-
-.auth-btn:hover {
-    background: linear-gradient(135deg, var(--police-accent) 0%, var(--police-primary) 100%);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-lg);
-}
-
-.auth-btn:active {
-    transform: translateY(0);
-}
-
-.auth-message {
-    margin-top: 16px;
-    padding: 12px 16px;
-    border-radius: var(--radius-md);
-    font-size: 0.9rem;
-    font-weight: 500;
-    text-align: center;
-}
-
-.auth-message .success-message {
-    color: var(--status-success);
-    background: rgba(56, 161, 105, 0.1);
-    border: 1px solid rgba(56, 161, 105, 0.2);
-    margin: 0;
-    padding: 12px 16px;
-    border-radius: var(--radius-md);
-}
-
-.auth-message .error-message {
-    color: var(--status-error);
-    background: rgba(229, 62, 62, 0.1);
-    border: 1px solid rgba(229, 62, 62, 0.2);
-    margin: 0;
-    padding: 12px 16px;
-    border-radius: var(--radius-md);
-}
-
-.auth-message .loading-message {
-    color: var(--status-info);
-    background: rgba(49, 130, 206, 0.1);
-    border: 1px solid rgba(49, 130, 206, 0.2);
-    margin: 0;
-    padding: 12px 16px;
-    border-radius: var(--radius-md);
-}
-
-/* Mobile responsiveness for auth forms */
-@media (max-width: 768px) {
-    .user-header {
-        flex-direction: column;
-        align-items: flex-start;
-        text-align: center;
-    }
-    
-    .user-header h1 {
-        text-align: center;
-        width: 100%;
-    }
-    
-    .user-info {
-        width: 100%;
-        justify-content: center;
-    }
-    
-    .auth-container {
-        margin: 0 16px;
-        padding: 24px;
-    }
-    
-    .auth-tabs {
-        margin-bottom: 20px;
-    }
-    
-    .auth-tab {
-        padding: 10px 12px;
-        font-size: 0.85rem;
-    }
-    
-    .auth-form h3 {
-        font-size: 1.1rem;
-        margin-bottom: 20px;
-    }
-    
-    .auth-form .form-field {
-        margin-bottom: 16px;
-    }
-    
-    .auth-btn {
-        padding: 12px 20px;
-        font-size: 0.9rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .auth-container {
-        margin: 0 8px;
-        padding: 20px;
-    }
-    
-    .auth-form h3 {
-        font-size: 1rem;
-    }
-    
-    .auth-form input {
-        padding: 10px 14px;
-        font-size: 0.9rem;
-    }
-    
-    .auth-btn {
-        padding: 12px 16px;
-        font-size: 0.85rem;
-    }
-    
-    .logout-btn {
-        padding: 6px 12px;
-        font-size: 0.8rem;
-    }
-}
-
-/* Add these styles to the existing styles.css file */
-
-/* Report History Button */
-.report-history-btn {
-    background: linear-gradient(135deg, var(--police-accent) 0%, var(--police-dark-blue) 100%);
-    color: white;
-    padding: 8px 16px;
-    border: none;
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    font-size: 0.85rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    min-height: auto;
-    margin: 0 8px;
-}
-
-.report-history-btn:hover {
-    background: linear-gradient(135deg, var(--police-dark-blue) 0%, var(--police-accent) 100%);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-lg);
-}
-
-/* Update user-info layout for multiple buttons */
-.user-info {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    color: var(--police-primary);
-    font-weight: 600;
-    font-size: 0.9rem;
-    flex-wrap: wrap;
-}
-
-/* Mobile responsiveness updates */
-@media (max-width: 768px) {
-    .user-info {
-        width: 100%;
-        justify-content: center;
-        gap: 8px;
-    }
-    
-    .report-history-btn,
-    .logout-btn {
-        padding: 6px 12px;
-        font-size: 0.8rem;
-        margin: 2px;
-    }
-}
-
-@media (max-width: 480px) {
-    .user-info {
-        flex-direction: column;
-        gap: 8px;
-    }
-    
-    .report-history-btn,
-    .logout-btn {
-        width: 100%;
-        max-width: 200px;
-        padding: 8px 16px;
-        font-size: 0.85rem;
-        margin: 2px 0;
-    }
-}
-
-/* ============================================
-   END OF OPTIMIZED CSS WITH PREVIEW CONTAINER
-   ============================================ */

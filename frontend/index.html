@@ -3,135 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Summarizer with Route Viewer</title>
+    <title>Police Body Camera Report Generator</title>
     
     <!-- Favicon - Eliminates 404 Error -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🚔%3C/text%3E%3C/svg%3E">
     
+    <!-- External Libraries -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Core Styles -->
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- Feature-Specific Styles -->
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/map.css">
+    <link rel="stylesheet" href="css/report-forms.css">
+    <link rel="stylesheet" href="css/report-history.css">
+    <link rel="stylesheet" href="css/notifications.css">
 </head>
 <body>
     <div class="container">
+        <!-- Initial loading content - will be replaced by authentication or main app -->
         <h1>Police Body Camera Report Generator</h1>
         <p style="text-align: center; color: #666; margin-bottom: 30px;">
-            Upload body camera footage and generate structured police incident reports using AI
+            Loading application...
         </p>
         
-        <!-- Report Criteria Selection Section (NOW FIRST) -->
-        <div class="criteria-section">
-            <h3>📋 Report Type & Criteria</h3>
-            <p>Select the incident details to customize the police report format</p>
-            
-            <!-- Report Type Dropdown -->
-            <div class="criteria-input">
-                <label for="reportType">Report Type:</label>
-                <select id="reportType">
-                    <option value="general">General Incident Report</option>
-                    <option value="vehicle_accident">Vehicle Accident</option>
-                    <option value="crime">Crime Report</option>
-                    <option value="lost_property">Lost Property Report</option>
-                </select>
-            </div>
-            
-            <!-- Time of Day Classification Dropdown -->
-            <div class="criteria-input">
-                <label for="timeOfDay">Time of Day Classification:</label>
-                <select id="timeOfDay">
-                    <option value="day_shift">Day Shift (6AM-2PM)</option>
-                    <option value="evening_shift">Evening Shift (2PM-10PM)</option>
-                    <option value="night_shift">Night Shift (10PM-6AM)</option>
-                </select>
-            </div>
-            
-            <!-- Incident Priority Dropdown -->
-            <div class="criteria-input">
-                <label for="incidentPriority">Incident Priority:</label>
-                <select id="incidentPriority">
-                    <option value="routine">Routine</option>
-                    <option value="priority">Priority</option>
-                    <option value="emergency">Emergency</option>
-                    <option value="code3">Code 3</option>
-                </select>
-            </div>
-        </div>
-        
-        <!-- Upload Sections Container (Side by Side) - NOW SECOND -->
-        <div class="upload-container">
-            <!-- File Upload Section -->
-            <div class="upload-section">
-                <h3>📹 Upload Body Camera Footage</h3>
-                <p>Choose a body camera video file (max 20MB)</p>
-                <div class="file-input">
-                    <input type="file" id="videoFile" accept="video/*" />
-                </div>
-                <div class="file-info" id="fileInfo"></div>
-            </div>
-            
-            <!-- Telemetry Data Upload Section -->
-            <div class="upload-section">
-                <h3>📊 Upload Telemetry Data (Optional)</h3>
-                <p>Upload telemetry file from body camera device</p>
-                <div class="file-input">
-                    <input type="file" id="telemetryFile" accept=".json,.txt" />
-                </div>
-                <div class="file-info" id="telemetryFileInfo"></div>
-            </div>
-        </div>
-        
-        <!-- Preview Sections Container (Side by Side) - CLEAN WITH NO EMBEDDED STYLES -->
-        <div class="preview-container">
-            <!-- Video Player Section (Left Half) -->
-            <div class="video-player-section" id="videoPlayerSection" style="display: none;">
-                <h4>🎬 Body Camera Footage Preview</h4>
-                <video id="videoPlayer" controls width="100%" style="max-width: 500px; border-radius: 8px;">
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-            
-            <!-- Telemetry Preview Section (Right Half) -->
-            <div class="telemetry-preview-section" id="telemetryPreviewSection" style="display: none;">
-                <h4>📋 Telemetry Data Preview</h4>
-                <div class="telemetry-summary" id="telemetrySummary"></div>
-                
-                <!-- Show Route Button -->
-                <div style="text-align: center; margin-top: 15px;">
-                    <button id="showRouteBtn" onclick="window.showRouteOnMap()" disabled>
-                        🗺️ Show Route on Map
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="button-group">
-            <button id="transcribeBtn" disabled>
-                🎤 Fast Audio Transcription
-            </button>
-            <button id="reportBtn" disabled>
-                📋 Generate Police Report
-            </button>
-        </div>
-        
-        <!-- Loading Animation -->
-        <div class="loading" id="loading">
+        <div class="loading">
             <div class="spinner"></div>
-            <p>Processing video with AssemblyAI...</p>
-        </div>
-        
-        <!-- Transcription Section -->
-        <div class="result-section" id="transcriptionSection" style="display: none;">
-            <h3>🎤 Audio Transcription</h3>
-            <div id="transcription" class="transcription-box"></div>
-        </div>
-        
-        <!-- Results Section -->
-        <div class="result-section" id="resultSection">
-            <h3>📋 Generated Police Report</h3>
-            <div id="summary"></div>
+            <p>Initializing system...</p>
         </div>
     </div>
 
-    <!-- Map Overlay -->
+    <!-- Map Overlay (Hidden by default) -->
     <div class="map-overlay" id="mapOverlay">
         <div class="map-container">
             <div class="map-header">
@@ -146,10 +50,10 @@
         </div>
     </div>
 
-    <!-- Load External Libraries -->
+    <!-- External Libraries -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     
-    <!-- Load Main Application (ES6 Modules) -->
+    <!-- Main Application (ES6 Modules) -->
     <script type="module" src="js/main.js"></script>
 </body>
 </html>

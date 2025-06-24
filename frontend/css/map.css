@@ -1,0 +1,343 @@
+/* ============================================
+   MAP OVERLAY & ROUTE VISUALIZATION STYLES
+   Interactive Map Display for GPS Route Tracking
+   ============================================ */
+
+/* Map Overlay */
+.map-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(26, 54, 93, 0.95);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    overflow: auto;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Map Container */
+.map-container {
+    position: relative;
+    width: 95%;
+    height: 90%;
+    margin: 2.5% auto;
+    background: var(--bg-card);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    overflow: hidden;
+    animation: slideIn 0.4s ease;
+    border: 2px solid var(--border-color);
+}
+
+@keyframes slideIn {
+    from { 
+        transform: translateY(-30px) scale(0.98);
+        opacity: 0;
+    }
+    to { 
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+/* Map Header */
+.map-header {
+    background: linear-gradient(135deg, var(--police-primary) 0%, var(--police-accent) 100%);
+    color: white;
+    padding: 24px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-md);
+    position: relative;
+}
+
+.map-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--police-gold), transparent);
+}
+
+.map-header h3 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Map Close Button */
+.map-close-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 8px;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    font-weight: bold;
+}
+
+.map-close-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: scale(1.05);
+}
+
+/* Map Display Area */
+#routeMap {
+    width: 100%;
+    height: calc(100% - 88px);
+}
+
+/* Route Information Panel */
+.route-info {
+    position: absolute;
+    top: 100px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(15px);
+    padding: 24px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    z-index: 1001;
+    max-width: 320px;
+    border: 2px solid var(--border-color);
+}
+
+.route-info h4 {
+    margin: 0 0 16px 0;
+    color: var(--police-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 8px;
+}
+
+.route-info p {
+    margin: 12px 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.route-info strong {
+    color: var(--police-primary);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.3px;
+}
+
+.route-info hr {
+    border: none;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+    margin: 16px 0;
+}
+
+/* Custom Map Marker Icons */
+.custom-div-icon {
+    background-color: var(--police-accent);
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    border: 2px solid white;
+    box-shadow: 0 0 4px rgba(0,0,0,0.3);
+}
+
+/* Leaflet Popup Customization */
+.leaflet-popup-content-wrapper {
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+}
+
+.leaflet-popup-content {
+    font-family: inherit;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--text-primary);
+}
+
+.leaflet-popup-content strong {
+    color: var(--police-primary);
+    font-weight: 600;
+}
+
+/* Route Line Styling */
+.route-polyline {
+    color: var(--police-accent);
+    weight: 4;
+    opacity: 0.8;
+}
+
+/* ============================================
+   MOBILE RESPONSIVENESS
+   ============================================ */
+
+@media (max-width: 768px) {
+    .map-container {
+        width: 98%;
+        height: 95%;
+        margin: 1% auto;
+        border-radius: var(--radius-lg);
+    }
+    
+    .route-info {
+        position: relative;
+        top: auto;
+        right: auto;
+        margin: 16px;
+        max-width: none;
+    }
+    
+    .map-header {
+        padding: 20px 24px;
+    }
+    
+    .map-header h3 {
+        font-size: 1.2rem;
+    }
+    
+    .map-close-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+    }
+    
+    #routeMap {
+        height: calc(100% - 80px);
+    }
+}
+
+@media (max-width: 480px) {
+    .map-container {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        border-radius: 0;
+    }
+    
+    .map-header {
+        padding: 16px 20px;
+    }
+    
+    .map-header h3 {
+        font-size: 1.1rem;
+        gap: 8px;
+    }
+    
+    .map-close-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+        padding: 4px;
+    }
+    
+    .route-info {
+        margin: 12px;
+        padding: 16px;
+    }
+    
+    .route-info h4 {
+        font-size: 1rem;
+        margin-bottom: 12px;
+    }
+    
+    .route-info p {
+        font-size: 0.85rem;
+        margin: 8px 0;
+    }
+    
+    #routeMap {
+        height: calc(100% - 72px);
+    }
+}
+
+/* ============================================
+   PRINT STYLES (Hide Map in Print)
+   ============================================ */
+
+@media print {
+    .map-overlay {
+        display: none !important;
+    }
+}
+
+/* ============================================
+   ACCESSIBILITY ENHANCEMENTS
+   ============================================ */
+
+/* Focus styles for keyboard navigation */
+.map-close-btn:focus {
+    outline: 3px solid rgba(255, 255, 255, 0.6);
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .map-overlay {
+        background: rgba(0, 0, 0, 0.9);
+    }
+    
+    .map-container {
+        border: 3px solid var(--text-primary);
+    }
+    
+    .route-info {
+        border: 2px solid var(--text-primary);
+        background: var(--bg-card);
+    }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .map-overlay {
+        animation: none;
+    }
+    
+    .map-container {
+        animation: none;
+    }
+    
+    .map-close-btn {
+        transition: none;
+    }
+    
+    .map-close-btn:hover {
+        transform: none;
+    }
+}
