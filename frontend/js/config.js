@@ -1,4 +1,3 @@
-// config.js - Configuration & Constants (Backend Integration)
 export const API_ENDPOINTS = {
     TRANSCRIPTION: '/api/transcription/upload',
     REPORTS: '/api/reports/generate',

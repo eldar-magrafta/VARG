@@ -345,7 +345,7 @@ export async function updateReport(reportNumber) {
         
         if (response.ok && data.success) {
             // Success
-            showUpdateNotification('✅ Report updated successfully!', 'success');
+            showUpdateNotification('Report updated successfully!', 'success');
             console.log('📄 Report updated in database');
             
             // Update the text view with the new content

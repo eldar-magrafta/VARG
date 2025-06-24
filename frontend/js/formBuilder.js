@@ -517,20 +517,3 @@ export function validateFormData(formData) {
         errors: errors
     };
 }
-
-// Initialize form builder
-export function initializeFormBuilder() {
-    console.log('📝 Form builder initialized');
-    
-    // Load any saved form data on page load
-    document.addEventListener('DOMContentLoaded', loadSavedFormData);
-    
-    // Clear saved data when page unloads
-    window.addEventListener('beforeunload', clearSavedFormData);
-}
-
-// Cleanup form builder
-export function cleanupFormBuilder() {
-    clearSavedFormData();
-    console.log('🧹 Form builder cleaned up');
-}

@@ -1,11 +1,7 @@
-// authManager.js - Authentication Management Module
-// Handles user authentication, session management, and UI state
-
 // Authentication state
 let currentUser = null;
 let authToken = null;
 
-// Export authentication state getters
 export function getCurrentUser() {
     return currentUser;
 }
@@ -94,7 +90,6 @@ export function showAuthenticationForm() {
         </div>
     `;
     
-    // Set up authentication form listeners
     setupAuthenticationListeners();
 }
 
@@ -147,7 +142,6 @@ async function handleLogin(event) {
             
             // Trigger main app display after brief delay
             setTimeout(() => {
-                // Dispatch custom event for main app to handle
                 document.dispatchEvent(new CustomEvent('authenticationSuccess', {
                     detail: { user: currentUser, token: authToken }
                 }));
@@ -212,11 +206,9 @@ export function handleLogout() {
     
     console.log('👋 User logged out');
     
-    // Dispatch custom event for main app to handle
     document.dispatchEvent(new CustomEvent('authenticationLogout'));
 }
 
-// Tab switching functions (global for HTML onclick)
 export function showLoginForm() {
     document.getElementById('loginForm').style.display = 'block';
     document.getElementById('registerForm').style.display = 'none';
@@ -233,7 +225,6 @@ export function showRegisterForm() {
     document.getElementById('authMessage').innerHTML = '';
 }
 
-// Update authentication state (for external use)
 export function setAuthenticationState(user, token) {
     currentUser = user;
     authToken = token;
@@ -241,7 +232,6 @@ export function setAuthenticationState(user, token) {
     localStorage.setItem('currentUser', JSON.stringify(user));
 }
 
-// Clear authentication state (for external use)
 export function clearAuthenticationState() {
     currentUser = null;
     authToken = null;
@@ -249,15 +239,13 @@ export function clearAuthenticationState() {
     localStorage.removeItem('currentUser');
 }
 
-// Validate current authentication (check if token is still valid)
 export async function validateAuthentication() {
     if (!authToken) {
         return false;
     }
     
     try {
-        // You can add a token validation endpoint here if needed
-        // For now, just check if token exists
+        // You can add a token validation endpoint here if needed for now, just check if token exists
         return true;
     } catch (error) {
         console.error('Token validation failed:', error);
@@ -266,12 +254,10 @@ export async function validateAuthentication() {
     }
 }
 
-// Get user display name
 export function getUserDisplayName() {
     return currentUser ? currentUser.username : 'Unknown User';
 }
 
-// Check if user has specific permissions (extensible for future use)
 export function hasPermission(permission) {
     if (!currentUser) {
         return false;

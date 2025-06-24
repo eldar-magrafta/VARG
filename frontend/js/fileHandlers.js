@@ -1,18 +1,4 @@
-// fileHandlers.js - File Operations with Simplified Report Criteria Support and Layout Management
 import { CONSTANTS } from './config.js';
-
-export function fileToBase64(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-            // Remove the data URL prefix to get just the base64 data
-            const base64 = reader.result.split(',')[1];
-            resolve(base64);
-        };
-        reader.onerror = error => reject(error);
-    });
-}
 
 // Helper function to read file as text
 export function readFileAsText(file) {
@@ -108,39 +94,6 @@ export function checkInputs() {
     updatePreviewLayout();
 }
 
-// Handle any criteria dropdown changes (report type, time of day, or priority)
-export function handleCriteriaChange() {
-    updateCriteriaStatus();
-    logCriteriaChanges();
-}
-
-// Update the criteria status message with all selected values
-function updateCriteriaStatus() {
-    const criteriaInfo = document.getElementById('criteriaInfo');
-    
-    const reportTypeText = getSelectedReportTypeText();
-    const timeOfDayText = getSelectedTimeOfDayText();
-    const priorityText = getSelectedPriorityText();
-    
-    // Create a comprehensive status message
-    if (criteriaInfo) {
-        criteriaInfo.innerHTML = `✅ ${reportTypeText} | ${timeOfDayText} | ${priorityText}`;
-    }
-}
-
-// Log criteria changes for debugging
-function logCriteriaChanges() {
-    const reportType = getSelectedReportType();
-    const timeOfDay = getSelectedTimeOfDay();
-    const priority = getSelectedPriority();
-    
-    console.log('📋 Criteria updated:', {
-        reportType: reportType,
-        timeOfDay: timeOfDay,
-        priority: priority
-    });
-}
-
 // ============================================
 // REPORT TYPE FUNCTIONS
 // ============================================
@@ -218,28 +171,4 @@ export function getCriteriaDisplayInfo() {
             text: getSelectedPriorityText()
         }
     };
-}
-
-// ============================================
-// INITIALIZATION FUNCTIONS
-// ============================================
-
-// Initialize all criteria functionality
-export function initializeReportType() {
-    const reportTypeSelect = document.getElementById('reportType');
-    const timeOfDaySelect = document.getElementById('timeOfDay');
-    const prioritySelect = document.getElementById('incidentPriority');
-    
-    // Set up event listeners for all dropdowns
-    if (reportTypeSelect) reportTypeSelect.addEventListener('change', handleCriteriaChange);
-    if (timeOfDaySelect) timeOfDaySelect.addEventListener('change', handleCriteriaChange);
-    if (prioritySelect) prioritySelect.addEventListener('change', handleCriteriaChange);
-    
-    // Set initial status message
-    updateCriteriaStatus();
-    
-    console.log('📋 All report criteria functionality initialized');
-    
-    // Log initial values
-    console.log('📋 Initial criteria values:', getAllSelectedCriteria());
 }

@@ -27,11 +27,9 @@ document.addEventListener('DOMContentLoaded', function() {
 // Main application initialization
 async function initializeApplication() {
     try {
-        // Initialize core modules
         initializeAuth();
         initializeModalManager();
         
-        // Check authentication status
         const isLoggedIn = checkAuthenticationStatus();
         
         if (isLoggedIn) {
@@ -40,13 +38,8 @@ async function initializeApplication() {
             showAuthenticationForm();
         }
         
-        // Set up authentication event listeners
         setupAuthenticationEvents();
-        
-        // Initialize global functions for HTML compatibility
         initializeGlobalFunctions();
-        
-        // Set up layout management
         initializeLayoutManagement();
         
         console.log('✅ Police Body Camera Report Generator initialized successfully!');
@@ -57,7 +50,6 @@ async function initializeApplication() {
     }
 }
 
-// Set up authentication event listeners
 function setupAuthenticationEvents() {
     document.addEventListener('authenticationSuccess', (event) => {
         console.log('🎉 Authentication successful, showing main app');
@@ -70,7 +62,6 @@ function setupAuthenticationEvents() {
     });
 }
 
-// Show main application interface
 function showMainApplication() {
     const currentUser = getCurrentUser();
     if (!currentUser) {
@@ -82,10 +73,7 @@ function showMainApplication() {
     const container = document.querySelector('.container');
     container.innerHTML = createMainApplicationHTML(currentUser);
     
-    // Add map overlay to the body if it doesn't exist
     ensureMapOverlayExists();
-    
-    // Initialize main application functionality
     initializeMainAppListeners();
     initializeLayoutManagement();
     

@@ -91,11 +91,9 @@ async function generateReport(videoBuffer, mimeType, transcription, telemetryDat
     }
 }
 
-// FIXED: This function now properly uses the reportType parameter
 async function buildPrompt(transcription, telemetryData, reportType) {
     console.log(`🔧 Building prompt for report type: ${reportType}`);
     
-    // Load the appropriate prompt template from file
     let prompt = await loadPrompt(reportType);
 
     if (telemetryData) {

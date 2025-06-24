@@ -12,7 +12,6 @@ const upload = multer({
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-this';
 
-// Middleware to verify JWT token
 const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
@@ -41,7 +40,6 @@ router.post('/generate', upload.single('video'), async (req, res) => {
         console.log('📋 Raw request body keys:', Object.keys(req.body));
         console.log('📋 Raw reportCriteria:', reportCriteria);
 
-        // Parse reportCriteria if it's a string
         let parsedCriteria = null;
         let reportType = 'general'; // Default fallback
 
@@ -97,13 +95,13 @@ router.post('/generate', upload.single('video'), async (req, res) => {
             req.file.mimetype,
             parsedTranscription,
             parsedTelemetryData,
-            reportType  // Make sure this is passed correctly
+            reportType 
         );
         
         res.json({ 
             success: true, 
             report,
-            reportType: reportType, // Include in response for debugging
+            reportType: reportType,
             message: `${reportType} report generated successfully`
         });
 
@@ -148,7 +146,7 @@ router.post('/save', authenticateToken, (req, res) => {
     }
 });
 
-// NEW: Update existing report
+// Update existing report
 router.put('/update/:reportId', authenticateToken, (req, res) => {
     try {
         const { reportContent } = req.body;

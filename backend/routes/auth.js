@@ -1,4 +1,3 @@
-// backend/routes/auth.js - Simple Authentication Routes
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -6,7 +5,6 @@ const { userQueries } = require('../utils/database');
 
 const router = express.Router();
 
-// JWT Secret (in production, this should be in environment variables)
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-this';
 
 // Register new user
@@ -14,7 +12,6 @@ router.post('/register', async (req, res) => {
     try {
         const { username, email, password } = req.body;
 
-        // Basic validation
         if (!username || !email || !password) {
             return res.status(400).json({ 
                 error: 'Username, email, and password are required' 
@@ -49,7 +46,6 @@ router.post('/register', async (req, res) => {
                     return res.status(400).json({ error: 'Email already exists' });
                 }
 
-                // Hash password
                 const hashedPassword = await bcrypt.hash(password, 10);
 
                 // Create user
@@ -80,7 +76,6 @@ router.post('/login', (req, res) => {
     try {
         const { username, password } = req.body;
 
-        // Basic validation
         if (!username || !password) {
             return res.status(400).json({ 
                 error: 'Username and password are required' 
