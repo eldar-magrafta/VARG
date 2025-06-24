@@ -4,37 +4,68 @@
 export function parseReportText(reportText) {
     const formData = {};
     
-    // Basic parsing - look for key patterns
-    const sections = reportText.split(/\*\*([^*]+):\*\*/);
+    // Improved parsing - handle double asterisks better
+    // Split on section headers but avoid splitting on internal double asterisks
+    const lines = reportText.split('\n');
+    let currentSection = '';
+    let currentContent = '';
     
-    for (let i = 1; i < sections.length; i += 2) {
-        const header = sections[i].trim().toUpperCase();
-        const content = sections[i + 1] ? sections[i + 1].trim().split('\n\n')[0].trim() : '';
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
         
-        // Map headers to field names
-        const fieldMapping = {
-            'REPORT TYPE': 'reportHeader',
-            'INCIDENT DATE': 'incidentDate',
-            'INCIDENT TIME': 'incidentTime',
-            'LOCATION': 'location',
-            'REPORTING OFFICER': 'reportingOfficer',
-            'BADGE NUMBER': 'badgeNumber',
-            'INCIDENT CLASSIFICATION': 'incidentType',
-            'WEATHER/ENVIRONMENTAL CONDITIONS': 'weatherConditions',
-            'INDIVIDUALS INVOLVED': 'individualsInvolved',
-            'INCIDENT NARRATIVE': 'incidentNarrative',
-            'OFFICER ACTIONS AND PROCEDURES': 'officerActions',
-            'EVIDENCE AND DOCUMENTATION': 'evidenceCollected',
-            'COMPLETE AUDIO TRANSCRIPT': 'audioTranscript'
-        };
-        
-        const fieldName = fieldMapping[header];
-        if (fieldName && content) {
-            formData[fieldName] = content;
+        // Check if this line is a main section header (starts and ends with **)
+        if (line.startsWith('**') && line.endsWith(':**') && line.split('**').length === 3) {
+            // Save previous section if exists
+            if (currentSection && currentContent.trim()) {
+                const fieldName = getSectionFieldName(currentSection);
+                if (fieldName) {
+                    formData[fieldName] = currentContent.trim();
+                }
+            }
+            
+            // Start new section
+            currentSection = line.replace(/\*\*/g, '').replace(':', '').trim().toUpperCase();
+            currentContent = '';
+        } else if (line && !line.startsWith('**POLICE INCIDENT REPORT**') && !line.startsWith('**INCIDENT REPORT**')) {
+            // Add to current content, preserving internal formatting
+            if (currentContent) {
+                currentContent += '\n' + line;
+            } else {
+                currentContent = line;
+            }
+        }
+    }
+    
+    // Don't forget the last section
+    if (currentSection && currentContent.trim()) {
+        const fieldName = getSectionFieldName(currentSection);
+        if (fieldName) {
+            formData[fieldName] = currentContent.trim();
         }
     }
     
     return formData;
+}
+
+// Helper function to map section names to field names
+function getSectionFieldName(sectionName) {
+    const fieldMapping = {
+        'REPORT TYPE': 'reportHeader',
+        'INCIDENT DATE': 'incidentDate',
+        'INCIDENT TIME': 'incidentTime',
+        'LOCATION': 'location',
+        'REPORTING OFFICER': 'reportingOfficer',
+        'BADGE NUMBER': 'badgeNumber',
+        'INCIDENT CLASSIFICATION': 'incidentType',
+        'WEATHER/ENVIRONMENTAL CONDITIONS': 'weatherConditions',
+        'INDIVIDUALS INVOLVED': 'individualsInvolved',
+        'INCIDENT NARRATIVE': 'incidentNarrative',
+        'OFFICER ACTIONS AND PROCEDURES': 'officerActions',
+        'EVIDENCE AND DOCUMENTATION': 'evidenceCollected',
+        'COMPLETE AUDIO TRANSCRIPT': 'audioTranscript'
+    };
+    
+    return fieldMapping[sectionName] || null;
 }
 
 // Build form HTML for report history
@@ -151,13 +182,13 @@ export function displayReportHistory(reports, currentUser) {
                     <div style="background: linear-gradient(135deg, #1a365d 0%, #3182ce 100%); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center;">
                         <h4 style="margin: 0; font-size: 1.2rem;">Report #${userReportNumber} - ${date}</h4>
                         <button onclick="toggleReportForm(${userReportNumber})" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">
-                            📝 Edit Form
+                            📄 View Text
                         </button>
                     </div>
-                    <div id="reportForm${userReportNumber}" style="display: none;">
+                    <div id="reportForm${userReportNumber}" style="display: block;">
                         ${formHTML}
                     </div>
-                    <div id="reportText${userReportNumber}" style="padding: 20px; background: #f8f9fa; border-radius: 0 0 12px 12px;">
+                    <div id="reportText${userReportNumber}" style="display: none; padding: 20px; background: #f8f9fa; border-radius: 0 0 12px 12px;">
                         <div style="background: white; padding: 16px; border-radius: 6px; border: 1px solid #cbd5e0; white-space: pre-wrap; font-family: monospace; font-size: 0.85rem; max-height: 300px; overflow-y: auto;">
 ${report.report_content}
                         </div>
@@ -193,13 +224,18 @@ ${report.report_content}
 export function toggleReportForm(reportNumber) {
     const formDiv = document.getElementById(`reportForm${reportNumber}`);
     const textDiv = document.getElementById(`reportText${reportNumber}`);
+    const button = document.querySelector(`button[onclick="toggleReportForm(${reportNumber})"]`);
     
     if (formDiv.style.display === 'none') {
+        // Show form, hide text
         formDiv.style.display = 'block';
         textDiv.style.display = 'none';
+        if (button) button.innerHTML = '📄 View Text';
     } else {
+        // Show text, hide form
         formDiv.style.display = 'none';
         textDiv.style.display = 'block';
+        if (button) button.innerHTML = '📝 Edit Form';
     }
 }
 
