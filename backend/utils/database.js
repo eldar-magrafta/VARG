@@ -1,4 +1,4 @@
-// backend/utils/database.js - Simple SQLite Database Setup with Reports
+// backend/utils/database.js - Simple SQLite Database Setup with Reports and Update Functionality
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
@@ -33,6 +33,7 @@ function initializeDatabase() {
             user_id INTEGER NOT NULL,
             report_content TEXT NOT NULL,
             created_at DATETIME NOT NULL,
+            updated_at DATETIME DEFAULT NULL,
             FOREIGN KEY (user_id) REFERENCES users (id)
         )
     `;
@@ -87,13 +88,46 @@ const reportQueries = {
     },
 
     findByUserId: (userId, callback) => {
-        const sql = 'SELECT id, report_content, created_at FROM reports WHERE user_id = ? ORDER BY created_at DESC';
+        const sql = 'SELECT id, report_content, created_at, updated_at FROM reports WHERE user_id = ? ORDER BY created_at DESC';
         db.all(sql, [userId], callback);
     },
 
     findById: (reportId, callback) => {
         const sql = 'SELECT * FROM reports WHERE id = ?';
         db.get(sql, [reportId], callback);
+    },
+
+    // NEW: Update existing report
+    update: (reportId, reportContent, callback) => {
+        const updatedAt = new Date().toISOString();
+        const sql = 'UPDATE reports SET report_content = ?, updated_at = ? WHERE id = ?';
+        db.run(sql, [reportContent, updatedAt, reportId], callback);
+    },
+
+    // NEW: Delete report (optional - for future use)
+    delete: (reportId, callback) => {
+        const sql = 'DELETE FROM reports WHERE id = ?';
+        db.run(sql, [reportId], callback);
+    },
+
+    // NEW: Get reports with update information
+    findByUserIdWithUpdateInfo: (userId, callback) => {
+        const sql = `
+            SELECT 
+                id, 
+                report_content, 
+                created_at, 
+                updated_at,
+                CASE 
+                    WHEN updated_at IS NOT NULL THEN 1 
+                    ELSE 0 
+                END as was_updated
+            FROM reports 
+            WHERE user_id = ? 
+            ORDER BY 
+                CASE WHEN updated_at IS NOT NULL THEN updated_at ELSE created_at END DESC
+        `;
+        db.all(sql, [userId], callback);
     }
 };
 

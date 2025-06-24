@@ -93,6 +93,63 @@ router.post('/save', authenticateToken, (req, res) => {
     }
 });
 
+// NEW: Update existing report
+router.put('/update/:reportId', authenticateToken, (req, res) => {
+    try {
+        const { reportContent } = req.body;
+        const reportId = req.params.reportId;
+        const userId = req.user.userId;
+
+        if (!reportContent) {
+            return res.status(400).json({ error: 'Report content is required' });
+        }
+
+        if (!reportId) {
+            return res.status(400).json({ error: 'Report ID is required' });
+        }
+
+        // First, verify that this report belongs to the current user
+        reportQueries.findById(reportId, (err, existingReport) => {
+            if (err) {
+                console.error('Error finding report:', err);
+                return res.status(500).json({ error: 'Database error' });
+            }
+
+            if (!existingReport) {
+                return res.status(404).json({ error: 'Report not found' });
+            }
+
+            if (existingReport.user_id !== userId) {
+                return res.status(403).json({ error: 'Access denied: You can only update your own reports' });
+            }
+
+            // Now update the report
+            reportQueries.update(reportId, reportContent, function(err) {
+                if (err) {
+                    console.error('Error updating report:', err);
+                    return res.status(500).json({ error: 'Failed to update report' });
+                }
+
+                if (this.changes === 0) {
+                    return res.status(404).json({ error: 'Report not found or no changes made' });
+                }
+
+                console.log(`✅ Report ${reportId} updated by user:`, req.user.username);
+                res.json({ 
+                    success: true, 
+                    message: 'Report updated successfully',
+                    reportId: reportId,
+                    changesCount: this.changes
+                });
+            });
+        });
+
+    } catch (error) {
+        console.error('Update report error:', error);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
 // Get all reports for user
 router.get('/history', authenticateToken, (req, res) => {
     try {

@@ -1,4 +1,4 @@
-// reportHistoryManager.js - Complete Report History Management with Form Display
+// reportHistoryManager.js - Complete Report History Management with Proper Update Functionality
 
 // Parse report text back to form data
 export function parseReportText(reportText) {
@@ -68,70 +68,73 @@ function getSectionFieldName(sectionName) {
     return fieldMapping[sectionName] || null;
 }
 
-// Build form HTML for report history
-export function buildHistoryReportForm(formData, reportNumber) {
+// Build form HTML for report history - NOW INCLUDES ACTUAL REPORT ID
+export function buildHistoryReportForm(formData, reportNumber, actualReportId) {
     return `
         <div style="padding: 24px; background: #f8f9fa;">
+            <!-- Hidden field to store the actual database ID -->
+            <input type="hidden" id="reportId_${reportNumber}" value="${actualReportId}">
+            
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
                 <div>
                     <label style="display: block; font-weight: 600; color: #1a365d; margin-bottom: 6px; font-size: 0.9rem; text-transform: uppercase;">Report Type:</label>
-                    <input type="text" value="${formData.reportHeader || ''}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem;">
+                    <input type="text" id="reportHeader_${reportNumber}" value="${formData.reportHeader || ''}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem;">
                 </div>
                 <div>
                     <label style="display: block; font-weight: 600; color: #1a365d; margin-bottom: 6px; font-size: 0.9rem; text-transform: uppercase;">Incident Date:</label>
-                    <input type="date" value="${formData.incidentDate || ''}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem;">
+                    <input type="date" id="incidentDate_${reportNumber}" value="${formData.incidentDate || ''}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem;">
                 </div>
                 <div>
                     <label style="display: block; font-weight: 600; color: #1a365d; margin-bottom: 6px; font-size: 0.9rem; text-transform: uppercase;">Incident Time:</label>
-                    <input type="time" value="${formData.incidentTime || ''}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem;">
+                    <input type="time" id="incidentTime_${reportNumber}" value="${formData.incidentTime || ''}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem;">
                 </div>
                 <div>
                     <label style="display: block; font-weight: 600; color: #1a365d; margin-bottom: 6px; font-size: 0.9rem; text-transform: uppercase;">Reporting Officer:</label>
-                    <input type="text" value="${formData.reportingOfficer || ''}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem;">
+                    <input type="text" id="reportingOfficer_${reportNumber}" value="${formData.reportingOfficer || ''}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem;">
                 </div>
                 <div>
                     <label style="display: block; font-weight: 600; color: #1a365d; margin-bottom: 6px; font-size: 0.9rem; text-transform: uppercase;">Badge Number:</label>
-                    <input type="text" value="${formData.badgeNumber || ''}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem;">
+                    <input type="text" id="badgeNumber_${reportNumber}" value="${formData.badgeNumber || ''}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem;">
                 </div>
                 <div>
                     <label style="display: block; font-weight: 600; color: #1a365d; margin-bottom: 6px; font-size: 0.9rem; text-transform: uppercase;">Incident Classification:</label>
-                    <input type="text" value="${formData.incidentType || ''}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem;">
+                    <input type="text" id="incidentType_${reportNumber}" value="${formData.incidentType || ''}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem;">
                 </div>
             </div>
             
             <div style="margin-bottom: 20px;">
                 <label style="display: block; font-weight: 600; color: #1a365d; margin-bottom: 6px; font-size: 0.9rem; text-transform: uppercase;">Location:</label>
-                <textarea rows="2" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem; font-family: inherit; resize: vertical;">${formData.location || ''}</textarea>
+                <textarea rows="2" id="location_${reportNumber}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem; font-family: inherit; resize: vertical;">${formData.location || ''}</textarea>
             </div>
             
             <div style="margin-bottom: 20px;">
                 <label style="display: block; font-weight: 600; color: #1a365d; margin-bottom: 6px; font-size: 0.9rem; text-transform: uppercase;">Weather/Environmental Conditions:</label>
-                <textarea rows="2" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem; font-family: inherit; resize: vertical;">${formData.weatherConditions || ''}</textarea>
+                <textarea rows="2" id="weatherConditions_${reportNumber}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem; font-family: inherit; resize: vertical;">${formData.weatherConditions || ''}</textarea>
             </div>
             
             <div style="margin-bottom: 20px;">
                 <label style="display: block; font-weight: 600; color: #1a365d; margin-bottom: 6px; font-size: 0.9rem; text-transform: uppercase;">Individuals Involved:</label>
-                <textarea rows="4" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem; font-family: inherit; resize: vertical;">${formData.individualsInvolved || ''}</textarea>
+                <textarea rows="4" id="individualsInvolved_${reportNumber}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem; font-family: inherit; resize: vertical;">${formData.individualsInvolved || ''}</textarea>
             </div>
             
             <div style="margin-bottom: 20px;">
                 <label style="display: block; font-weight: 600; color: #1a365d; margin-bottom: 6px; font-size: 0.9rem; text-transform: uppercase;">Incident Narrative:</label>
-                <textarea rows="6" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem; font-family: inherit; resize: vertical;">${formData.incidentNarrative || ''}</textarea>
+                <textarea rows="6" id="incidentNarrative_${reportNumber}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem; font-family: inherit; resize: vertical;">${formData.incidentNarrative || ''}</textarea>
             </div>
             
             <div style="margin-bottom: 20px;">
                 <label style="display: block; font-weight: 600; color: #1a365d; margin-bottom: 6px; font-size: 0.9rem; text-transform: uppercase;">Officer Actions and Procedures:</label>
-                <textarea rows="4" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem; font-family: inherit; resize: vertical;">${formData.officerActions || ''}</textarea>
+                <textarea rows="4" id="officerActions_${reportNumber}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem; font-family: inherit; resize: vertical;">${formData.officerActions || ''}</textarea>
             </div>
             
             <div style="margin-bottom: 20px;">
                 <label style="display: block; font-weight: 600; color: #1a365d; margin-bottom: 6px; font-size: 0.9rem; text-transform: uppercase;">Evidence and Documentation:</label>
-                <textarea rows="3" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem; font-family: inherit; resize: vertical;">${formData.evidenceCollected || ''}</textarea>
+                <textarea rows="3" id="evidenceCollected_${reportNumber}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem; font-family: inherit; resize: vertical;">${formData.evidenceCollected || ''}</textarea>
             </div>
             
             <div style="margin-bottom: 20px;">
                 <label style="display: block; font-weight: 600; color: #1a365d; margin-bottom: 6px; font-size: 0.9rem; text-transform: uppercase;">Complete Audio Transcript:</label>
-                <textarea rows="6" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem; font-family: monospace; resize: vertical;">${formData.audioTranscript || ''}</textarea>
+                <textarea rows="6" id="audioTranscript_${reportNumber}" style="width: 100%; padding: 10px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.9rem; font-family: monospace; resize: vertical;">${formData.audioTranscript || ''}</textarea>
             </div>
             
             <div style="text-align: center; margin-top: 24px;">
@@ -142,7 +145,7 @@ export function buildHistoryReportForm(formData, reportNumber) {
     `;
 }
 
-// Display report history in a modal/overlay with forms
+// Display report history in a modal/overlay with forms - NOW PASSES ACTUAL REPORT IDS
 export function displayReportHistory(reports, currentUser) {
     // Remove existing overlay if present
     const existingOverlay = document.getElementById('reportHistoryOverlay');
@@ -172,18 +175,22 @@ export function displayReportHistory(reports, currentUser) {
         reports.forEach((report, index) => {
             const date = new Date(report.created_at).toLocaleString();
             const userReportNumber = index + 1;
+            const actualReportId = report.id; // This is the real database ID
             
             // Parse the report text into form data
             const formData = parseReportText(report.report_content);
-            const formHTML = buildHistoryReportForm(formData, userReportNumber);
+            const formHTML = buildHistoryReportForm(formData, userReportNumber, actualReportId);
             
             reportsHTML += `
                 <div style="margin-bottom: 32px; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 16px rgba(0,0,0,0.1);">
                     <div style="background: linear-gradient(135deg, #1a365d 0%, #3182ce 100%); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center;">
                         <h4 style="margin: 0; font-size: 1.2rem;">Report #${userReportNumber} - ${date}</h4>
-                        <button onclick="toggleReportForm(${userReportNumber})" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">
-                            📄 View as plain Text
-                        </button>
+                        <div style="display: flex; gap: 8px;">
+                            <span style="background: rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">internal report ID in the DB: ${actualReportId}</span>
+                            <button onclick="toggleReportForm(${userReportNumber})" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">
+                                📄 View as plain Text
+                            </button>
+                        </div>
                     </div>
                     <div id="reportForm${userReportNumber}" style="display: block;">
                         ${formHTML}
@@ -239,7 +246,133 @@ export function toggleReportForm(reportNumber) {
     }
 }
 
-// Update report function (placeholder for now)
-export function updateReport(reportNumber) {
-    alert(`Update functionality for Report #${reportNumber} coming in next step!`);
+// NEW: Collect form data from the editable form
+function collectFormData(reportNumber) {
+    const formData = {};
+    
+    // Get all the field values using the unique IDs
+    const fields = [
+        'reportHeader', 'incidentDate', 'incidentTime', 'location',
+        'reportingOfficer', 'badgeNumber', 'incidentType', 'weatherConditions',
+        'individualsInvolved', 'incidentNarrative', 'officerActions',
+        'evidenceCollected', 'audioTranscript'
+    ];
+    
+    fields.forEach(field => {
+        const element = document.getElementById(`${field}_${reportNumber}`);
+        if (element) {
+            formData[field] = element.value;
+        }
+    });
+    
+    return formData;
+}
+
+// NEW: Convert form data back to report text format
+function formatFormDataAsReport(formData) {
+    let reportText = '**INCIDENT REPORT**\n\n';
+    
+    // Map form fields to report sections
+    const sectionMapping = {
+        'reportHeader': 'REPORT TYPE',
+        'incidentDate': 'INCIDENT DATE',
+        'incidentTime': 'INCIDENT TIME',
+        'location': 'LOCATION',
+        'reportingOfficer': 'REPORTING OFFICER',
+        'badgeNumber': 'BADGE NUMBER',
+        'incidentType': 'INCIDENT CLASSIFICATION',
+        'weatherConditions': 'WEATHER/ENVIRONMENTAL CONDITIONS',
+        'individualsInvolved': 'INDIVIDUALS INVOLVED',
+        'incidentNarrative': 'INCIDENT NARRATIVE',
+        'officerActions': 'OFFICER ACTIONS AND PROCEDURES',
+        'evidenceCollected': 'EVIDENCE AND DOCUMENTATION',
+        'audioTranscript': 'COMPLETE AUDIO TRANSCRIPT'
+    };
+    
+    // Add each section with proper formatting
+    Object.keys(sectionMapping).forEach(fieldKey => {
+        const value = formData[fieldKey];
+        if (value && value.trim()) {
+            const sectionName = sectionMapping[fieldKey];
+            reportText += `**${sectionName}:**\n${value.trim()}\n\n`;
+        }
+    });
+    
+    return reportText;
+}
+
+// UPDATED: Update report function with proper implementation
+export async function updateReport(reportNumber) {
+    try {
+        // Get the actual database ID
+        const reportIdElement = document.getElementById(`reportId_${reportNumber}`);
+        if (!reportIdElement) {
+            alert('❌ Error: Could not find report ID');
+            return;
+        }
+        
+        const actualReportId = reportIdElement.value;
+        console.log(`🔄 Updating report with database ID: ${actualReportId}`);
+        
+        // Collect the form data
+        const formData = collectFormData(reportNumber);
+        
+        // Convert form data to report text format
+        const reportContent = formatFormDataAsReport(formData);
+        
+        // Get authentication token
+        const authToken = localStorage.getItem('authToken');
+        if (!authToken) {
+            alert('❌ Authentication required. Please log in again.');
+            return;
+        }
+        
+        // Show loading state
+        const updateButton = document.querySelector(`button[onclick="updateReport(${reportNumber})"]`);
+        if (updateButton) {
+            updateButton.innerHTML = '⏳ Updating...';
+            updateButton.disabled = true;
+        }
+        
+        // Make API call to update the report
+        const response = await fetch(`/api/reports/update/${actualReportId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
+            },
+            body: JSON.stringify({ reportContent })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok && data.success) {
+            // Success
+            alert('✅ Report updated successfully!');
+            console.log('📄 Report updated in database');
+            
+            // Update the text view with the new content
+            const textDiv = document.getElementById(`reportText${reportNumber}`);
+            if (textDiv) {
+                const contentDiv = textDiv.querySelector('div');
+                if (contentDiv) {
+                    contentDiv.textContent = reportContent;
+                }
+            }
+            
+        } else {
+            alert('❌ Failed to update report: ' + (data.error || 'Unknown error'));
+        }
+        
+    } catch (error) {
+        console.error('❌ Error updating report:', error);
+        alert('❌ Error updating report. Please try again.');
+    } finally {
+        // Restore button state
+        const updateButton = document.querySelector(`button[onclick="updateReport(${reportNumber})"]`);
+        if (updateButton) {
+            updateButton.innerHTML = '💾 Update Report';
+            updateButton.disabled = false;
+        }
+    }
 }
