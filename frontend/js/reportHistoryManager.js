@@ -304,7 +304,7 @@ export async function updateReport(reportNumber) {
         // Get the actual database ID
         const reportIdElement = document.getElementById(`reportId_${reportNumber}`);
         if (!reportIdElement) {
-            showUpdateNotification('❌ Error: Could not find report ID', 'error');
+            showGlobalNotification('❌ Error: Could not find report ID', 'error');
             return;
         }
         
@@ -320,7 +320,7 @@ export async function updateReport(reportNumber) {
         // Get authentication token
         const authToken = localStorage.getItem('authToken');
         if (!authToken) {
-            showUpdateNotification('❌ Authentication required. Please log in again.', 'error');
+            showGlobalNotification('❌ Authentication required. Please log in again.', 'error');
             return;
         }
         
@@ -344,8 +344,8 @@ export async function updateReport(reportNumber) {
         const data = await response.json();
         
         if (response.ok && data.success) {
-            // Success
-            showUpdateNotification('Report updated successfully!', 'success');
+            // Success - Use global notification system instead
+            showGlobalNotification('Report updated successfully!', 'success');
             console.log('📄 Report updated in database');
             
             // Update the text view with the new content
@@ -358,12 +358,12 @@ export async function updateReport(reportNumber) {
             }
             
         } else {
-            showUpdateNotification('❌ Failed to update report: ' + (data.error || 'Unknown error'), 'error');
+            showGlobalNotification('❌ Failed to update report: ' + (data.error || 'Unknown error'), 'error');
         }
         
     } catch (error) {
         console.error('❌ Error updating report:', error);
-        showUpdateNotification('❌ Error updating report. Please try again.', 'error');
+        showGlobalNotification('❌ Error updating report. Please try again.', 'error');
     } finally {
         // Restore button state
         const updateButton = document.querySelector(`button[onclick="updateReport(${reportNumber})"]`);
@@ -374,30 +374,37 @@ export async function updateReport(reportNumber) {
     }
 }
 
-// Show update notification without inline styles
-function showUpdateNotification(message, type) {
+// UPDATED: Use global notification system instead of static DOM insertion
+function showGlobalNotification(message, type = 'info', duration = 4000) {
     // Remove existing notifications
-    const existing = document.querySelector('.update-notification');
+    const existing = document.querySelector('.notification');
     if (existing) existing.remove();
     
     const notification = document.createElement('div');
-    notification.className = `update-notification update-${type}`;
+    notification.className = `notification notification-${type}`;
     notification.textContent = message;
     
-    // Find a good place to insert the notification
-    const reportHistory = document.querySelector('.report-history-content');
-    if (reportHistory) {
-        reportHistory.insertBefore(notification, reportHistory.firstChild);
-    } else {
-        document.body.appendChild(notification);
+    // Add close button for longer notifications
+    if (duration > 5000) {
+        const closeBtn = document.createElement('button');
+        closeBtn.innerHTML = '&times;';
+        closeBtn.className = 'notification-close';
+        closeBtn.onclick = () => notification.remove();
+        notification.appendChild(closeBtn);
     }
     
-    // Auto-remove notification after 5 seconds
+    // Add to body (not to specific container)
+    document.body.appendChild(notification);
+    
+    // Auto-remove notification after specified duration
     setTimeout(() => {
         if (notification && notification.parentNode) {
-            notification.remove();
+            notification.style.opacity = '0';
+            setTimeout(() => notification.remove(), 300);
         }
-    }, 5000);
+    }, duration);
+    
+    console.log(`📢 Global notification: ${message} (${type})`);
 }
 
 // Utility function to escape HTML
