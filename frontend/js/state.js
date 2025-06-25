@@ -34,11 +34,3 @@ export function setEnhancedTelemetryData(data) {
     enhancedTelemetryData = data;
     console.log('📊 Enhanced telemetry data updated in state');
 }
-
-// Clear all state (useful for cleanup)
-export function clearAllState() {
-    routeMap = null;
-    routePolyline = null;
-    enhancedTelemetryData = null;
-    console.log('🧹 All state cleared');
-}

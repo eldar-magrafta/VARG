@@ -264,60 +264,6 @@ function displayEnhancedReport(data, transcription, telemetry, criteria, display
     }
 }
 
-// Add save button to the generated report
-function addSaveButtonToReport() {
-    const resultSection = document.getElementById('resultSection');
-    const summaryDiv = document.getElementById('summary');
-    
-    if (!resultSection || !summaryDiv || !summaryDiv.textContent.trim()) {
-        return;
-    }
-    
-    // Check if save button already exists
-    if (document.getElementById('saveReportToDbBtn')) {
-        return;
-    }
-    
-    // Create save button
-    const saveButton = document.createElement('button');
-    saveButton.id = 'saveReportToDbBtn';
-    saveButton.className = 'btn-success';
-    saveButton.innerHTML = '💾 Save Report to Database';
-    saveButton.style.cssText = `
-        margin: 16px auto;
-        display: block;
-        padding: 12px 24px;
-        background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 0.95rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    `;
-    
-    saveButton.addEventListener('click', window.saveCurrentReport);
-    
-    saveButton.addEventListener('mouseenter', function() {
-        this.style.background = 'linear-gradient(135deg, #2f855a 0%, #38a169 100%)';
-        this.style.transform = 'translateY(-1px)';
-        this.style.boxShadow = '0 6px 8px rgba(0, 0, 0, 0.15)';
-    });
-    
-    saveButton.addEventListener('mouseleave', function() {
-        this.style.background = 'linear-gradient(135deg, #38a169 0%, #2f855a 100%)';
-        this.style.transform = 'translateY(0)';
-        this.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
-    });
-    
-    // Insert the button at the top of the summary div
-    summaryDiv.insertBefore(saveButton, summaryDiv.firstChild);
-}
-
 // Fallback basic report display (NO SAVE BUTTON ADDED)
 function showBasicReport(report, hasTranscription, hasTelemetry) {
     const resultSection = document.getElementById('resultSection');

@@ -408,24 +408,3 @@ function escapeHtml(text) {
     div.textContent = text;
     return div.innerHTML;
 }
-
-// Initialize report history management
-export function initializeReportHistory() {
-    console.log('📋 Report history manager initialized');
-    
-    // Set up global functions for HTML onclick compatibility
-    if (typeof window !== 'undefined') {
-        window.toggleReportForm = toggleReportForm;
-        window.updateReport = updateReport;
-    }
-}
-
-// Cleanup function
-export function cleanupReportHistory() {
-    const overlay = document.getElementById('reportHistoryOverlay');
-    if (overlay) {
-        overlay.remove();
-    }
-    
-    console.log('🧹 Report history cleaned up');
-}

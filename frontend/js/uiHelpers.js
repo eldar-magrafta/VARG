@@ -194,32 +194,6 @@ export function showTelemetryPreview(telemetryData, rawContent) {
     summaryDiv.innerHTML = summaryHTML;
 }
 
-// Additional utility functions for enhanced UI interactions
-
-// Show loading state for specific operations
-export function showOperationLoading(operation, elementId) {
-    const element = document.getElementById(elementId);
-    if (!element) return;
-    
-    const loadingHTML = `
-        <div class="operation-loading">
-            <div class="spinner"></div>
-            <p>${operation}</p>
-        </div>
-    `;
-    
-    element.innerHTML = loadingHTML;
-    element.style.display = 'block';
-}
-
-// Hide loading state
-export function hideOperationLoading(elementId) {
-    const element = document.getElementById(elementId);
-    if (!element) return;
-    
-    element.style.display = 'none';
-}
-
 // Show success notification
 export function showSuccessNotification(message, duration = 4000) {
     showNotification(message, 'success', duration);
@@ -233,11 +207,6 @@ export function showErrorNotification(message, duration = 6000) {
 // Show warning notification
 export function showWarningNotification(message, duration = 5000) {
     showNotification(message, 'warning', duration);
-}
-
-// Show info notification
-export function showInfoNotification(message, duration = 4000) {
-    showNotification(message, 'info', duration);
 }
 
 // Generic notification function
@@ -268,26 +237,6 @@ export function showNotification(message, type = 'info', duration = 4000) {
             setTimeout(() => notification.remove(), 300);
         }
     }, duration);
-}
-
-// Clear all notifications
-export function clearAllNotifications() {
-    const notifications = document.querySelectorAll('.notification');
-    notifications.forEach(notification => {
-        notification.style.opacity = '0';
-        setTimeout(() => notification.remove(), 300);
-    });
-}
-
-// Show confirmation dialog
-export function showConfirmation(message, onConfirm, onCancel = null) {
-    const confirmed = confirm(message);
-    if (confirmed && onConfirm) {
-        onConfirm();
-    } else if (!confirmed && onCancel) {
-        onCancel();
-    }
-    return confirmed;
 }
 
 // Enhanced error display with details
@@ -324,65 +273,4 @@ export function showDetailedError(mainMessage, details = null, suggestedActions 
     
     summaryDiv.innerHTML = errorHTML;
     resultSection.style.display = 'block';
-}
-
-// Show system status information
-export function showSystemStatus(status, message) {
-    const statusIndicator = document.getElementById('systemStatus') || createStatusIndicator();
-    
-    statusIndicator.className = `system-status status-${status}`;
-    statusIndicator.textContent = message;
-    statusIndicator.style.display = 'block';
-    
-    // Auto-hide success status after 3 seconds
-    if (status === 'success') {
-        setTimeout(() => {
-            statusIndicator.style.display = 'none';
-        }, 3000);
-    }
-}
-
-// Create system status indicator if it doesn't exist
-function createStatusIndicator() {
-    const indicator = document.createElement('div');
-    indicator.id = 'systemStatus';
-    indicator.className = 'system-status';
-    document.body.appendChild(indicator);
-    return indicator;
-}
-
-// Utility function to escape HTML to prevent XSS
-export function escapeHtml(text) {
-    if (typeof text !== 'string') return '';
-    
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
-
-// Utility function to format file sizes
-export function formatFileSize(bytes) {
-    if (bytes === 0) return '0 Bytes';
-    
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-}
-
-// Utility function to format timestamps
-export function formatTimestamp(timestamp, options = {}) {
-    const date = new Date(timestamp);
-    const defaultOptions = {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        ...options
-    };
-    
-    return date.toLocaleString('en-US', defaultOptions);
 }
