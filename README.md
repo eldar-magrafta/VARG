@@ -40,6 +40,8 @@ npm install
 # Add your API keys:
 GEMINI_API_KEY=your_gemini_api_key_here
 ASSEMBLYAI_API_KEY=your_assemblyai_api_key_here
+JWT_SECRET=your_jwt_secret_here
+PORT=3001 
 ```
 
 4. **Start the development server**
