@@ -96,6 +96,8 @@
 .report-card-header h4 {
     margin: 0;
     font-size: 1.2rem;
+    color: #ffd700; /* Bright yellow */
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
 
 .report-card-actions {

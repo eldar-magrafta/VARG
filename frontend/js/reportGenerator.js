@@ -5,6 +5,7 @@ import { checkInputs, getAllSelectedCriteria, getCriteriaDisplayInfo } from './f
 import { 
     showGeminiReport, 
     showError, 
+    showNotification,
     showSuccessNotification, 
     showErrorNotification, 
     showWarningNotification,
@@ -368,10 +369,7 @@ function showGenerationStartNotification() {
     const criteria = getAllSelectedCriteria();
     const displayInfo = getCriteriaDisplayInfo();
     
-    showSuccessNotification(
-        `🚀 Starting ${displayInfo.reportType.text.toLowerCase()} generation...`,
-        2000
-    );
+    showNotification(`🚀 Starting ${displayInfo.reportType.text} generation...`,'info',2000);
 }
 
 // Get existing transcription from UI

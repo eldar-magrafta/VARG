@@ -53,7 +53,7 @@ async function generateReport(videoBuffer, mimeType, transcription, telemetryDat
         const prompt = await buildPrompt(transcription, telemetryData, reportType);
 
         console.log(`✅ Prompt loaded successfully for report type: ${reportType}`);
-        console.log('📝 Prompt preview:', prompt.substring(0, 200) + '...');
+        console.log('📝 Prompt preview:', prompt);
 
         const requestData = {
             contents: [{
@@ -106,7 +106,6 @@ async function buildPrompt(transcription, telemetryData, reportType) {
         prompt += '\n\nAUDIO TRANSCRIPTION:\n' + transcription;
     }
 
-    console.log(`📋 Final prompt built for ${reportType} (${prompt.length} characters)`);
     return prompt;
 }
 
