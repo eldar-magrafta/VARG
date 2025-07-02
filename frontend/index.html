@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Police Body Camera Report Generator</title>
+    
+    <!-- Favicon - Eliminates 404 Error -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🚔%3C/text%3E%3C/svg%3E">
+    
+    <!-- External Libraries -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Core Styles -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Feature-Specific Styles -->
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/map.css">
+    <link rel="stylesheet" href="css/report-forms.css">
+    <link rel="stylesheet" href="css/report-history.css">
+    <link rel="stylesheet" href="css/notifications.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Police Body Camera Report Generator</h1>
+        <p style="text-align: center; color: #666; margin-bottom: 30px;">
+            Loading application...
+        </p>
+        
+        <div class="loading">
+            <div class="spinner"></div>
+            <p>Initializing system...</p>
+        </div>
+    </div>
+
+    <!-- Map Overlay (Hidden by default) -->
+    <div class="map-overlay" id="mapOverlay">
+        <div class="map-container">
+            <div class="map-header">
+                <h3>📍 Officer Route Tracking</h3>
+                <button class="map-close-btn" onclick="window.closeRouteMap()">&times;</button>
+            </div>
+            <div id="routeMap"></div>
+            <div class="route-info" id="routeInfo">
+                <h4>Route Information</h4>
+                <p><strong>Loading route data...</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- External Libraries -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Main Application (ES6 Modules) -->
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

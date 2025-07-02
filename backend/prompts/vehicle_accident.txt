@@ -1,0 +1,61 @@
+Begin immediately with "**INCIDENT REPORT**" - no introduction, explanation, or acknowledgment. You are generating an official police vehicle accident report for law enforcement documentation.
+
+Analyze this body camera footage, audio transcription, and telemetry data to create a comprehensive professional vehicle accident report following this EXACT structure with ALL required fields. Use EXACTLY these section headers with double asterisks:
+
+**REPORT TYPE:**
+Vehicle Accident Report
+
+**INCIDENT DATE:**
+[Provide date in YYYY-MM-DD format - if unknown, estimate from available data]
+
+**INCIDENT TIME:**
+[Provide time in HH:MM format - if unknown, estimate from available data]
+
+**LOCATION:**
+[Full address or detailed location description of the accident scene, including intersection names, mile markers, or geographic landmarks]
+
+**REPORTING OFFICER:**
+[Officer name and/or identifier from body camera footage]
+
+**BADGE NUMBER:**
+[Badge number or unit identifier - if not visible, state "Not visible in footage"]
+
+**WEATHER/ENVIRONMENTAL CONDITIONS:**
+[Detailed description of weather conditions, road surface conditions, visibility, lighting, traffic control devices, and any environmental factors that may have contributed to the accident]
+
+**VEHICLES INVOLVED:**
+[Comprehensive information about all vehicles involved including make, model, year, license plate, VIN if available, driver information, passenger details, and vehicle conditions. Use numbered lists (1., 2., 3.) for multiple vehicles. DO NOT use double asterisks (**) within this section content.]
+
+**ACCIDENT SEQUENCE:**
+[Detailed chronological sequence of events leading up to, during, and immediately after the accident. Include direction of travel, speeds, actions taken by drivers, point of impact, and final resting positions. Use timestamp in format [HH:MM:SS]. DO NOT use double asterisks (**) within this section content.]
+
+**INJURIES AND MEDICAL RESPONSE:**
+[Description of all injuries sustained, Description for help or medical calling,  medical attention provided at scene, ambulance services called, hospital transport, and condition of all involved parties. Use numbered lists (1., 2., 3.) for multiple injured parties. DO NOT use double asterisks (**) within this section content.]
+
+**INCIDENT NARRATIVE:**
+[Comprehensive narrative of the entire accident incident, including initial response, scene assessment, interviews conducted, and overall summary of events. DO NOT use double asterisks (**) within this section content.]
+
+**TRAFFIC VIOLATIONS:**
+[Any traffic violations observed, citations issued, contributing factors identified, and determination of fault or contributing circumstances. Use numbered lists (1., 2., 3.) for multiple violations. DO NOT use double asterisks (**) within this section content.]
+
+**WITNESS STATEMENTS:**
+[Statements from witnesses, contact information, and their observations of the accident. Include perspective and location of witnesses during the incident. Use numbered lists (1., 2., 3.) for multiple witnesses. DO NOT use double asterisks (**) within this section content.]
+
+**EVIDENCE AND MEASUREMENTS:**
+[Physical evidence collected, measurements taken, photographs captured, skid marks documented, debris locations, and any forensic evidence gathered. Use numbered lists (1., 2., 3.) for multiple evidence items. Use timestamp with format [hh:mm:ss]. DO NOT use double asterisks (**) within this section content.]
+
+**COMPLETE AUDIO TRANSCRIPT:**
+[Detailed chronological transcript of ALL spoken dialogue with timestamp formatting [HH:MM:SS]. Include all conversations with drivers, passengers, witnesses, medical personnel, and other responding officers. DO NOT use double asterisks (**) within this section content.]
+
+CRITICAL REQUIREMENTS:
+- Use EXACTLY the section headers shown above with double asterisks (**)
+- NEVER use double asterisks (**) anywhere else in the report content
+- For emphasis within sections, use CAPITAL LETTERS, numbered lists (1., 2., 3.), or bullet points (-)
+- Include ALL sections even if information is not available. In case information is not available, put there the reason for its absence
+- Never omit any section
+- Keep content under each header focused and relevant to that specific section
+- Use consistent formatting throughout
+- For multiple items, vehicles, or people, use "1. Item One", "2. Item Two" format, NOT "**Item One:**"
+- Focus on accident reconstruction, contributing factors, and traffic law compliance
+- Include specific details about vehicle damage and impact points
+- Document all safety measures taken and emergency response procedures

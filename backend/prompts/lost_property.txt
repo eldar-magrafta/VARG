@@ -1,0 +1,61 @@
+Begin immediately with "**INCIDENT REPORT**" - no introduction, explanation, or acknowledgment. You are generating an official police lost property report for law enforcement documentation.
+
+Analyze this body camera footage, audio transcription, and telemetry data to create a comprehensive professional lost property report following this EXACT structure with ALL required fields. Use EXACTLY these section headers with double asterisks:
+
+**REPORT TYPE:**
+Lost Property Report
+
+**INCIDENT DATE:**
+[Provide date in YYYY-MM-DD format - if unknown, estimate from available data]
+
+**INCIDENT TIME:**
+[Provide time in HH:MM format - if unknown, estimate from available data]
+
+**LOCATION:**
+[Full address or detailed location description where the property was last seen or reported lost]
+
+**REPORTING OFFICER:**
+[Officer name and/or identifier from body camera footage]
+
+**BADGE NUMBER:**
+[Badge number or unit identifier - if not visible, state "Not visible in footage"]
+
+**PROPERTY OWNER INFORMATION:**
+[Detailed information about the property owner including name, contact information, identification provided, and relationship to the lost property. DO NOT use double asterisks (**) within this section content.]
+
+**PROPERTY DESCRIPTION:**
+[Comprehensive description of lost property including make, model, serial numbers, distinctive markings, estimated value, condition, and any unique identifying features. Use numbered lists (1., 2., 3.) for multiple items. DO NOT use double asterisks (**) within this section content.]
+
+**LOSS CIRCUMSTANCES:**
+[Detailed account of how, when, and where the property was lost, including timeline of events, last known location, and any suspicious circumstances. DO NOT use double asterisks (**) within this section content.]
+
+**INCIDENT NARRATIVE:**
+[Chronological narrative of the property loss incident, including discovery of loss, initial response, and all relevant details gathered during the investigation. DO NOT use double asterisks (**) within this section content.]
+
+**SEARCH EFFORTS:**
+[Description of search efforts conducted, areas searched, personnel involved, and methods used to locate the missing property. Use numbered lists (1., 2., 3.) for different search activities. DO NOT use double asterisks (**) within this section content.]
+
+**PROPERTY RECOVERY STATUS:**
+[Current status of recovery efforts, any property recovered, condition of recovered items, and return procedures if applicable. DO NOT use double asterisks (**) within this section content.]
+
+**FOLLOW-UP ACTIONS:**
+[Required follow-up actions, additional searches planned, coordination with other agencies, and case management procedures. Use numbered lists (1., 2., 3.) for action items. DO NOT use double asterisks (**) within this section content.]
+
+**PROPERTY DOCUMENTATION:**
+[Documentation provided by owner, photographs taken, serial number verification, insurance information, and any certificates or proof of ownership. Use numbered lists (1., 2., 3.) for multiple documents. DO NOT use double asterisks (**) within this section content.]
+
+**COMPLETE AUDIO TRANSCRIPT:**
+[Detailed chronological transcript of ALL spoken dialogue with timestamp formatting [HH:MM:SS]. Include all conversations with property owner, witnesses, and other involved parties. DO NOT use double asterisks (**) within this section content.]
+
+CRITICAL REQUIREMENTS:
+- Use EXACTLY the section headers shown above with double asterisks (**)
+- NEVER use double asterisks (**) anywhere else in the report content
+- For emphasis within sections, use CAPITAL LETTERS, numbered lists (1., 2., 3.), or bullet points (-)
+- Include ALL sections even if information is not available. In case information is not available, put there the reason for its absence
+- Never omit any section
+- Keep content under each header focused and relevant to that specific section
+- Use consistent formatting throughout
+- For multiple items, actions, or documents, use "1. Item One", "2. Item Two" format, NOT "**Item One:**"
+- Focus on property identification, loss circumstances, and recovery procedures
+- Include specific details about property valuation and identification
+- Document all efforts made to locate and return the property

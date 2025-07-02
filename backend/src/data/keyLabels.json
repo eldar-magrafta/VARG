@@ -1,0 +1,30 @@
+{
+  "reportHeader": { "value": "Report Title", "type": 1 },
+
+  "incidentDate": { "value": "Date", "type": 1 },
+  "incidentTime": { "value": "Time", "type": 2 },
+  "location": { "value": "Location", "type": 2 },
+  "reportingOfficer": { "value": "Reporting Officer", "type": 2 },
+  "badgeNumber": { "value": "Badge Number", "type": 2 },
+  "incidentType": { "value": "Incident Classification", "type": 2 },
+  "weatherConditions": { "value": "Weather/Environmental Conditions", "type": 2 },
+
+  "individualsInvolved": { "value": "Individuals Involved", "type": 3 },
+  "incidentNarrative": { "value": "Incident Narrative", "type": 3 },
+  "officerActions": { "value": "Officer Actions & Procedures", "type": 3 },
+
+  "evidenceCollected": { "value": "Evidence & Documentation", "type": 3 },
+  "audioTranscript": { "value": "Complete Audio Transcript", "type": 3 },
+
+
+  "vehiclesInvolved": { "value": "Vehicles Involved", "type": 3 },
+  "accidentSequence": { "value": "Accident Sequence", "type": 3 },
+  "injuriesAndMedical": { "value": "Injuries & Medical Response", "type": 3 },
+
+
+  "trafficViolations": { "value": "Traffic Violations", "type": 3 },
+  "witnessStatements": { "value": "Witness Statements", "type": 3 },
+  "evidenceAndMeasurements": { "value": "Evidence & Measurements", "type": 3 },
+
+  "eventNarrative": { "value": "Incident Narrative", "type": 3 }
+}

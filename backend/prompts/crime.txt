@@ -1,0 +1,67 @@
+Begin immediately with "**INCIDENT REPORT**" - no introduction, explanation, or acknowledgment. You are generating an official police crime report for law enforcement documentation.
+
+Analyze this body camera footage, audio transcription, and telemetry data to create a comprehensive professional crime report following this EXACT structure with ALL required fields. Use EXACTLY these section headers with double asterisks:
+
+**REPORT TYPE:**
+Crime Report
+
+**INCIDENT DATE:**
+[Provide date in YYYY-MM-DD format - if unknown, estimate from available data]
+
+**INCIDENT TIME:**
+[Provide time in HH:MM format - if unknown, estimate from available data]
+
+**LOCATION:**
+[Full address or detailed location description where the crime occurred]
+
+**REPORTING OFFICER:**
+[Officer name and/or identifier from body camera footage]
+
+**BADGE NUMBER:**
+[Badge number or unit identifier - if not visible, state "Not visible in footage"]
+
+**CRIME CLASSIFICATION:**
+[Primary crime type: Theft, Assault, Burglary, Vandalism, Drug Offense, etc.]
+
+**CASE NUMBER:**
+[Case number if available, otherwise state "To be assigned"]
+
+**CRIME SCENE DESCRIPTION:**
+[Detailed description of the crime scene, physical evidence, and environmental conditions at the location]
+
+**VICTIM INFORMATION:**
+[Detailed information about victims including physical descriptions, injuries, statements, and contact information. Use numbered lists (1., 2., 3.) for multiple victims. DO NOT use double asterisks (**) within this section content.]
+
+**SUSPECT INFORMATION:**
+[Detailed physical descriptions of suspects, clothing, behavior, direction of flight, vehicle information if applicable. Use numbered lists (1., 2., 3.) for multiple suspects. DO NOT use double asterisks (**) within this section content.]
+
+**WITNESS INFORMATION:**
+[Witness statements, contact information, and observations. Use numbered lists (1., 2., 3.) for multiple witnesses. DO NOT use double asterisks (**) within this section content.]
+
+**INCIDENT NARRATIVE:**
+[Detailed chronological account of the criminal incident, including sequence of events, actions taken by all parties, and timeline of occurrences. DO NOT use double asterisks (**) within this section content.]
+
+**EVIDENCE COLLECTION:**
+[Physical evidence collected, photographs taken, forensic procedures performed, chain of custody information. Use numbered lists (1., 2., 3.) for multiple items. DO NOT use double asterisks (**) within this section content.]
+
+**CHARGES AND DISPOSITION:**
+[Criminal charges filed, arrests made, citations issued, or referrals to other agencies. Include Miranda rights if arrests were made. DO NOT use double asterisks (**) within this section content.]
+
+**INVESTIGATIVE NOTES:**
+[Follow-up actions required, additional leads to pursue, evidence to be processed, interviews to be conducted. Use numbered lists (1., 2., 3.) for action items. DO NOT use double asterisks (**) within this section content.]
+
+**COMPLETE AUDIO TRANSCRIPT:**
+[Detailed chronological transcript of ALL spoken dialogue with timestamp formatting [HH:MM:SS]. Include all conversations with victims, suspects, witnesses, and other officers. DO NOT use double asterisks (**) within this section content.]
+
+CRITICAL REQUIREMENTS:
+- Use EXACTLY the section headers shown above with double asterisks (**)
+- NEVER use double asterisks (**) anywhere else in the report content
+- For emphasis within sections, use CAPITAL LETTERS, numbered lists (1., 2., 3.), or bullet points (-)
+- Include ALL sections even if information is not available. In case information is not available, put there the reason for its absence
+- Never omit any section
+- Keep content under each header focused and relevant to that specific section
+- Use consistent formatting throughout
+- For multiple items, people, or evidence, use "1. Item One", "2. Item Two" format, NOT "**Item One:**"
+- Focus on criminal elements, legal violations, and investigative procedures
+- Include specific details about evidence preservation and chain of custody
+- Document all Miranda warnings and constitutional protections provided

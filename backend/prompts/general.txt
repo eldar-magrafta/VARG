@@ -1,0 +1,53 @@
+Begin immediately with "**INCIDENT REPORT**" - no introduction, explanation, or acknowledgment. You are generating an official police incident report for law enforcement documentation.
+
+Analyze this body camera footage, audio transcription, and telemetry data to create a comprehensive professional incident report following this EXACT structure with ALL required fields. Use EXACTLY these section headers with double asterisks:
+
+**REPORT TYPE:**
+General Incident Report
+
+**INCIDENT DATE:**
+[PRIORITY: If telemetry data is provided, extract the incident date from the telemetry timestamps (use the start time or first recorded event). Only if telemetry data is NOT available, estimate from video footage or other available data. Provide date in YYYY-MM-DD format]
+
+**INCIDENT TIME:**
+[PRIORITY: If telemetry data is provided, extract the incident time from the telemetry timestamps (use the start time or first recorded event). Only if telemetry data is NOT available, estimate from video footage or other available data. Provide time in HH:MM format]
+
+**LOCATION:**
+[PRIORITY: If telemetry data is provided, extract location from GPS coordinates in telemetry data. Use the FIRST/STARTING location only. Format as: Street Number + Street Name, City, Country (e.g., "123 Main Street, Tel Aviv, Israel"). Avoid repetitive administrative divisions. Only if telemetry data is NOT available or contains no location information, then describe location from body camera footage]
+
+**REPORTING OFFICER:**
+[PRIORITY: If telemetry data is provided, extract and use the officer name from the telemetry data (look for officer information in checkpoint events, device assignments, or configuration data). Only if telemetry data is NOT available or contains no officer information, then identify officer from body camera footage or other sources]
+
+**BADGE NUMBER:**
+[PRIORITY: If telemetry data is provided, extract badge number or unit identifier from officer information in telemetry data (check checkpoint events, device assignments, or configuration data). Only if telemetry data is NOT available or contains no badge information, then look for badge number in video footage or state "Not visible in footage"]
+
+**INCIDENT CLASSIFICATION:**
+[Primary incident type: Investigation, Traffic Stop, Arrest, Disturbance, etc.]
+
+**WEATHER/ENVIRONMENTAL CONDITIONS:**
+[Describe lighting, weather, visibility, time of day, etc.]
+
+**INDIVIDUALS INVOLVED:**
+[Detailed physical descriptions using standard law enforcement identification protocols for each person. Use numbered lists (1., 2., 3.) or bullet points (-) for multiple individuals, vehicles, or items. DO NOT use double asterisks (**) within this section content.]
+
+**INCIDENT NARRATIVE:**
+[Concise,Firearms, professional chronological summary focusing on ACTIONS and BEHAVIORS, not dialogue. Use numbered lists (1., 2., 3.) for sequence of events if needed. DO NOT use double asterisks (**) within this section content.]
+
+**OFFICER ACTIONS AND PROCEDURES:**
+[Commands given,Firearms, compliance levels, use of force if any, Miranda rights, evidence preservation, etc. Use numbered lists (1., 2., 3.) for procedures. DO NOT use double asterisks (**) within this section content.]
+
+**EVIDENCE AND DOCUMENTATION:**
+[Body camera footage,Firearms, audio recordings, physical evidence, witness statements, etc. Use bullet points (-) or numbered lists (1., 2., 3.) for multiple items. DO NOT use double asterisks (**) within this section content.]
+
+**COMPLETE AUDIO TRANSCRIPT:**
+[Detailed chronological transcript of ALL spoken dialogue with timestamp formatting [HH:MM:SS]. DO NOT use double asterisks (**) within this section content.]
+
+CRITICAL REQUIREMENTS:
+- Use EXACTLY the section headers shown above with double asterisks (**)
+- NEVER use double asterisks (**) anywhere else in the report content
+- For emphasis within sections, use CAPITAL LETTERS, numbered lists (1., 2., 3.), or bullet points (-)
+- Include ALL sections even if information is not available. In case information is not available, put there the reason for its absence
+- Never omit any section
+- Keep content under each header focused and relevant to that specific section
+- Use consistent formatting throughout
+- For multiple items, vehicles, or individuals, use "1. Item One", "2. Item Two" format, NOT "**Item One:**"
+- IMPORTANT: Always prioritize telemetry data for officer identification, location (GPS coordinates/addresses), incident date/time (timestamps), and badge number over video footage analysis

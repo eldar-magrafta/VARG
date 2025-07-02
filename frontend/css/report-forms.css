@@ -1,0 +1,1174 @@
+/* ============================================
+   TACTICAL POLICE REPORT FORMS
+   Professional Law Enforcement Report Interface
+   File: frontend/css/report-forms.css
+   ============================================ */
+
+/* ============================================
+   REPORT FORM CONTAINER - COMMAND INTERFACE
+   ============================================ */
+
+.report-form-container {
+    background: var(--bg-secondary, #1e293b);
+    border: 1px solid var(--border-primary, #334155);
+    border-radius: var(--radius-lg, 8px);
+    box-shadow: var(--shadow-command, 0 12px 32px rgba(0, 0, 0, 0.6));
+    overflow: hidden;
+    margin-top: 24px;
+    position: relative;
+}
+
+.report-form-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg,
+    var(--tactical-accent, #3b82f6) 0%,
+    var(--tactical-cyan, #0891b2) 50%,
+    var(--tactical-accent, #3b82f6) 100%);
+    z-index: 1;
+}
+
+.report-form-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+            radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.02) 0%, transparent 50%),
+            radial-gradient(circle at 90% 80%, rgba(8, 145, 178, 0.02) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ============================================
+   REPORT FORM HEADER - TACTICAL COMMAND BAR
+   ============================================ */
+
+.report-form-header {
+    background: linear-gradient(135deg, var(--tactical-primary, #1a2332) 0%, var(--tactical-secondary, #252d3d) 100%);
+    color: var(--text-primary, #f8fafc);
+    padding: 24px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    position: relative;
+    z-index: 2;
+    border-bottom: 1px solid var(--border-primary, #334155);
+}
+
+.report-form-header::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--tactical-accent, #3b82f6), transparent);
+    opacity: 0.6;
+}
+
+.report-form-header h3 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 1.4rem;
+    color: var(--text-primary, #f8fafc);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.report-form-header h3::before {
+    content: '';
+    width: 4px;
+    height: 24px;
+    background: var(--tactical-accent, #3b82f6);
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+/* ============================================
+   FORM ACTIONS - COMMAND BUTTONS
+   ============================================ */
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.form-actions button {
+    background: var(--bg-secondary, #1e293b);
+    border: 1px solid var(--border-secondary, #475569);
+    color: var(--text-secondary, #cbd5e1);
+    padding: 10px 20px;
+    border-radius: var(--radius-md, 6px);
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-tactical, 0 4px 12px rgba(0, 0, 0, 0.4));
+    min-height: 40px;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+}
+
+.form-actions button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.form-actions button:hover {
+    background: var(--tactical-accent, #3b82f6);
+    border-color: var(--tactical-accent, #3b82f6);
+    color: var(--text-primary, #f8fafc);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-elevated, 0 8px 24px rgba(0, 0, 0, 0.5));
+}
+
+.form-actions button:hover::before {
+    left: 100%;
+}
+
+.form-actions button:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-tactical, 0 4px 12px rgba(0, 0, 0, 0.4));
+}
+
+.form-actions .btn-success {
+    background: linear-gradient(135deg, var(--status-success, #10b981) 0%, #059669 100%);
+    border-color: var(--status-success, #10b981);
+    color: var(--text-primary, #f8fafc);
+}
+
+.form-actions .btn-success:hover {
+    background: linear-gradient(135deg, #059669 0%, var(--status-success, #10b981) 100%);
+    border-color: #059669;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
+}
+
+.form-actions button:disabled {
+    background: var(--bg-tertiary, #334155);
+    border-color: var(--border-muted, #1e293b);
+    color: var(--text-disabled, #64748b);
+    cursor: not-allowed;
+    transform: none;
+    opacity: 0.6;
+}
+
+.form-actions button:disabled::before {
+    display: none;
+}
+
+/* ============================================
+   POLICE REPORT FORM - MAIN CONTAINER
+   ============================================ */
+
+.police-report-form {
+    padding: 0;
+    position: relative;
+    z-index: 1;
+}
+
+/* ============================================
+   FORM SECTIONS - TACTICAL ORGANIZATION
+   ============================================ */
+
+.form-section {
+    border-bottom: 1px solid var(--border-muted, #1e293b);
+    background: var(--bg-primary, #0f172a);
+    position: relative;
+}
+
+.form-section:last-child {
+    border-bottom: none;
+}
+
+.form-section:nth-child(even) {
+    background: var(--bg-secondary, #1e293b);
+}
+
+.section-header {
+    background: linear-gradient(135deg, var(--tactical-secondary, #252d3d) 0%, var(--tactical-tertiary, #2e3748) 100%);
+    color: var(--text-primary, #f8fafc);
+    margin: 0;
+    padding: 20px 32px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--border-primary, #334155);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.section-header::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--tactical-accent, #3b82f6);
+    border-radius: 0 2px 2px 0;
+}
+
+.section-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 32px;
+    right: 32px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--tactical-cyan, #0891b2), transparent);
+    opacity: 0.4;
+}
+
+/* ============================================
+   FORM GRID LAYOUT - TACTICAL STRUCTURE
+   ============================================ */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    padding: 32px;
+    background: inherit;
+    position: relative;
+}
+
+.form-grid::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+    background: linear-gradient(180deg, transparent, var(--border-muted, #1e293b), transparent);
+    transform: translateX(-50%);
+    opacity: 0.5;
+}
+
+/* ============================================
+   FORM FIELDS - TACTICAL INPUT DESIGN
+   ============================================ */
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+}
+
+.form-field-full {
+    grid-column: 1 / -1;
+}
+
+.form-label {
+    color: var(--text-secondary, #cbd5e1);
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+    position: relative;
+}
+
+.form-label::before {
+    content: '';
+    width: 2px;
+    height: 12px;
+    background: var(--tactical-cyan, #0891b2);
+    border-radius: 1px;
+    flex-shrink: 0;
+}
+
+.required-indicator {
+    color: var(--status-error, #ef4444);
+    font-weight: bold;
+    font-size: 1rem;
+    margin-left: auto;
+    text-shadow: 0 0 4px rgba(239, 68, 68, 0.5);
+    animation: requiredPulse 2s ease-in-out infinite;
+}
+
+@keyframes requiredPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* ============================================
+   FORM INPUTS - TACTICAL INTERFACE
+   ============================================ */
+
+.form-input,
+.form-textarea {
+    background: var(--bg-primary, #0f172a);
+    border: 1px solid var(--border-primary, #334155);
+    border-radius: var(--radius-md, 6px);
+    padding: 12px 16px;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--text-primary, #f8fafc);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: var(--shadow-inset, inset 0 2px 4px rgba(0, 0, 0, 0.3));
+    position: relative;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+    color: var(--text-disabled, #64748b);
+    font-style: italic;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: var(--tactical-accent, #3b82f6);
+    box-shadow:
+            var(--shadow-inset, inset 0 2px 4px rgba(0, 0, 0, 0.3)),
+            0 0 0 2px rgba(59, 130, 246, 0.2),
+            0 4px 12px rgba(59, 130, 246, 0.1);
+    background: var(--tactical-primary, #1a2332);
+}
+
+.form-input:hover,
+.form-textarea:hover {
+    border-color: var(--border-active, #3b82f6);
+    background: var(--tactical-dark, #0a0e1a);
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 100px;
+    font-family: 'Roboto Condensed', monospace;
+    line-height: 1.6;
+    font-size: 0.85rem;
+}
+
+.form-input[type="date"],
+.form-input[type="time"] {
+    cursor: pointer;
+    font-family: 'Roboto Condensed', monospace;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23cbd5e1' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M6 2v2m8-2v2M2 7h16M4 4h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z'/%3e%3c/svg%3e");
+    background-position: right 12px center;
+    background-repeat: no-repeat;
+    background-size: 16px;
+    padding-right: 40px;
+}
+
+.form-input[type="time"] {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23cbd5e1' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z'/%3e%3c/svg%3e");
+}
+
+/* ============================================
+   REPORT STATUS DISPLAY
+   ============================================ */
+
+.report-status {
+    margin-bottom: 24px;
+    padding: 20px 24px;
+    background: linear-gradient(135deg, var(--bg-secondary, #1e293b) 0%, var(--bg-tertiary, #334155) 100%);
+    border: 1px solid var(--status-success, #10b981);
+    border-left: 4px solid var(--status-success, #10b981);
+    border-radius: var(--radius-md, 6px);
+    box-shadow: var(--shadow-tactical, 0 4px 12px rgba(0, 0, 0, 0.4));
+    position: relative;
+    overflow: hidden;
+}
+
+.report-status::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--status-success, #10b981), transparent);
+    opacity: 0.6;
+}
+
+.report-status p {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--text-secondary, #cbd5e1);
+}
+
+.report-status p::before {
+    content: '✓';
+    color: var(--status-success, #10b981);
+    font-weight: bold;
+    font-size: 1.2rem;
+    background: rgba(16, 185, 129, 0.1);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* ============================================
+   BASIC REPORT NOTICE
+   ============================================ */
+
+.basic-report-notice {
+    background: linear-gradient(135deg, var(--bg-secondary, #1e293b) 0%, rgba(245, 158, 11, 0.1) 100%);
+    border: 1px solid var(--status-warning, #f59e0b);
+    border-left: 4px solid var(--status-warning, #f59e0b);
+    border-radius: var(--radius-md, 6px);
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-tactical, 0 4px 12px rgba(0, 0, 0, 0.4));
+    position: relative;
+    overflow: hidden;
+}
+
+.basic-report-notice::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--status-warning, #f59e0b), transparent);
+    opacity: 0.6;
+}
+
+.basic-report-notice strong {
+    color: var(--status-warning, #f59e0b);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.basic-report-notice strong::before {
+    content: '⚠';
+    font-size: 1.1rem;
+    animation: warningBlink 2s ease-in-out infinite;
+}
+
+@keyframes warningBlink {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0.5; }
+}
+
+.basic-report-notice p {
+    color: var(--text-muted, #94a3b8);
+    margin: 0;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+/* ============================================
+   SUCCESS REPORT DISPLAY
+   ============================================ */
+
+.success {
+    color: var(--text-primary, #f8fafc);
+    background: linear-gradient(135deg, var(--bg-primary, #0f172a) 0%, var(--bg-secondary, #1e293b) 100%);
+    padding: 32px;
+    border-radius: var(--radius-lg, 8px);
+    white-space: pre-wrap;
+    line-height: 1.8;
+    border: 1px solid var(--border-primary, #334155);
+    border-left: 4px solid var(--status-success, #10b981);
+    box-shadow: var(--shadow-tactical, 0 4px 12px rgba(0, 0, 0, 0.4));
+    font-family: 'Roboto Condensed', monospace;
+    font-size: 0.85rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.success::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--status-success, #10b981), transparent);
+    opacity: 0.8;
+}
+
+/* ============================================
+   REPORT SAVE BUTTON STYLING
+   ============================================ */
+
+.btn-success {
+    margin: 20px auto;
+    display: block;
+    padding: 14px 28px;
+    background: linear-gradient(135deg, var(--status-success, #10b981) 0%, #059669 100%);
+    color: var(--text-primary, #f8fafc);
+    border: 1px solid var(--status-success, #10b981);
+    border-radius: var(--radius-md, 6px);
+    cursor: pointer;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-tactical, 0 4px 12px rgba(0, 0, 0, 0.4));
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-success::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #059669 0%, var(--status-success, #10b981) 100%);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-elevated, 0 8px 24px rgba(0, 0, 0, 0.5));
+    border-color: #059669;
+}
+
+.btn-success:hover::before {
+    left: 100%;
+}
+
+.btn-success:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-tactical, 0 4px 12px rgba(0, 0, 0, 0.4));
+}
+
+.btn-success:disabled {
+    background: var(--bg-tertiary, #334155);
+    border-color: var(--border-muted, #1e293b);
+    color: var(--text-disabled, #64748b);
+    cursor: not-allowed;
+    transform: none;
+    opacity: 0.6;
+}
+
+.btn-success:disabled::before {
+    display: none;
+}
+
+/* ============================================
+   FORM VALIDATION STYLES
+   ============================================ */
+
+.form-field.error .form-input,
+.form-field.error .form-textarea {
+    border-color: var(--status-error, #ef4444);
+    box-shadow:
+            var(--shadow-inset, inset 0 2px 4px rgba(0, 0, 0, 0.3)),
+            0 0 0 2px rgba(239, 68, 68, 0.2);
+    background: rgba(239, 68, 68, 0.05);
+}
+
+
+.field-error {
+    color: var(--status-error, #ef4444);
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.field-error::before {
+    content: '⚠';
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.field-success {
+    color: var(--status-success, #10b981);
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.field-success::before {
+    content: '✓';
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+/* ============================================
+   MOBILE RESPONSIVENESS
+   ============================================ */
+
+@media (max-width: 968px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 24px;
+    }
+
+    .form-grid::before {
+        display: none;
+    }
+
+    .form-field-full {
+        grid-column: 1;
+    }
+
+    .report-form-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .form-actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 768px) {
+    .form-grid {
+        padding: 20px;
+        gap: 16px;
+    }
+
+    .section-header {
+        padding: 16px 20px;
+        font-size: 1rem;
+    }
+
+    .report-form-header {
+        padding: 20px 24px;
+    }
+
+    .report-form-header h3 {
+        font-size: 1.2rem;
+    }
+
+    .form-actions button {
+        padding: 8px 16px;
+        font-size: 0.8rem;
+        flex: 1;
+        min-width: 120px;
+    }
+
+    .form-input,
+    .form-textarea {
+        padding: 10px 14px;
+        font-size: 0.85rem;
+    }
+
+    .form-label {
+        font-size: 0.8rem;
+    }
+
+    .report-status,
+    .basic-report-notice {
+        padding: 16px;
+    }
+
+    .success {
+        padding: 24px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .form-grid {
+        padding: 16px;
+        gap: 12px;
+    }
+
+    .section-header {
+        padding: 12px 16px;
+        font-size: 0.9rem;
+    }
+
+    .section-header::after {
+        left: 16px;
+        right: 16px;
+    }
+
+    .report-form-header {
+        padding: 16px 20px;
+    }
+
+    .report-form-header h3 {
+        font-size: 1.1rem;
+        letter-spacing: 1px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .form-actions button {
+        width: 100%;
+        margin: 4px 0;
+        padding: 10px 16px;
+    }
+
+    .form-input,
+    .form-textarea {
+        padding: 10px 12px;
+        font-size: 0.8rem;
+    }
+
+    .form-input[type="date"],
+    .form-input[type="time"] {
+        padding-right: 36px;
+        background-size: 14px;
+        background-position: right 10px center;
+    }
+
+    .btn-success {
+        padding: 12px 24px;
+        font-size: 0.85rem;
+        margin: 16px auto;
+    }
+
+    .report-status p,
+    .basic-report-notice p {
+        font-size: 0.8rem;
+    }
+
+    .success {
+        padding: 20px;
+        font-size: 0.75rem;
+        line-height: 1.6;
+    }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+    .form-actions,
+    .btn-success {
+        display: none !important;
+    }
+
+    .report-form-header {
+        background: white !important;
+        color: black !important;
+        border-bottom: 2px solid black;
+        page-break-after: avoid;
+    }
+
+    .section-header {
+        background: white !important;
+        color: black !important;
+        border-bottom: 1px solid black;
+        page-break-after: avoid;
+    }
+
+    .form-section {
+        page-break-inside: avoid;
+        border-bottom: 1px solid black;
+        background: white !important;
+    }
+
+    .form-input,
+    .form-textarea {
+        border: 1px solid black !important;
+        background: white !important;
+        box-shadow: none !important;
+        color: black !important;
+    }
+
+    .form-grid {
+        display: block;
+        padding: 10pt;
+    }
+
+    .form-field {
+        margin-bottom: 10pt;
+        page-break-inside: avoid;
+    }
+
+    .form-label {
+        color: black !important;
+        font-weight: bold;
+        margin-bottom: 2pt;
+    }
+
+    .report-status,
+    .basic-report-notice {
+        background: white !important;
+        border: 1px solid black !important;
+        color: black !important;
+    }
+
+    .success {
+        background: white !important;
+        border: 1px solid black !important;
+        color: black !important;
+    }
+
+    .report-form-container {
+        background: white !important;
+        box-shadow: none !important;
+        border: 2px solid black !important;
+    }
+}
+
+/* ============================================
+   ACCESSIBILITY ENHANCEMENTS
+   ============================================ */
+
+.form-input:focus-visible,
+.form-textarea:focus-visible {
+    outline: 2px solid var(--tactical-accent, #3b82f6);
+    outline-offset: 2px;
+}
+
+.form-actions button:focus-visible,
+.btn-success:focus-visible {
+    outline: 2px solid var(--tactical-cyan, #0891b2);
+    outline-offset: 4px;
+}
+
+/* Screen reader only content */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ============================================
+   HIGH CONTRAST SUPPORT
+   ============================================ */
+
+@media (prefers-contrast: high) {
+    .form-input,
+    .form-textarea {
+        border-width: 2px;
+    }
+
+    .report-form-container,
+    .form-section,
+    .report-status,
+    .basic-report-notice {
+        border-width: 2px;
+    }
+
+    .section-header::before {
+        width: 6px;
+    }
+
+    .form-label::before {
+        width: 3px;
+        height: 14px;
+    }
+
+    .required-indicator {
+        text-shadow: 0 0 2px rgba(239, 68, 68, 0.8);
+    }
+}
+
+/* ============================================
+   REDUCED MOTION SUPPORT
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .form-actions button::before,
+    .btn-success::before {
+        display: none;
+    }
+
+    .required-indicator,
+    .basic-report-notice strong::before {
+        animation: none;
+    }
+
+    .form-input,
+    .form-textarea,
+    .form-actions button,
+    .btn-success {
+        transition: none;
+    }
+}
+
+/* ============================================
+   DARK MODE SPECIFIC ADJUSTMENTS
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+    /* Ensure proper contrast in forced dark mode */
+    .form-input,
+    .form-textarea {
+        color-scheme: dark;
+    }
+
+    .form-input[type="date"],
+    .form-input[type="time"] {
+        color-scheme: dark;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23f8fafc' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M6 2v2m8-2v2M2 7h16M4 4h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z'/%3e%3c/svg%3e");
+    }
+
+    .form-input[type="time"] {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23f8fafc' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z'/%3e%3c/svg%3e");
+    }
+}
+
+/* ============================================
+   CUSTOM SCROLLBAR FOR FORM AREAS
+   ============================================ */
+
+.form-textarea::-webkit-scrollbar {
+    width: 8px;
+}
+
+.form-textarea::-webkit-scrollbar-track {
+    background: var(--bg-primary, #0f172a);
+    border-radius: 4px;
+}
+
+.form-textarea::-webkit-scrollbar-thumb {
+    background: var(--border-secondary, #475569);
+    border-radius: 4px;
+    border: 1px solid var(--bg-primary, #0f172a);
+}
+
+.form-textarea::-webkit-scrollbar-thumb:hover {
+    background: var(--tactical-accent, #3b82f6);
+}
+
+/* Firefox scrollbar */
+.form-textarea {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-secondary, #475569) var(--bg-primary, #0f172a);
+}
+
+/* ============================================
+   FORM ANIMATIONS - TACTICAL FEEDBACK
+   ============================================ */
+
+.form-field {
+    animation: slideInFromLeft 0.3s ease-out;
+}
+
+.form-field:nth-child(even) {
+    animation: slideInFromRight 0.3s ease-out;
+}
+
+@keyframes slideInFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.section-header {
+    animation: slideDown 0.4s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.report-form-container {
+    animation: fadeInScale 0.5s ease-out;
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ============================================
+   FORM INTERACTION STATES
+   ============================================ */
+
+.form-field:focus-within .form-label {
+    color: var(--tactical-accent, #3b82f6);
+}
+
+.form-field:focus-within .form-label::before {
+    background: var(--tactical-accent, #3b82f6);
+    height: 16px;
+}
+
+.form-input:valid {
+    border-color: var(--status-success, #10b981);
+}
+
+.form-input:invalid:not(:placeholder-shown) {
+    border-color: var(--status-error, #ef4444);
+}
+
+/* ============================================
+   LOADING STATES
+   ============================================ */
+
+.form-loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.form-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid var(--border-primary, #334155);
+    border-top: 2px solid var(--tactical-accent, #3b82f6);
+    border-radius: 50%;
+    animation: tacticalSpin 1s linear infinite;
+    z-index: 10;
+}
+
+@keyframes tacticalSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ============================================
+   FIELD GROUPS AND ORGANIZATION
+   ============================================ */
+
+.field-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding: 20px;
+    background: var(--bg-primary, #0f172a);
+    border: 1px solid var(--border-muted, #1e293b);
+    border-radius: var(--radius-md, 6px);
+    position: relative;
+}
+
+.field-group::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--tactical-cyan, #0891b2), transparent);
+    opacity: 0.3;
+}
+
+.field-group.full-width {
+    grid-template-columns: 1fr;
+}
+
+.field-group-label {
+    grid-column: 1 / -1;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--text-secondary, #cbd5e1);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-muted, #1e293b);
+}
+
+/* ============================================
+   END OF TACTICAL REPORT FORMS STYLES
+   ============================================ */

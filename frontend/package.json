@@ -1,0 +1,8 @@
+{
+  "name": "varg-frontend",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "live-server",
+    "build": "echo 'No build process configured'"
+  }
+}
