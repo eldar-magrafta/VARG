@@ -39,7 +39,7 @@ export function checkAuthenticationStatus() {
 export function showAuthenticationForm() {
     const container = document.querySelector('.container');
     container.innerHTML = `
-        <h1>Police Body Camera System</h1>
+        <h1>Welcome to VAR-G</h1>
         <p style="text-align: center; color: #666; margin-bottom: 30px;">
             Officer Authentication Required
         </p>
